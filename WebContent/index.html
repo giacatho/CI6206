@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Search users</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Search users</h1>
+        <h4>Use this form to search a user by id</h4>
+        <form action="get-users" method="GET">
+            <input type="hidden" name="by" value="id"/>
+            ID: <input name="id" value="1" type="text"/>
+            <input type="submit" value="Search" />
+        </form>
+        
+        <div style="margin: 20px;"></div>
+        
+        <h4>Use this form to search a number of users by first name</h4>
+        <form action="get-users" method="GET">
+            <input type="hidden" name="by" value="firstname"/>
+            First Name: <input name="firstname" value="a" type="text" />
+            <input type="submit" value="Search" />
+        </form>
+    </body>
+</html>
