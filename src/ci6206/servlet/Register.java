@@ -8,22 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import ci6206.dao.UserDao;
 import ci6206.model.User;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Register
  */
-@WebServlet(name="login", urlPatterns={"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "register", urlPatterns = {"/register"})
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Register() {
         super();
     }
 
@@ -31,27 +30,29 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
     	String username = request.getParameter("username").trim();
     	String password = request.getParameter("password").trim();
+    	String firstName = request.getParameter("firstname").trim();
+    	String lastName = request.getParameter("lastname").trim();
     	
     	if (username.equals("") || password.equals("")) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		request.setAttribute("message", "Wrong params, username and password are needed.");
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+    		request.setAttribute("message", "Wrong params. Username and password are compulsory.");
     		dispatcher.forward(request, response);
     		return;
     	}
     	
     	UserDao dao = new UserDao();
-    	User user = dao.findByCredentials(username, password);
+    	User user = dao.findByUsername(username);
     	
-    	if (user == null) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		request.setAttribute("message", "Login fails.");
+    	if (user != null) {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+    		request.setAttribute("message", "Username has been taken.");
     		dispatcher.forward(request, response);
     		return;
     	}
-    	
-    	HttpSession session = request.getSession();
-    	session.setAttribute("user", user);
-    	response.sendRedirect("profile.jsp");
+
+    	dao.insertUser(username, password, firstName, lastName);
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+    	dispatcher.forward(request, response);
     }
     
 	/**

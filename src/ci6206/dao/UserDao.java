@@ -30,32 +30,7 @@ public class UserDao {
     private PreparedStatement preparedStatement = null;
     private ResultSet resSet = null;
     
-    public Connection getConnection() throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-    }
-    
-    private User findSingleUser(String query){
-    	User user = null;
-        try {
-            connect = getConnection();
-            statement = connect.createStatement();
-            resSet = statement.executeQuery(query);
-            
-            if (resSet.next()) {
-                user = new User();
-                UserMapper.map(user, resSet);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close();
-        }
-        
-        return user;
-    }
-    
+    //--------------------------------------------------------------------------------------
     public User findById(int id) {
     	String q = "SELECT * FROM t_users " +
                 "WHERE c_id = " + id;
@@ -63,6 +38,7 @@ public class UserDao {
     	return findSingleUser(q);
     }
     
+    //--------------------------------------------------------------------------------------
     public User findByCredentials(String username, String password) {
     	String q = "SELECT * FROM t_users " +
     			"WHERE c_username = '" + username + "' AND c_password = '" + password + "'";
@@ -70,6 +46,15 @@ public class UserDao {
     	return findSingleUser(q);
     }
     
+    //--------------------------------------------------------------------------------------
+    public User findByUsername(String username) {
+    	String q = "SELECT * FROM t_users " +
+    			"WHERE c_username = '" + username + "'";
+    	
+    	return findSingleUser(q);
+    }
+    
+    //--------------------------------------------------------------------------------------
     public List<User> findByFirstname(String partialTitle) {
         List<User> todos = new ArrayList<>();
         
@@ -94,6 +79,54 @@ public class UserDao {
         }
         
         return todos;
+    }
+    
+    //--------------------------------------------------------------------------------------
+    public void insertUser(String username, String password, 
+    			String firstName, String lastName) {
+    	try {
+    		String q = "INSERT INTO t_users " +
+    				"SET c_username='" + username + "'," +
+    				"    c_password='" + password + "'," +
+    				"    c_firstname='" + firstName + "'," +
+    				"    c_lastname='" + lastName + "'";
+    				
+    		connect = getConnection();
+            statement = connect.createStatement();
+            statement.executeUpdate(q);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally {
+    		close();
+    	}
+    }
+    
+    //--------------------------------------------------------------------------------------
+    private User findSingleUser(String query){
+    	User user = null;
+        try {
+            connect = getConnection();
+            statement = connect.createStatement();
+            resSet = statement.executeQuery(query);
+            
+            if (resSet.next()) {
+                user = new User();
+                UserMapper.map(user, resSet);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
+        }
+        
+        return user;
+    }
+    
+    //--------------------------------------------------------------------------------------
+    public Connection getConnection() throws Exception {
+        Class.forName("com.mysql.jdbc.Driver");
+        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
     
     private void close() {

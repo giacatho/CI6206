@@ -16,5 +16,8 @@
 	${ message }
 </form>
 
+<br/><br/>
+<a href="register.jsp">Register a new user</a>
+
 </body>
 </html>
