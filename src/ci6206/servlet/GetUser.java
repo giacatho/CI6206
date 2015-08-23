@@ -38,48 +38,44 @@ public class GetUser extends HttpServlet {
         String jspPath = null;
         
         
-        try {
-            String by = request.getParameter("by");
-            
-            switch (by) {
-                case "firstname":
-                    String partialTitle = request.getParameter("firstname");
-                    List<User> users = dao.findByFirstname(partialTitle);
-                    
-                    if (users.size() >0)
-                    {
-                        request.setAttribute("users", users);
-                        jspPath = "WEB-INF/jsp/many-users.jsp";
-                    } else {
-                        jspPath = "WEB-INF/jsp/no-user.jsp";
-                    }
-                    
-                    break;
+        String by = request.getParameter("by");
+        
+        switch (by) {
+            case "firstname":
+                String partialTitle = request.getParameter("firstname");
+                List<User> users = dao.findByFirstname(partialTitle);
                 
-                    
-                case "id":
-                    int id = Integer.parseInt(request.getParameter("id"));
-                    User user = dao.findById(id);
-                    
-                    if (user!=null) {
-                        request.setAttribute("user", user);
-                        jspPath = "WEB-INF/jsp/one-user.jsp";
-                    } else {
-                        jspPath = "WEB-INF/jsp/no-user.jsp";
-                    }
-                    
-                    break;
-                
-                    
-                default:    
+                if (users.size() >0)
+                {
+                    request.setAttribute("users", users);
+                    jspPath = "WEB-INF/jsp/many-users.jsp";
+                } else {
                     jspPath = "WEB-INF/jsp/no-user.jsp";
-                    break;
-            }
+                }
+                
+                break;
             
-            request.getRequestDispatcher(jspPath).forward(request, response);
-        } catch (Exception ex) {
-            Logger.getLogger(GetUser.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+                
+            case "id":
+                int id = Integer.parseInt(request.getParameter("id"));
+                User user = dao.findById(id);
+                
+                if (user!=null) {
+                    request.setAttribute("user", user);
+                    jspPath = "WEB-INF/jsp/one-user.jsp";
+                } else {
+                    jspPath = "WEB-INF/jsp/no-user.jsp";
+                }
+                
+                break;
+            
+                
+            default:    
+                jspPath = "WEB-INF/jsp/no-user.jsp";
+                break;
+        }
+        
+        request.getRequestDispatcher(jspPath).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

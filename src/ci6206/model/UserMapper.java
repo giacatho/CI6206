@@ -16,6 +16,7 @@ public class UserMapper {
     public static void map(User user, ResultSet resSet) throws SQLException{
         user.setId(resSet.getInt("c_id"));
         user.setUsername(resSet.getString("c_username"));
+        user.setPassword(resSet.getString("c_password"));
         user.setFirstname(resSet.getString("c_firstname"));
         user.setLastname(resSet.getString("c_lastname"));
     }

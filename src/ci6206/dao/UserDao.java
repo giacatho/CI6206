@@ -35,15 +35,12 @@ public class UserDao {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
     
-    public User findById(int id) throws Exception {
-        User user = null;
+    private User findSingleUser(String query){
+    	User user = null;
         try {
-            String q = "SELECT * FROM t_users " +
-                "WHERE c_id = " + id;
-
             connect = getConnection();
             statement = connect.createStatement();
-            resSet = statement.executeQuery(q);
+            resSet = statement.executeQuery(query);
             
             if (resSet.next()) {
                 user = new User();
@@ -51,7 +48,7 @@ public class UserDao {
             }
             
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             close();
         }
@@ -59,7 +56,21 @@ public class UserDao {
         return user;
     }
     
-    public List<User> findByFirstname(String partialTitle) throws Exception{
+    public User findById(int id) {
+    	String q = "SELECT * FROM t_users " +
+                "WHERE c_id = " + id;
+    	
+    	return findSingleUser(q);
+    }
+    
+    public User findByCredentials(String username, String password) {
+    	String q = "SELECT * FROM t_users " +
+    			"WHERE c_username = '" + username + "' AND c_password = '" + password + "'";
+    	
+    	return findSingleUser(q);
+    }
+    
+    public List<User> findByFirstname(String partialTitle) {
         List<User> todos = new ArrayList<>();
         
         try {
@@ -77,7 +88,7 @@ public class UserDao {
             }        
                    
         } catch (Exception e) {
-            throw e;
+            e.printStackTrace();
         } finally {
             close();
         }

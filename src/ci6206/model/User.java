@@ -12,6 +12,7 @@ package ci6206.model;
 public class User {
     private int id;
     private String username;
+    private String password;
     private String firstname;
     private String lastname;
 
@@ -21,6 +22,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+      public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUsername() {
