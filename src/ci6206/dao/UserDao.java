@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  *
- * @author nguyentritin
+ * @author tin
  */
 public class UserDao {
     private static final String DB_NAME = "ci6206";
