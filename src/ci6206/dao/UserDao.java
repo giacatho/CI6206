@@ -23,7 +23,7 @@ public class UserDao {
     private static final String DB_NAME = "ci6206";
     private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/" + DB_NAME;
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "root";
+    private static final String DB_PASSWORD = "toor";
     
     private Connection connect = null;
     private Statement statement = null;
