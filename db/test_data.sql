@@ -1,3 +1,5 @@
+USE ci6206;
+
 INSERT INTO t_users(c_username, c_firstname, c_lastname) VALUES
 ("tinnguyen", "Nguyen", "Tri Tin"),
 ("michael", "Tan", "Michael"),
