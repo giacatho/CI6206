@@ -40,6 +40,7 @@ public class Register extends HttpServlet {
     		return;
     	}
     	
+    	
     	UserDao dao = new UserDao();
     	User user = dao.findByUsername(username);
     	
