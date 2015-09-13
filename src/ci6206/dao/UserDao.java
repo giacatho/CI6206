@@ -20,11 +20,6 @@ import java.util.List;
  * @author tin
  */
 public class UserDao {
-    private static final String DB_NAME = "ci6206";
-    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/" + DB_NAME;
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "root";
-    
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
@@ -126,7 +121,7 @@ public class UserDao {
     //--------------------------------------------------------------------------------------
     public Connection getConnection() throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        return DriverManager.getConnection(Config.DB_URL, Config.DB_USER, Config.DB_PASSWORD);
     }
     
     private void close() {
