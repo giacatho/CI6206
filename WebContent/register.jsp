@@ -20,7 +20,7 @@
 			<label class="sr-only" for="username">Username</label>
 			<input class="form-control" type="text" name="username" id="username" placeholder="Username" required autofocus>
 			<label class="sr-only" for="password">Password</label>
-			<input class="form-control" type="password" name="password" id="password" placeholder="Username" required>
+			<input class="form-control" type="password" name="password" id="password" placeholder="Password" required>
 			<label class="sr-only" for="firstname">First Name</label>
 			<input class="form-control" type="text" name="firstname" id="firstname" placeholder="First Name">
 			<label class="sr-only" for="lastname">Last Name</label>

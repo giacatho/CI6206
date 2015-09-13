@@ -1,3 +1,20 @@
+body {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.well.page-head {
+	padding: 15px;
+}
+
+.page-head h1 {
+	font-size: 17.5px;
+	margin: 10px 0;
+	font-weight: bold;
+	line-height: 20px;
+}
+
+/* Form login and register */
 .form-signin {
 	max-width: 330px;
 	padding: 15px;
@@ -21,4 +38,15 @@
 	box-sizing: border-box;
 	padding: 10px;
 	border-size: 16px;
+}
+
+/* Form profile */
+.form-profile {
+	max-width: 450px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.form-profile input {
+	margin-bottom: 12px;
 }
