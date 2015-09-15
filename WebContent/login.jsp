@@ -25,10 +25,5 @@
 			
 			<a href="register.jsp">Register a new user</a>
 		</form>
-		
-		
 	</div>
-
-
-</body>
 </html>
