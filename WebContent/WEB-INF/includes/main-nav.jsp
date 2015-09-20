@@ -3,13 +3,13 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">SSM</a>
+				<a class="navbar-brand" href="home">SSM</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="#a">My Porfolio</a>
-					<li><a href="#about">About</a>
-					<li><a href="#contact">Contact</a>
+					<li><a href="home">Home</a>
+					<li><a href="porfolio">My Porfolio</a>
+					<li><a href="about">About</a>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">

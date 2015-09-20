@@ -38,6 +38,8 @@
 				<input class="form-control" type="password" id="current-password" name="current-password" placeholder="Current Password">
 				<label for="new-password" class="control-label">New Password</label>
 				<input class="form-control" type="password" id="new-password" name="new-password" placeholder="New Password">
+				<label for="confirm-password" class="control-label">Confirm Password</label>
+				<input class="form-control" type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password">
 			</form>
 		</div>
 	</div>
