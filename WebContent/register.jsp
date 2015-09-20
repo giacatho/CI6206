@@ -28,7 +28,7 @@
 			<input class="form-control" type="text" name="lastname" id="lastname" placeholder="Last Name">
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
 			
-			<a href="login.jsp">Have account? Please login</a>
+			<a href="login">Have account? Please login</a>
 		</form>
 	</div>
 </body>

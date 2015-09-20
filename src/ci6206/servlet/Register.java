@@ -28,10 +28,23 @@ public class Register extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	String username = request.getParameter("username").trim();
-    	String password = request.getParameter("password").trim();
-    	String firstName = request.getParameter("firstname").trim();
-    	String lastName = request.getParameter("lastname").trim();
+    	request.setAttribute("title", "Register");
+    	
+    	String username = request.getParameter("username");
+    	String password = request.getParameter("password");
+    	String firstName = request.getParameter("firstname");
+    	String lastName = request.getParameter("lastname");
+    	
+    	if (username==null || password ==null) {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+    		dispatcher.forward(request, response);
+    		return;
+    	}
+    	
+    	username = username.trim();
+    	password = password.trim();
+    	firstName = firstName.trim();
+    	lastName = lastName.trim();
     	
     	if (username.equals("") || password.equals("")) {
     		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
@@ -51,9 +64,9 @@ public class Register extends HttpServlet {
     		return;
     	}
 
+    	// OK, so insert to DB and redirect to login page
     	dao.insertUser(username, password, firstName, lastName);
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    	dispatcher.forward(request, response);
+    	response.sendRedirect(getServletContext().getContextPath() + "/login");
     }
     
 	/**

@@ -29,8 +29,17 @@ public class Login extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	String username = request.getParameter("username").trim();
-    	String password = request.getParameter("password").trim();
+    	String username = request.getParameter("username");
+    	String password = request.getParameter("password");
+    	
+    	if (username==null || password ==null) {
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+    		dispatcher.forward(request, response);
+    		return;
+    	}
+    	
+    	username = username.trim();
+    	password = password.trim();
     	
     	if (username.equals("") || password.equals("")) {
     		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
@@ -49,9 +58,10 @@ public class Login extends HttpServlet {
     		return;
     	}
     	
+    	// OK, store user to section and redirect to profile.
     	HttpSession session = request.getSession();
     	session.setAttribute("user", user);
-    	response.sendRedirect("profile.jsp");
+    	response.sendRedirect(getServletContext().getContextPath() + "/profile");
     }
     
 	/**

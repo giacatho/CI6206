@@ -23,7 +23,7 @@
 			<input class="form-control" name="password" id="password" type="password" placeholder="Password" required>
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 			
-			<a href="register.jsp">Register a new user</a>
+			<a href="register">Register a new user</a>
 		</form>
 	</div>
 </html>
