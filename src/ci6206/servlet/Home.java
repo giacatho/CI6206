@@ -29,13 +29,6 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
     	request.setAttribute("title", "Home");
     	
-		HttpSession session = request.getSession();
-    	
-    	if (session.getAttribute("user") == null) {
-    		response.sendRedirect(getServletContext().getContextPath() + "/login");
-    		return;
-    	}
-    	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 		dispatcher.forward(request, response);
     }

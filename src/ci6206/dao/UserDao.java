@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,26 +20,59 @@ import java.util.List;
  *
  * @author tin
  */
-public class UserDao {
-    private Connection connect = null;
+public class UserDao extends AbstractDAO{
+    //private Connection connect = null;
     private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
+    private PreparedStatement ps = null;
     private ResultSet resSet = null;
     
-    //--------------------------------------------------------------------------------------
-    public User findById(int id) {
-    	String q = "SELECT * FROM t_users " +
-                "WHERE c_id = " + id;
-    	
-    	return findSingleUser(q);
+    public UserDao()
+    {
+    	super();
     }
     
+    public User findById(int id)
+    {
+    	return null;
+    }
     //--------------------------------------------------------------------------------------
     public User findByCredentials(String username, String password) {
-    	String q = "SELECT * FROM t_users " +
-    			"WHERE c_username = '" + username + "' AND c_password = '" + password + "'";
-    	
-    	return findSingleUser(q);
+
+      	
+    	String sql = "SELECT * FROM tb_user WHERE userid = ? AND password = ? AND status='A'";
+    	ResultSet rs=null;
+    	User user = null;
+        try
+        {
+	    	ps = conn.prepareStatement(sql);
+	    	ps.setString(1, username);
+	    	ps.setString(2, password);
+	    	rs = ps.executeQuery();
+	    	if(rs.next())
+	    	{
+	    		user = new User();
+	    		user.setUsername(username);
+	    		user.setFirstname(rs.getString("first_name"));
+	    		user.setLastname(rs.getString("last_name"));
+	    	}
+        }
+        catch(SQLException sqle)
+        {
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	try{
+        	    if(rs!=null)	 
+	        	  rs.close();
+	        	if(ps!=null)
+         	      ps.close();
+	        	if(conn!=null)
+ 	        	   conn.close();
+        	}catch(SQLException ignore){}
+        }
+        return user;
+    	//return findSingleUser(q);
     }
     
     //--------------------------------------------------------------------------------------
@@ -57,8 +91,8 @@ public class UserDao {
             String q = "SELECT * FROM t_users " +
                     "WHERE c_firstname LIKE '%" + partialTitle + "%'";
             
-            connect = getConnection();
-            statement = connect.createStatement();
+            //conn = getConnection();
+            statement = conn.createStatement();
             resSet = statement.executeQuery(q);
             
             while(resSet.next()) {
@@ -86,8 +120,8 @@ public class UserDao {
     				"    c_firstname='" + firstName + "'," +
     				"    c_lastname='" + lastName + "'";
     				
-    		connect = getConnection();
-            statement = connect.createStatement();
+    		//conn = getConnection();
+            statement = conn.createStatement();
             statement.executeUpdate(q);
     	} catch (Exception e) {
     		e.printStackTrace();
@@ -100,8 +134,8 @@ public class UserDao {
     private User findSingleUser(String query){
     	User user = null;
         try {
-            connect = getConnection();
-            statement = connect.createStatement();
+            //conn = getConnection();
+            statement = conn.createStatement();
             resSet = statement.executeQuery(query);
             
             if (resSet.next()) {
@@ -119,10 +153,12 @@ public class UserDao {
     }
     
     //--------------------------------------------------------------------------------------
+    /*
     public Connection getConnection() throws Exception {
         Class.forName("com.mysql.jdbc.Driver");
         return DriverManager.getConnection(Config.DB_URL, Config.DB_USER, Config.DB_PASSWORD);
     }
+    */
     
     private void close() {
         try {
@@ -134,8 +170,8 @@ public class UserDao {
                 statement.close();
             }
             
-            if (connect != null) {
-                connect.close();
+            if (conn != null) {
+                conn.close();
             }
         } catch (Exception e) {
             // No

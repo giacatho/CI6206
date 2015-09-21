@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ci6206.dao.DBFactory;
 import ci6206.dao.UserDao;
+import ci6206.model.Constants;
 import ci6206.model.User;
 
 /**
@@ -29,39 +31,35 @@ public class Login extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	
     	String username = request.getParameter("username");
     	String password = request.getParameter("password");
     	
-    	if (username==null || password ==null) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		dispatcher.forward(request, response);
-    		return;
+    	if((username!=null&&!username.isEmpty())&&
+    	   (password!=null&&!password.isEmpty()))
+    	{
+	    	UserDao dao = new UserDao();
+	    	User user = dao.findByCredentials(username, password);
+	    	
+	    	if (user == null) {
+	    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+	    		request.setAttribute("message", "Login fails.");
+	    		dispatcher.forward(request, response);
+	    		return;
+	    	}
+	    	
+		    	// OK, store user to section and redirect to profile.
+		    	HttpSession session = request.getSession();
+		    	session.setAttribute(Constants.USER_ATTR, user);
+		    	response.sendRedirect(getServletContext().getContextPath() + "/home");
+		    	
     	}
-    	
-    	username = username.trim();
-    	password = password.trim();
-    	
-    	if (username.equals("") || password.equals("")) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		request.setAttribute("message", "Wrong params, username and password are needed.");
-    		dispatcher.forward(request, response);
-    		return;
+    	else{
+    		
+	    	response.sendRedirect(getServletContext().getContextPath() + "/login.jsp");
+    		
     	}
-    	
-    	UserDao dao = new UserDao();
-    	User user = dao.findByCredentials(username, password);
-    	
-    	if (user == null) {
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		request.setAttribute("message", "Login fails.");
-    		dispatcher.forward(request, response);
-    		return;
-    	}
-    	
-    	// OK, store user to section and redirect to profile.
-    	HttpSession session = request.getSession();
-    	session.setAttribute("user", user);
-    	response.sendRedirect(getServletContext().getContextPath() + "/home");
     }
     
 	/**
@@ -69,6 +67,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
+		
 	}
 
 	/**
