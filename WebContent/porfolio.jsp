@@ -4,7 +4,7 @@
 <html>
 <%@ include file="WEB-INF/includes/head.jsp" %>
 <body>
-<div class="container">
+<div id="main" class="container">
 
 	<%@ include file="WEB-INF/includes/main-nav.jsp" %>
 
@@ -24,7 +24,7 @@
 		</div>
 	</div>
 </div>
-<body>
 
+<%@ include file="WEB-INF/includes/footer.jsp" %>
 </body>
 </html>
