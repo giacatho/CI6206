@@ -1,6 +1,7 @@
 package ci6206.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import ci6206.dao.StockDAO;
+import ci6206.model.Stock;
 
 /**
  * Servlet implementation class Trading
@@ -28,10 +32,19 @@ public class Trading extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-    	request.setAttribute("title", "Home");
+    	//request.setAttribute("title", "Home");
     	
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
-		dispatcher.forward(request, response);
+    	//RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+		//dispatcher.forward(request, response);
+    	String beginStr = request.getParameter("srch");
+    	
+    	StockDAO stockDO = new StockDAO();
+    	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
+    	for(int i=0; i<list.size();i++)
+    	{
+	    	response.getWriter().append(list.get(i).getName()).append(" at ").append(String.valueOf(list.get(i).getPrice())).append("\n");
+    	}
+    	
     }
 
 	/**

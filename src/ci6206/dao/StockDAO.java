@@ -19,35 +19,21 @@ public class StockDAO extends AbstractDAO
     	ArrayList<Stock> resultList = new ArrayList<Stock>();
         String sql = "SELECT A.name, A.symbol, A.exchange, B.price, B.lastupdate ";
         StringBuffer sb = new StringBuffer(sql);
-        sb.append("FROM tb_stock A ");
-        sb.append("INNER JOIN tb_price B ");
-        sb.append("ON A.symbol = B.symbol ");
-        sb.append("WHERE A.status = 'A' and A.name like ? ");
-        sb.append("ORDER BY A.name, B.lastupdate desc ");
+        sb.append("FROM tb_stock A, tb_price B ");
+        sb.append("WHERE A.status = 'A' AND ");
+        sb.append("A.exchange='SGX' AND A.symbol = B.symbol AND ");
+        sb.append("A.name like ? ");
+        sb.append("AND B.lastupdate = ");
+        sb.append("(SELECT MAX( lastupdate ) FROM tb_price WHERE symbol = A.symbol )");
         
         try
         {
 	    	ps = conn.prepareStatement(sb.toString());
 	    	ps.setString(1, beginStr+"%");
 	    	resSet = ps.executeQuery();
-	    	int i = 0;
 	    	while(resSet.next())
 	    	{
-    			String symbol = resSet.getString("symbol");
-	    		
-	    		if(i>0)
-	    		{
-	    			Stock stock = resultList.get(i);
-	    			if(!symbol.equalsIgnoreCase(stock.getSymbol()))
-	    			{
-	    				resultList.add(populate(symbol));
-	    			}
-	    		}
-	    		else if (i==0)
-	    		{
-	    			resultList.add(populate(symbol));
-	    		}
-	    		
+	    		resultList.add(populate());
 	    	}
         }
         catch(SQLException sqle)
@@ -62,10 +48,10 @@ public class StockDAO extends AbstractDAO
     	return resultList;
     }
     
-    private Stock populate(String symbol) throws SQLException
+    private Stock populate() throws SQLException
     {
     	Stock stock = new Stock();
-    	stock.setSymbol(symbol);
+    	stock.setSymbol(resSet.getString("symbol"));
     	stock.setName(resSet.getString("name"));
     	stock.setPrice(resSet.getDouble("price"));
     	stock.setExchange(resSet.getString("exchange"));
