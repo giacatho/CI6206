@@ -42,7 +42,7 @@ public class Trading extends HttpServlet {
     	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
     	for(int i=0; i<list.size();i++)
     	{
-	    	response.getWriter().append(list.get(i).getName()).append(" at ").append(String.valueOf(list.get(i).getPrice())).append("\n");
+	    	response.getWriter().append(list.get(i).getName()).append(" at ").append(String.valueOf(list.get(i).getPrice())).append(" \n");
     	}
     	
     }
