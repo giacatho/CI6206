@@ -13,14 +13,14 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class Porfolio
  */
-@WebServlet(name="porfolio", urlPatterns={"/porfolio"})
-public class Porfolio extends HttpServlet {
+@WebServlet(name="portfolio", urlPatterns={"/portfolio"})
+public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Porfolio() {
+    public Portfolio() {
         super();
         // TODO Auto-generated constructor stub
     }

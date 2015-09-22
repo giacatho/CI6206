@@ -6,26 +6,28 @@
 package ci6206.dao;
 
 import ci6206.model.User;
-import ci6206.model.UserMapper;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  *
- * @author tin
+ * @author Michael Tan
  */
 public class UserDao extends AbstractDAO{
-    //private Connection connect = null;
+	/*
+    private Connection connect = null;	 
     private Statement statement = null;
     private PreparedStatement ps = null;
     private ResultSet resSet = null;
-    
+    */
     public UserDao()
     {
     	super();
@@ -37,23 +39,30 @@ public class UserDao extends AbstractDAO{
     }
     //--------------------------------------------------------------------------------------
     public User findByCredentials(String username, String password) {
-
-      	
-    	String sql = "SELECT * FROM tb_user WHERE userid = ? AND password = ? AND status='A'";
-    	ResultSet rs=null;
+    	String sql = "SELECT * FROM tb_user WHERE userid = ? AND status='A'"; 
+    	StringBuffer sb = new StringBuffer(sql);
+    	boolean hasPass = false;
+    	if(password!=null&&!password.isEmpty())
+    	{
+        	sb.append(" AND password = ?");
+        	hasPass = true;
+    	}
     	User user = null;
         try
         {
-	    	ps = conn.prepareStatement(sql);
+	    	ps = conn.prepareStatement(sb.toString());
 	    	ps.setString(1, username);
-	    	ps.setString(2, password);
-	    	rs = ps.executeQuery();
-	    	if(rs.next())
+	    	if(hasPass)
+	    	  ps.setString(2, password);
+	    	resSet = ps.executeQuery();
+	    	if(resSet.next())
 	    	{
 	    		user = new User();
 	    		user.setUsername(username);
-	    		user.setFirstname(rs.getString("first_name"));
-	    		user.setLastname(rs.getString("last_name"));
+	    		user.setFirstname(resSet.getString("first_name"));
+	    		user.setLastname(resSet.getString("last_name"));
+	    		user.setCashBal(resSet.getDouble("cash_bal"));
+	    		user.setLastUpdate(resSet.getTimestamp("lastupdate"));
 	    	}
         }
         catch(SQLException sqle)
@@ -62,14 +71,7 @@ public class UserDao extends AbstractDAO{
         }
         finally
         {
-        	try{
-        	    if(rs!=null)	 
-	        	  rs.close();
-	        	if(ps!=null)
-         	      ps.close();
-	        	if(conn!=null)
- 	        	   conn.close();
-        	}catch(SQLException ignore){}
+        	cleanUp();
         }
         return user;
     	//return findSingleUser(q);
@@ -97,14 +99,14 @@ public class UserDao extends AbstractDAO{
             
             while(resSet.next()) {
                 User user = new User();
-                UserMapper.map(user, resSet);
+                //UserMapper.map(user, resSet);
                 todos.add(user);
             }        
                    
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close();
+            cleanUp();
         }
         
         return todos;
@@ -126,7 +128,7 @@ public class UserDao extends AbstractDAO{
     	} catch (Exception e) {
     		e.printStackTrace();
     	} finally {
-    		close();
+    		cleanUp();
     	}
     }
     
@@ -140,41 +142,16 @@ public class UserDao extends AbstractDAO{
             
             if (resSet.next()) {
                 user = new User();
-                UserMapper.map(user, resSet);
+                //UserMapper.map(user, resSet);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            close();
+            cleanUp();
         }
         
         return user;
     }
     
-    //--------------------------------------------------------------------------------------
-    /*
-    public Connection getConnection() throws Exception {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection(Config.DB_URL, Config.DB_USER, Config.DB_PASSWORD);
-    }
-    */
-    
-    private void close() {
-        try {
-            if (resSet != null) {
-                resSet.close();
-            }
-            
-            if (statement != null) {
-                statement.close();
-            }
-            
-            if (conn != null) {
-                conn.close();
-            }
-        } catch (Exception e) {
-            // No
-        }
-    }
 }

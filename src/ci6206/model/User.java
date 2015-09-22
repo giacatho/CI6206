@@ -5,33 +5,38 @@
  */
 package ci6206.model;
 
+import java.sql.Timestamp;
+
 /**
  *
- * @author nguyentritin
+ * @author Michael Tan
  */
 public class User {
-    private int id;
+    private Timestamp lastUpdate;
     private String username;
-    private String password;
     private String firstname;
     private String lastname;
-
-    public int getId() {
-        return id;
+    private double cashBal;
+    public Timestamp getLastUpdate() 
+    {
+        return lastUpdate;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setLastUpdate(Timestamp update) 
+    {
+    	lastUpdate = update;
     }
     
-      public String getPassword() {
-        return password;
+    public double getCashBal()
+    {
+    	return cashBal;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    
+    public void setCashBal(double amt)
+    {
+    	cashBal = amt;
     }
-
+    
     public String getUsername() {
         return username;
     }

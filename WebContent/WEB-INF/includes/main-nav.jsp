@@ -7,9 +7,11 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="home">Home</a>
-					<li><a href="porfolio">My Porfolio</a>
-					<li><a href="about">About</a>
+					<li><a href="home">Home</a></li>
+					<li><a href="portfolio">My Portfolio</a></li>
+					<li><a href="trading">Trading</a></li>
+					<li><a href="about">About</a></li>
+					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
