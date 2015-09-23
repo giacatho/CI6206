@@ -20,8 +20,8 @@ import ci6206.model.Constants;
  * Servlet Filter implementation class AuthorizeFilter
  */
 @WebFilter(
-		urlPatterns  = {"/home.jsp","/home"},
-		servletNames = "home",  
+		urlPatterns  = {"/home.jsp","/home","/trading"},
+		servletNames = {"home","trading"},  
 		filterName= "/AuthFilter",
 	    dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD}
 		)

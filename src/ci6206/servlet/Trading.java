@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ci6206.dao.StockDAO;
+import ci6206.model.Constants;
 import ci6206.model.Stock;
 
 /**
@@ -32,19 +33,24 @@ public class Trading extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-    	//request.setAttribute("title", "Home");
+    	request.setAttribute(Constants.TITLE, "Trading");
     	
-    	//RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
-		//dispatcher.forward(request, response);
     	String beginStr = request.getParameter("srch");
-    	
-    	StockDAO stockDO = new StockDAO();
-    	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
-    	for(int i=0; i<list.size();i++)
+    	if(beginStr!=null&&!beginStr.isEmpty())
     	{
-	    	response.getWriter().append(list.get(i).getName()).append(" at ").append(String.valueOf(list.get(i).getPrice())).append(" \n");
+        	StockDAO stockDO = new StockDAO();
+        	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
+        	
+    		request.setAttribute(Constants.STOCK_LIST,list );
+        	/*
+        	for(int i=0; i<list.size();i++)
+        	{
+    	    	response.getWriter().append(list.get(i).getName()).append(" at ").append(String.valueOf(list.get(i).getPrice())).append("\n");
+        	}
+        	*/
+    		
     	}
-    	
+	    response.sendRedirect(getServletContext().getContextPath() + "/trading.jsp");
     }
 
 	/**
