@@ -50,7 +50,11 @@ public class Trading extends HttpServlet {
         	*/
     		
     	}
-	    response.sendRedirect(getServletContext().getContextPath() + "/trading.jsp");
+	    //response.sendRedirect(getServletContext().getContextPath() + "/trading.jsp");
+    	
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/trading.jsp");
+		dispatcher.forward(request, response);
+
     }
 
 	/**

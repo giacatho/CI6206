@@ -51,9 +51,8 @@
 			<h2 class="panel-title">List of Stocks</h2>
 		</div>
 		<div class="panel-body">
-		<c:set var="stockList" value="{{A:A1}, {B:B1}, C, D}" scope="page" />
 		<c:forEach var="stock" items="${pageScope.stockList}">
-		    <c:out value="${stock}">
+		    <c:out value="${stock.Name}">
 		    </c:out>
 		    <br/>
 		</c:forEach>
