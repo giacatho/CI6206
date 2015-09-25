@@ -5,9 +5,22 @@ import java.sql.Date;
 public class Stock 
 {
 	private String symbol,name,exchange;
-	private double price;
+	private double price, amount;
 	private Date lastupdate;
+	private int quantity;
 	
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	public String getSymbol() {
 		return symbol;
 	}
@@ -38,6 +51,8 @@ public class Stock
 	public void setLastupdate(Date lastupdate) {
 		this.lastupdate = lastupdate;
 	}
+	
+	
 	
 	
 	
