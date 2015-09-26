@@ -1,6 +1,7 @@
 package ci6206.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import ci6206.dao.HoldingDAO;
+import ci6206.model.Constants;
+import ci6206.model.Holding;
+import ci6206.model.User;
 
 /**
  * Servlet implementation class Porfolio
@@ -22,21 +28,23 @@ public class Portfolio extends HttpServlet {
      */
     public Portfolio() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute("title", "My Porfolio");
+    	request.setAttribute(Constants.TITLE, "My Porfolio");
     	
     	HttpSession session = request.getSession();
+    	User user = (User)session.getAttribute(Constants.USER_ATTR);
     	
-    	if (session.getAttribute("user") == null) {
-    		response.sendRedirect(getServletContext().getContextPath() + "/login");
-    		return;
-    	}
+    	HoldingDAO holdingDAO = new HoldingDAO();
+    	holdingDAO.OpenConnection();
     	
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/porfolio.jsp");
+    	List<Holding> holdingList = holdingDAO.getHoldings(user.getUsername());
+    	request.setAttribute("holdingList", holdingList);
+    	
+    	holdingDAO.CloseConnection();
+    	RequestDispatcher dispatcher = request.getRequestDispatcher("/portfolio.jsp");
 		dispatcher.forward(request, response);
     }
     
