@@ -70,6 +70,8 @@ $(document).ready(function(){
   	        <span class="label label-warning"><c:out value="${requestScope.Error}"/></span>
 	    </div>
 	    <input type=hidden value="<c:out value="${requestScope.Stock.symbol}"/>" name="symbol"/>
+	    <input type=hidden value="<c:out value="${requestScope.Stock.name}"/>" name="stockName"/>
+	    
 		<div class="table-responsive">		
 		    <table class="table">
 		    <tr>

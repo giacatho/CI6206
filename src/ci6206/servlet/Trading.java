@@ -11,10 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ci6206.dao.PortDAO;
+import ci6206.dao.TransactionDAO;
 import ci6206.dao.StockDAO;
 import ci6206.model.Constants;
 import ci6206.model.Stock;
+import ci6206.model.Transaction;
 import ci6206.model.User;
 
 /**
@@ -42,9 +43,11 @@ public class Trading extends HttpServlet {
     	
     	String beginStr = request.getParameter(Constants.SEARCH_PARAM);
     	String symbol = request.getParameter(Constants.SYMBOL_PARAM);
+    	StockDAO stockDO = new StockDAO();
+    	stockDO.OpenConnection();
     	if(beginStr!=null&&!beginStr.isEmpty())
     	{
-        	StockDAO stockDO = new StockDAO();
+        	
         	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
     		request.setAttribute(Constants.STOCK_LIST,list);
     	}
@@ -52,11 +55,11 @@ public class Trading extends HttpServlet {
     	{
     		
     		page = "/stockTrade.jsp";
-        	StockDAO stockDO = new StockDAO();
         	Stock stock = stockDO.GetStock(symbol);
     		request.setAttribute(Constants.STOCK,stock);
     		
     	}
+    	stockDO.CloseConnection();
 	    //response.sendRedirect(getServletContext().getContextPath() + "/trading.jsp");
     	
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
@@ -91,37 +94,79 @@ public class Trading extends HttpServlet {
 		String page= "/trading.jsp";
 		String action = request.getParameter(Constants.OPT_PARAM);
 		String symbol = request.getParameter(Constants.SYMBOL_PARAM);
+		String stockName = request.getParameter(Constants.STOCK_PARAM);
 		String priceStr  = request.getParameter(Constants.PRICE);
 		String qtyStr    = request.getParameter(Constants.QTY);
 		
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute(Constants.USER_ATTR);
 
-		
-
 		double price = Double.valueOf(priceStr);
 		int qty = Integer.valueOf(qtyStr);
 		double amount = price*qty;
+		
 		Stock stock = new Stock();
 		stock.setSymbol(symbol);
-
 		stock.setPrice(price);
-		stock.setQuantity(qty);
+		stock.setName(stockName);
 		
-		if(user.getCashBal()>=amount)
-		{	
-			stock.setAmount(amount);
-	
-			PortDAO port = new PortDAO();
-			port.Trade(action, stock, user);
+		Transaction trans = new Transaction();
+		//trans.setQuantity(qty);
+		//trans.setStock(stock);
+		trans.setUser(user);
+		trans.setAction(action);
 		
-		}
-		else
+		TransactionDAO transDAO = new TransactionDAO();
+		transDAO.OpenConnection();
+		//see whether there's existing stock
+		Transaction prevTrans = transDAO.getTransaction(stock.getSymbol(), user.getUsername());
+		
+		if(action.equals(Constants.BUY))
 		{
-			request.setAttribute(Constants.ERR, "Not Enough Cash");
-			request.setAttribute(Constants.STOCK,stock);
-			page="/stockTrade.jsp";
+			if(user.getCashBal()>=amount)
+			{	
+				if(prevTrans!=null)
+				{
+					//Add to existing position
+					//trans.setAction(Constants.ADD);
+					//trans.getBuyQuantity();
+				}
+				trans.setBuyQuantity(qty);
+				trans.setBuyAmount(amount);
+				trans.setBuyStock(stock);
+				transDAO.Trade(trans);
+			
+			}
+			else
+			{
+				request.setAttribute(Constants.ERR, "Not Enough Cash");
+				request.setAttribute(Constants.STOCK,stock);
+				page="/stockTrade.jsp";
+			}
 		}
+		else if (action.equals(Constants.SELL))
+		{
+			//check you have enough shares to sell
+			if(prevTrans==null || (prevTrans!=null && prevTrans.getBuyQuantity()<qty))
+			{
+				
+				//error
+				request.setAttribute(Constants.ERR, "Short Selling is not allowed");
+				request.setAttribute(Constants.STOCK,stock);
+				page="/stockTrade.jsp";				
+			}
+			else
+			{
+				//calculate profit
+				double profit = amount - prevTrans.getBuyStock().getPrice()*qty;
+				trans.setProfit(profit);
+				trans.setSellAmount(amount);
+				trans.setSellQuantity(qty);
+				trans.setSellStock(stock);
+				transDAO.Trade(trans);
+			}
+		}
+		transDAO.CloseConnection();
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 

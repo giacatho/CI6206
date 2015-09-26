@@ -50,6 +50,7 @@ public class UserDao extends AbstractDAO{
     	User user = null;
         try
         {
+        	//super.OpenConnection();
 	    	ps = conn.prepareStatement(sb.toString());
 	    	ps.setString(1, username);
 	    	if(hasPass)
@@ -77,6 +78,11 @@ public class UserDao extends AbstractDAO{
     	//return findSingleUser(q);
     }
     
+  /*
+   * 
+   *   Have to change the following. Not SQL Injection safe
+   *   
+   */
     //--------------------------------------------------------------------------------------
     public User findByUsername(String username) {
     	String q = "SELECT * FROM t_users " +

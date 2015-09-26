@@ -32,6 +32,7 @@ public class StockDAO extends AbstractDAO
     	sb.append("AND A.name like ? ");
     	try
         {
+    		//super.OpenConnection();
 	    	ps = conn.prepareStatement(sb.toString());
 	    	ps.setString(1, beginStr+"%");
 	    	resSet = ps.executeQuery();
@@ -60,6 +61,7 @@ public class StockDAO extends AbstractDAO
     	sb.append("AND A.symbol=?");
         try
         {
+        	//super.OpenConnection();
 	    	ps = conn.prepareStatement(sb.toString());
 	    	ps.setString(1, symbol);
 	    	resSet = ps.executeQuery();

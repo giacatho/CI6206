@@ -40,8 +40,9 @@ public class Login extends HttpServlet {
     	   (password!=null&&!password.isEmpty()))
     	{
 	    	UserDao dao = new UserDao();
+	    	dao.OpenConnection();
 	    	User user = dao.findByCredentials(username, password);
-	    	
+	    	dao.CloseConnection();
 	    	if (user == null) {
 	    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
 	    		request.setAttribute("message", "Login fails.");

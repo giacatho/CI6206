@@ -16,11 +16,31 @@ public abstract class AbstractDAO {
     protected Statement statement = null;
     protected PreparedStatement ps = null;
     protected ResultSet resSet = null;
-    
+    private DBFactory dbFactory = null;
 	public AbstractDAO()
 	{
-		DBFactory dbFactory = new DBFactory();
-		conn = dbFactory.getConnection();
+		dbFactory = new DBFactory();
+		//conn = dbFactory.getConnection();
+	}
+	
+	public void OpenConnection() 
+	{
+  		   conn = dbFactory.getConnection();
+	}
+	
+	public void CloseConnection()
+	{
+	    try
+	    {	
+			if(conn!=null)
+			{
+				conn.close();
+			}
+	    }catch(SQLException sqle)
+	    {
+	    	sqle.printStackTrace();
+	    }
+		
 	}
 	
 	protected void cleanUp()
@@ -30,8 +50,8 @@ public abstract class AbstractDAO {
     	    	resSet.close();
         	if(ps!=null)
      	      ps.close();
-        	if(conn!=null)
-	        	   conn.close();
+        	//if(conn!=null)
+	        //	   conn.close();
     	}catch(SQLException ignore){}
 		
 	}
