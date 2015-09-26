@@ -26,7 +26,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="profile">My Profile</a>
 							<li role="separator" class="divider"></li>
-							<li><a href="login">Logout</a>
+							<li><a href="logout">Logout</a>
 						</ul>
 					</li>
 				<% } else { %>
