@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ci6206.model.Constants;
+
 /**
  * Servlet implementation class Profile
  */
@@ -26,14 +28,7 @@ public class Profile extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute("title", "Profile");
-    	
-    	HttpSession session = request.getSession();
-    	
-    	if (session.getAttribute("user") == null) {
-    		response.sendRedirect(getServletContext().getContextPath() + "/login");
-    		return;
-    	}
+    	request.setAttribute(Constants.TITLE, "Profile");
     	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
 		dispatcher.forward(request, response);

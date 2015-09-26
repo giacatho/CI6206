@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import ci6206.dao.UserDao;
+import ci6206.model.Constants;
 import ci6206.model.User;
 
 /**
@@ -28,7 +29,7 @@ public class Register extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute("title", "Register");
+    	request.setAttribute(Constants.TITLE, "Registration");
     	
     	String username = request.getParameter("username");
     	String password = request.getParameter("password");

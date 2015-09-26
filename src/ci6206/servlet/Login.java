@@ -31,7 +31,7 @@ public class Login extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	
+    	request.setAttribute(Constants.TITLE, "Login");
     	
     	String username = request.getParameter("username");
     	String password = request.getParameter("password");
@@ -57,9 +57,9 @@ public class Login extends HttpServlet {
 		    	
     	}
     	else{
-    		
-	    	response.sendRedirect(getServletContext().getContextPath() + "/login.jsp");
-    		
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+    		dispatcher.forward(request, response);
+    		return;
     	}
     }
     

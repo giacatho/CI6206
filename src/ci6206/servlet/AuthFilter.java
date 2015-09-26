@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.DispatcherType;
 
@@ -20,8 +21,8 @@ import ci6206.model.Constants;
  * Servlet Filter implementation class AuthorizeFilter
  */
 @WebFilter(
-		urlPatterns  = {"/home.jsp","/home","/trading","/portfolio","/profile", "/transactions"},
-		servletNames = {"home","trading","portfolio","profile","transactions"},  
+		urlPatterns  = {"/trading","/portfolio","/profile", "/transactions"},
+		servletNames = {"trading","portfolio","profile","transactions"},  
 		filterName= "/AuthFilter",
 	    dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD}
 		)
@@ -45,7 +46,6 @@ public class AuthFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		// TODO Auto-generated method stub
 		// place your code here
     	HttpSession session = ((HttpServletRequest) request).getSession();
     	if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null)
@@ -57,8 +57,8 @@ public class AuthFilter implements Filter {
     	}
     	else
     	{
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		dispatcher.forward(request, response);
+    		HttpServletResponse httpResponse = (HttpServletResponse) response;
+    		httpResponse.sendRedirect(request.getServletContext().getContextPath() + "/login");
     	}
 
 		// pass the request along the filter chain

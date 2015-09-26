@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ci6206.model.Constants;
+
 /**
  * Servlet implementation class About
  */
@@ -26,14 +28,7 @@ public class About extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute("title", "About");
-    	
-    	HttpSession session = request.getSession();
-    	
-    	if (session.getAttribute("user") == null) {
-    		response.sendRedirect(getServletContext().getContextPath() + "/login");
-    		return;
-    	}
+    	request.setAttribute(Constants.TITLE, "About");
     	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/about.jsp");
 		dispatcher.forward(request, response);
