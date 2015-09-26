@@ -50,6 +50,27 @@ body {
 	font-weight: bold;
 }
 
+/* Table */
+.my-table {
+	border: 1px solid #bbb;
+}
+
+.my-table thead {
+	background: #000;
+	color: #fff;
+}
+
+.my-table.table>thead>tr>td, 
+.my-table.table>tbody>tr>td
+{
+	border: 0px;
+}
+
+.my-table .no-record {
+	line-height: 100px;
+	background: #fff;
+}
+
 /* Form login and register */
 .form-signin {
 	max-width: 330px;
@@ -85,4 +106,9 @@ body {
 
 .form-profile input {
 	margin-bottom: 12px;
+}
+
+/* Mics */
+.ctr {
+	text-align: center !important;
 }
