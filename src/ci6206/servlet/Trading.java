@@ -125,17 +125,27 @@ public class Trading extends HttpServlet {
 		{
 			if(user.getCashBal()>=amount)
 			{	
+				double adjustedAmt = 0,adjustedPrice=0;
 				if(prevTrans!=null)
 				{
 					//Add to existing position
-					//trans.setAction(Constants.ADD);
-					//trans.getBuyQuantity();
+					adjustedAmt = prevTrans.getBuyAmount()+amount;
+					qty = qty + prevTrans.getBuyQuantity();
+					adjustedPrice = adjustedAmt/qty;
+					stock.setPrice(adjustedPrice);
+					trans.setBuyQuantity(qty);
+					trans.setBuyAmount(adjustedAmt);
+					trans.setBuyStock(stock);
+					trans.setAction(Constants.ADD);
+					transDAO.Trade(trans);
 				}
-				trans.setBuyQuantity(qty);
-				trans.setBuyAmount(amount);
-				trans.setBuyStock(stock);
-				transDAO.Trade(trans);
-			
+				else
+				{
+					trans.setBuyQuantity(qty);
+					trans.setBuyAmount(amount);
+					trans.setBuyStock(stock);
+					transDAO.Trade(trans);
+				}
 			}
 			else
 			{
@@ -157,13 +167,34 @@ public class Trading extends HttpServlet {
 			}
 			else
 			{
-				//calculate profit
-				double profit = amount - prevTrans.getBuyStock().getPrice()*qty;
-				trans.setProfit(profit);
-				trans.setSellAmount(amount);
-				trans.setSellQuantity(qty);
-				trans.setSellStock(stock);
-				transDAO.Trade(trans);
+				if(prevTrans!=null&&prevTrans.getSellQuantity()>0)
+				{
+					//reduce
+					double adjAmt = amount + prevTrans.getSellAmount();
+					trans.setSellAmount(adjAmt);
+					double adjustedProfit = adjAmt - prevTrans.getBuyAmount();
+					trans.setProfit(adjustedProfit);
+					
+					int adjQty = qty + prevTrans.getSellQuantity();
+					trans.setSellQuantity(adjQty);
+					trans.setSellStock(stock);
+					trans.setBuyQuantity(prevTrans.getBuyQuantity()-qty);
+					trans.setBuyAmount(trans.getBuyQuantity()*prevTrans.getBuyStock().getPrice());
+					trans.setAction(Constants.REDUCE);
+					transDAO.Trade(trans);
+				}
+				else
+				{
+					//calculate profit
+					double profit = amount - prevTrans.getBuyStock().getPrice()*qty;
+					trans.setProfit(profit);
+					trans.setSellAmount(amount);
+					trans.setSellQuantity(qty);
+					trans.setSellStock(stock);
+					trans.setBuyQuantity(prevTrans.getBuyQuantity()-qty);
+					trans.setBuyAmount(trans.getBuyQuantity()*prevTrans.getBuyStock().getPrice());
+					transDAO.Trade(trans);
+				}
 			}
 		}
 		transDAO.CloseConnection();
