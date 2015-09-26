@@ -36,6 +36,11 @@ public class TransactionDAO extends AbstractDAO {
 	    		add(trans,sql);
 	    		
 	    	}
+	    	else if (action.equals(Constants.REDUCE))
+	    	{
+	    		sql = buildReduceSQL();
+	    		reduce(trans,sql);
+	    	}
     	}
     }
     
@@ -94,6 +99,16 @@ public class TransactionDAO extends AbstractDAO {
     	return trans;
     	
     }
+
+    private String buildReduceSQL()
+    {
+    	StringBuffer sb = new StringBuffer();
+    	sb.append("UPDATE tb_trans ");
+    	sb.append("set buyqty=?, buyamt=?, selldate=?, sellprice=?, sellqty=?, profit=?, sellamt=? ");
+    	sb.append("WHERE symbol=? AND userid=?");
+    	return sb.toString();
+    }
+
     
     private String buildAddSQL()
     {
@@ -118,14 +133,53 @@ public class TransactionDAO extends AbstractDAO {
     private String buildSellSQL()
     {
     	StringBuffer sb = new StringBuffer();
-    	sb.append("update tb_trans set selldate=?, sellprice=?, sellqty=?, profit=?, sellamt=? ");
+    	sb.append("update tb_trans set selldate=?, sellprice=?, sellqty=?, profit=?, sellamt=?, buyqty=?, buyamt=? ");
     	sb.append("where userid=? and symbol=?");
     	
     	return sb.toString();
 
     }
 
-    
+    private void reduce(Transaction trans, String sql)
+    {
+    	try
+    	{
+    		//super.OpenConnection();
+    		java.sql.Date now = new Date(Calendar.getInstance().getTimeInMillis());
+   	        ps = conn.prepareStatement(sql);
+	    	ps.setInt(1, trans.getBuyQuantity());
+	    	ps.setDouble(2, trans.getBuyAmount());
+	    	ps.setDate(3, now);
+	    	ps.setDouble(4, trans.getSellStock().getPrice());
+	    	ps.setInt(5, trans.getSellQuantity());
+	    	ps.setDouble(6, trans.getProfit());
+	    	ps.setDouble(7, trans.getSellAmount());
+	    	ps.setString(8, trans.getSellStock().getSymbol());
+	    	ps.setString(9, trans.getUser().getUsername());
+	    	
+			ps.executeUpdate();
+
+			System.out.println("Record is updated into table for reduce position!");
+	    	
+    	}
+    	catch(SQLException sqle)
+        {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	cleanUp();
+        }    	
+
+    	
+    	
+    	
+    }
     private void sell(Transaction trans, String sql)
     {
     	try
@@ -138,8 +192,10 @@ public class TransactionDAO extends AbstractDAO {
 	    	ps.setInt(3, trans.getSellQuantity());
 	    	ps.setDouble(4, trans.getProfit());
 	    	ps.setDouble(5, trans.getSellAmount());
-	    	ps.setString(6, trans.getUser().getUsername());
-	    	ps.setString(7, trans.getSellStock().getSymbol());
+	    	ps.setInt(6, trans.getBuyQuantity());
+	    	ps.setDouble(7, trans.getBuyAmount());	
+	    	ps.setString(8, trans.getUser().getUsername());
+	    	ps.setString(9, trans.getSellStock().getSymbol());
 	    	
 			ps.executeUpdate();
 
@@ -205,16 +261,16 @@ public class TransactionDAO extends AbstractDAO {
     		//super.OpenConnection();
     		java.sql.Date now = new Date(Calendar.getInstance().getTimeInMillis());
    	        ps = conn.prepareStatement(sql);
-	    	ps.setString(1, trans.getUser().getUsername());
-	    	ps.setString(2, trans.getBuyStock().getSymbol());
-	    	ps.setDate(3, now);
-	    	ps.setDouble(4, trans.getBuyStock().getPrice());
-	    	ps.setInt(5, trans.getBuyQuantity());
-	    	ps.setDouble(6, trans.getBuyAmount());
+	    	ps.setDate(1, now);
+	    	ps.setDouble(2, trans.getBuyStock().getPrice());
+	    	ps.setInt(3, trans.getBuyQuantity());
+	    	ps.setDouble(4, trans.getBuyAmount());
+	    	ps.setString(5, trans.getBuyStock().getSymbol());
+	    	ps.setString(6, trans.getUser().getUsername());
 	    	
 			ps.executeUpdate();
 
-			System.out.println("Record is inserted into table!");
+			System.out.println("Record updated into table for Add position!");
 	    	
     	}
     	catch(SQLException sqle)
