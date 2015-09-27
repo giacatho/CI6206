@@ -121,6 +121,15 @@ body {
 	margin-bottom: 12px;
 }
 
+/* Bootbox */
+.bootbox .modal-dialog .modal-body {
+	padding: 15px;
+}
+
+.bootbox .modal-dialog .modal-footer {
+	padding: 10px;
+}
+
 /* Mics */
 .ctr {
 	text-align: center !important;

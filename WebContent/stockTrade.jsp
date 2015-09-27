@@ -36,7 +36,7 @@ $(document).ready(function(){
     	
     	if(error!='')
     	{
-    		alert(error);
+    		bootbox.alert(error);
     		event.preventDefault();
     	}
     	else
