@@ -63,65 +63,59 @@ $(document).ready(function(){
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2 class="panel-title">Stocks Trade</h2>
+			<h2 class="panel-title">Trade Stocks</h2>
 		</div>
-	<form role="form" action="trading" method="POST" id="tradeFrm">
-	    <div>
-  	        <span class="label label-warning"><c:out value="${requestScope.Error}"/></span>
-	    </div>
-	    <input type=hidden value="<c:out value="${requestScope.Stock.symbol}"/>" name="symbol"/>
-	    <input type=hidden value="<c:out value="${requestScope.Stock.name}"/>" name="stockName"/>
-	    
-		<div class="table-responsive">		
-		    <table class="table">
-		    <tr>
-		    <td>Stock Name:</td>
-		    <td>
-			    <div class="col-xs-2">
-				   <c:out value="${requestScope.Stock.name}"/>
-			    </div>
-		    </td>
-		    </tr>
-		    <tr>
-			    <td>Price:</td>
-			    <td>
-			      <div class="col-xs-2">
-			        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>"/>
-			      </div>  
-			    </td>
-		    </tr>
-
-		    <tr>
-			    <td>Quantity:</td>
-			    <td>
-			      <div class="col-xs-2">
-			        <input type="text" class="form-control" id="qty" name="qty"/>
-			      </div>  
-			    </td>
-		    </tr>
-		    <tr>
-			    <td>Action:</td>
-			    <td>
-				    <div class="col-xs-2">
+		<form role="form" action="trading" method="POST" id="tradeFrm">
+		    <div>
+	  	        <span class="label label-warning"><c:out value="${requestScope.Error}"/></span>
+		    </div>
+		    <input type=hidden value="<c:out value="${requestScope.Stock.symbol}"/>" name="symbol"/>
+		    <input type=hidden value="<c:out value="${requestScope.Stock.name}"/>" name="stockName"/>
+		    
+		    <table class="table stock-trade">
+			    <tr>
+				    <td>Stock Name:</td>
+				    <td>
+					   <c:out value="${requestScope.Stock.name}"/>
+				    </td>
+			    </tr>
+			    <tr>
+				    <td>Symbol:</td>
+				    <td>
+					   <c:out value="${requestScope.Stock.symbol}"/>
+				    </td>
+			    </tr>
+			    <tr>
+				    <td>Price:</td>
+				    <td>
+				        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>" disabled/>
+				    </td>
+			    </tr>
+	
+			    <tr>
+				    <td>Quantity:</td>
+				    <td>
+				        <input type="text" class="form-control" id="qty" name="qty"/>
+				    </td>
+			    </tr>
+			    <tr>
+				    <td>Action:</td>
+				    <td>
 						<label class="radio-inline"><input type="radio" name="optradio" value="buy">Buy</label>
 						<label class="radio-inline"><input type="radio" name="optradio" value="sell">Sell</label>
-					</div>			
-			    </td>
-		    </tr>
-		    
-		    <tr>
-		        <td>
-		        </td>
-			    <td>
-				   <div class="col-xs-2">			    
+				    </td>
+			    </tr>
+			    <tr>
+			        <td>
+			        </td>
+				    <td>
 			    	    <button type="submit" class="btn btn-primary" id="submit">Confirm</button>
-			    	</div>
-			    </td>
-		    </tr>
-		    
+				    </td>
+			    </tr>
+			    
 		    </table>
-		</div>
-</form>
+		</form>
+	</div>
 </div>
 <%@ include file="WEB-INF/includes/footer.jsp" %>
 </body>

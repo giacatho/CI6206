@@ -97,6 +97,19 @@ body {
 	border-size: 16px;
 }
 
+/* Form trade stock */
+.stock-trade tbody tr:first-child td {
+	border-top: 0px;
+}
+
+.stock-trade tbody td:first-child {
+	padding-left: 15px;
+}
+
+.stock-trade input[type="text"] {
+	width: 100px;
+}
+
 /* Form profile */
 .form-profile {
 	max-width: 450px;

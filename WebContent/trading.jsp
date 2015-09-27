@@ -19,7 +19,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2 class="panel-title">Stocks</h2>
+			<h2 class="panel-title">Select Stocks</h2>
 		</div>
 		<div class="panel-body">
 		  <a href="trading?srch=A"><span class="badge">A</span></a>
@@ -50,34 +50,37 @@
 		</div>
 	</div>
 	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title">List of Stocks</h2>
-		</div>
-		
-		<div class="table-responsive">
-		<table class="table">
-		    <thead>
-		      <tr>
-		        <th>Stock Name</th>
-		        <th>Price</th>
-		        <th>Action</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-				<c:forEach var="stock" items="${requestScope.StockList}">
-			      <tr>
-			        <td><c:out value="${stock.name}"/></td>
-			        <td><c:out value="${stock.price}"/></td>
-			        <td>
-						<a href="trading?symbol=<c:out value="${stock.symbol}"/> "><span class="label label-primary">Trade</span></a>			        	
-			        </td>
-			      </tr>
-				</c:forEach>
-		    </tbody>		    
-		</table>  
-		</div>
-	</div>
+	<table class="table table-striped my-table">
+	    <thead>
+	      <tr>
+	        <th>Stock Name</th>
+	        <th>Symbol</th>
+	        <th>Price</th>
+	        <th>Action</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    	<c:choose>
+	    		<c:when test="${empty requestScope.StockList}">
+					<tr>
+						<td class="no-record ctr" colspan="4">No records. Please select a character the stock names start with.</td>
+					</tr>
+				</c:when>
+	    		<c:when test="${!empty requestScope.StockList}">
+					<c:forEach var="stock" items="${requestScope.StockList}">
+				      <tr>
+				        <td><c:out value="${stock.name}"/></td>
+				        <td><c:out value="${stock.symbol}"/></td>
+				        <td><c:out value="${stock.price}"/></td>
+				        <td>
+							<a href="trading?symbol=<c:out value="${stock.symbol}"/> "><span class="label label-primary">Trade</span></a>			        	
+				        </td>
+				      </tr>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+	    </tbody>		    
+	</table>  
 </div>
 
 <%@ include file="WEB-INF/includes/footer.jsp" %>
