@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ci6206.model.Holding;
-import ci6206.model.SubTransaction;
 
 public class HoldingDAO extends AbstractDAO {
 	public List<Holding> getHoldings(String userId) {

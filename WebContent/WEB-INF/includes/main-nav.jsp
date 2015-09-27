@@ -12,7 +12,6 @@
 				<% if(request.getSession()!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
 					<li><a href="portfolio">My Portfolio</a></li>
 					<li><a href="trading">Trading</a></li>
-					<li><a href="transactions">History</a></li>
 				<% } else { %>
 					<li><a href="home">Home</a></li>
 				<% } %>

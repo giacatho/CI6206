@@ -21,8 +21,8 @@ import ci6206.model.Constants;
  * Servlet Filter implementation class AuthorizeFilter
  */
 @WebFilter(
-		urlPatterns  = {"/trading","/portfolio","/profile", "/transactions"},
-		servletNames = {"trading","portfolio","profile","transactions"},  
+		urlPatterns  = {"/trading","/portfolio","/profile"},
+		servletNames = {"trading","portfolio","profile"},  
 		filterName= "/AuthFilter",
 	    dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD}
 		)
