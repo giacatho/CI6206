@@ -13,6 +13,8 @@ public class Constants {
 	public final static String STOCK = "Stock";
 	public final static String BUY = "buy";
 	public final static String SELL = "sell";
+	public final static String Dividend = "div";
+
 	public final static String ADD = "add";
 	public final static String REDUCE = "reduce";
 	

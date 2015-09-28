@@ -88,7 +88,7 @@ $(document).ready(function(){
 			    <tr>
 				    <td>Price:</td>
 				    <td>
-				        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>" disabled/>
+				        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>" />
 				    </td>
 			    </tr>
 	
