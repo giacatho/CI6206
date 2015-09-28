@@ -77,7 +77,37 @@ public class UserDao extends AbstractDAO{
         return user;
     	//return findSingleUser(q);
     }
-    
+    public void updateUserCash(User user)
+    {
+     	
+    	StringBuffer sb = new StringBuffer();
+		sb.append("UPDATE tb_user ");
+		sb.append("SET cash_bal=? ");
+		sb.append("WHERE userid=? ");
+        try
+        {
+
+	    	ps = conn.prepareStatement(sb.toString());
+	    	ps.setDouble(1, user.getCashBal());
+	    	ps.setString(2, user.getUsername());
+	    	ps.executeUpdate();
+	    	
+        }
+        catch(SQLException sqle)
+        {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	cleanUp();
+        }
+		
+    }
   /*
    * 
    *   Have to change the following. Not SQL Injection safe
