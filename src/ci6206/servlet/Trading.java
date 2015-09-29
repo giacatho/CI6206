@@ -92,7 +92,7 @@ public class Trading extends HttpServlet {
 	{
 
     	request.setAttribute(Constants.TITLE, "Trading");
-		String page= "/trading.jsp";
+		String page= "/portfolio";
 		String action = request.getParameter(Constants.OPT_PARAM);
 		String symbol = request.getParameter(Constants.SYMBOL_PARAM);
 		String stockName = request.getParameter(Constants.STOCK_PARAM);

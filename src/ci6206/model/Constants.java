@@ -15,6 +15,8 @@ public class Constants {
 	public final static String SELL = "sell";
 	public final static String ADD = "add";
 	public final static String REDUCE = "reduce";
+	public final static String SHARES = "shares";
+	
 	
 	
 	public final static String PRICE = "price";

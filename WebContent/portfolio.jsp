@@ -4,6 +4,7 @@
 <html>
 <%@ include file="WEB-INF/includes/head.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <body>
 <div id="main" class="container">
 
@@ -11,6 +12,21 @@
 
 	<div class="well well-sm page-head">
 		<h1><%= request.getAttribute("title") %></h1>
+		
+		<table class="table">
+		  <tr>
+		     <td>
+        		<span class="label label-info">Cash: </span>
+        		<fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/>
+		     </td>
+		     <td>
+        		<span class="label label-info">Shares Value: </span>
+        		<fmt:formatNumber value="${requestScope.shares}" type="currency"/>
+		     </td>
+		     
+		     
+		  </tr>
+		</table>
 	</div>
 	
 	<table class="table table-striped my-table">
@@ -18,7 +34,7 @@
 			<tr>
 				<th>Symbol</th>
 				<th>Stock Name</th>
-				<th class="ctr">Quality</th>
+				<th class="ctr">Quantity</th>
 				<th class="ctr">Market Price</th>
 				<th class="ctr">Market Amount</th>
 			</tr>

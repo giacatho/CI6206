@@ -43,6 +43,36 @@ public class TransactionDAO extends AbstractDAO {
     	}
     	return sum;
     }
+    public ArrayList<Transaction> getTransactionList(String userId)
+    {
+    	ArrayList<Transaction> list = new ArrayList<Transaction>();
+    	Transaction trans = null;
+    	
+	    try
+	    {	
+	    	//super.OpenConnection();
+	        String sql = new String("SELECT * FROM tb_trans WHERE userid=?");
+	    	ps = conn.prepareStatement(sql);
+	    	ps.setString(1, userId);
+	    	resSet = ps.executeQuery();
+	        while(resSet.next())
+	        {
+	    	   trans = populate();
+	    	   list.add(trans);
+	        }
+	    }
+	    catch(SQLException sqle)
+	    {
+	    	sqle.printStackTrace();
+	    }
+	    finally
+	    {
+	    	cleanUp();
+	    }
+       return list;
+    	
+    }
+    
     public ArrayList<Transaction> getTransactionList(String symbol, String userId)
     {
     	ArrayList<Transaction> list = new ArrayList<Transaction>();
@@ -73,35 +103,6 @@ public class TransactionDAO extends AbstractDAO {
        return list;
     	
     }
-    public Transaction getTransaction(String symbol, String userId)
-    {
-    	Transaction trans = null;
-    	
-	    try
-	    {	
-	    	//super.OpenConnection();
-	        String sql = new String("SELECT * FROM tb_trans WHERE symbol=? AND userid=?");
-	    	ps = conn.prepareStatement(sql);
-	    	ps.setString(1, symbol);
-	    	ps.setString(2, userId);
-	    	resSet = ps.executeQuery();
-	       if(resSet.next())
-	       {
-	    	   trans = populate();
-	       }
-	    }
-	    catch(SQLException sqle)
-	    {
-	    	sqle.printStackTrace();
-	    }
-	    finally
-	    {
-	    	cleanUp();
-	    }
-       return trans;
-    	
-    }
-   
     private Transaction populate() throws SQLException
     {
     	Transaction trans = new Transaction();
