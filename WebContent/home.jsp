@@ -23,24 +23,92 @@
 		<h1><%= request.getAttribute("title") %></h1>
 	</div>
 	
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h2 class="panel-title">Top Ten Ranking</h2>
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default ranking">
+				<div class="panel-heading">
+					<h2 class="panel-title">Top Ten Ranking</h2>
+				</div>
+				<div class="panel-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Rank</th>
+								<th>Name</th>
+								<th>Balance</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Michael Tan</td>
+								<td>900,000</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Nguyen Tri Tin</td>
+								<td>800,000</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Lokenath Mukherjee</td>
+								<td>700,000</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Qiao Guo Jun.</td>
+								<td>600,000</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>Michael Tan</td>
+								<td>900,000</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>Nguyen Tri Tin</td>
+								<td>800,000</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>Lokenath Mukherjee</td>
+								<td>700,000</td>
+							</tr>
+							<tr>
+								<td>8</td>
+								<td>Qiao Guo Jun.</td>
+								<td>600,000</td>
+							</tr>
+							<tr>
+								<td>9</td>
+								<td>Michael Tan</td>
+								<td>900,000</td>
+							</tr>
+							<tr>
+								<td>10</td>
+								<td>Nguyen Tri Tin</td>
+								<td>800,000</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body">
-			<p>1. Lokenath Mukherjee.</p>
-			<p>2. Michael Tan.</p>
-			<p>3. Nguyen Tri Tin.</p>
-			<p>4. Qiao Guo Jun.</p>
+		
+		<div class="col-sm-6">
+			<div class="panel panel-default news">
+				<div class="panel-heading">
+					<h2 class="panel-title">Stock News</h2>
+				</div>
+				<div class="panel-body">
+					<div id="feedControl">Loading...</div>
+				</div>
+			</div>
+		
 		</div>
 	</div>
 	
-	<div class="panel panel-default">
-		<div id="feedControl">Loading...</div>
-		<div>
-			<a href ="http://www.sgx.com/wps/portal/sgxweb/home/media/news_updates" target="_blank">View More >></a>
-		</div>
-	</div>
+	
 </div>
 
 <%@ include file="WEB-INF/includes/footer.jsp" %>

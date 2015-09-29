@@ -4,7 +4,7 @@ body {
 
 /* Main */
 #main {
-	min-height: 700px;
+	min-height: 600px;
 }
 
 /* Footer */
@@ -119,6 +119,53 @@ body {
 
 .form-profile input {
 	margin-bottom: 12px;
+}
+
+/* Ranking */
+.ranking .panel-body
+{
+	height: 300px;
+	overflow: auto;
+}
+
+.ranking .panel-heading {
+	height: 50px;
+	background-color: #cdecff;
+	border-color: #76caff;
+}
+
+.ranking .panel-heading h2 {
+	line-height: 33px;
+}
+
+/* News */
+.news .panel-body
+{
+	height: 300px;
+	overflow: auto;
+}
+
+.news .panel-heading {
+	height: 50px;
+	background-color: #f3ffc4;
+	border-color: #a9e13d;
+}
+
+.news .panel-heading h2 {
+	line-height: 33px;
+}
+
+/* News - Google Feed */
+.gfg-root {
+	border: 0px !important;
+}
+
+.gfg-title {
+	display: none;
+}
+
+.gfg-listentry {
+	margin: 3px 0px;
 }
 
 /* Bootbox */
