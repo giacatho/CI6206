@@ -32,18 +32,11 @@ public class Portfolio extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute(Constants.TITLE, "My Porfolio");
+    	request.setAttribute(Constants.TITLE, "My Portfolio");
     	
     	HttpSession session = request.getSession();
     	User user = (User)session.getAttribute(Constants.USER_ATTR);
     	
-    	HoldingDAO holdingDAO = new HoldingDAO();
-    	holdingDAO.OpenConnection();
-    	
-    	List<Holding> holdingList = holdingDAO.getHoldings(user.getUsername());
-    	request.setAttribute("holdingList", holdingList);
-    	
-    	holdingDAO.CloseConnection();
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/portfolio.jsp");
 		dispatcher.forward(request, response);
     }
