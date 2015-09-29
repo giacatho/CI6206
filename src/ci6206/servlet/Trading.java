@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ci6206.dao.TransactionDAO;
+import ci6206.dao.UserDao;
 import ci6206.dao.StockDAO;
 import ci6206.model.Constants;
 import ci6206.model.Stock;
@@ -111,41 +112,22 @@ public class Trading extends HttpServlet {
 		stock.setName(stockName);
 		
 		Transaction trans = new Transaction();
-		//trans.setQuantity(qty);
-		//trans.setStock(stock);
 		trans.setUser(user);
 		trans.setAction(action);
 		
 		TransactionDAO transDAO = new TransactionDAO();
 		transDAO.OpenConnection();
-		//see whether there's existing stock
-		Transaction prevTrans = transDAO.getTransaction(stock.getSymbol(), user.getUsername());
-		
+		double netCash=user.getCashBal();
 		if(action.equals(Constants.BUY))
 		{
 			if(user.getCashBal()>=amount)
 			{	
-				double adjustedAmt = 0,adjustedPrice=0;
-				if(prevTrans!=null)
-				{
-					//Add to existing position
-					adjustedAmt = prevTrans.getBuyAmount()+amount;
-					qty = qty + prevTrans.getBuyQuantity();
-					adjustedPrice = adjustedAmt/qty;
-					stock.setPrice(adjustedPrice);
-					trans.setBuyQuantity(qty);
-					trans.setBuyAmount(adjustedAmt);
-					trans.setBuyStock(stock);
-					trans.setAction(Constants.ADD);
-					transDAO.Trade(trans);
-				}
-				else
-				{
-					trans.setBuyQuantity(qty);
-					trans.setBuyAmount(amount);
-					trans.setBuyStock(stock);
-					transDAO.Trade(trans);
-				}
+				trans.setQty(qty);
+				trans.setAmount(amount);
+				trans.setStock(stock);
+				transDAO.Trade(trans);
+				//update the user cashBal
+				netCash = netCash - amount;
 			}
 			else
 			{
@@ -156,51 +138,41 @@ public class Trading extends HttpServlet {
 		}
 		else if (action.equals(Constants.SELL))
 		{
+			int existQty = transDAO.getTotalQty(symbol, user.getUsername());
+			System.out.println("existing qty: "+existQty);
 			//check you have enough shares to sell
-			if(prevTrans==null || (prevTrans!=null && prevTrans.getBuyQuantity()<qty))
+			if(qty <= existQty)
 			{
-				
-				//error
-				request.setAttribute(Constants.ERR, "Short Selling is not allowed");
-				request.setAttribute(Constants.STOCK,stock);
-				page="/stockTrade.jsp";				
+					trans.setAmount(amount);
+					trans.setQty(qty);
+					trans.setStock(stock);
+					transDAO.Trade(trans);
+					//update the user cashBal
+					netCash = user.getCashBal() + amount;
+					
 			}
 			else
 			{
-				if(prevTrans!=null&&prevTrans.getSellQuantity()>0)
-				{
-					//reduce
-					double adjAmt = amount + prevTrans.getSellAmount();
-					trans.setSellAmount(adjAmt);
-					double adjustedProfit = adjAmt - prevTrans.getBuyAmount();
-					trans.setProfit(adjustedProfit);
-					
-					int adjQty = qty + prevTrans.getSellQuantity();
-					trans.setSellQuantity(adjQty);
-					trans.setSellStock(stock);
-					trans.setBuyQuantity(prevTrans.getBuyQuantity()-qty);
-					trans.setBuyAmount(trans.getBuyQuantity()*prevTrans.getBuyStock().getPrice());
-					trans.setAction(Constants.REDUCE);
-					transDAO.Trade(trans);
-				}
-				else
-				{
-					//calculate profit
-					double profit = amount - prevTrans.getBuyStock().getPrice()*qty;
-					trans.setProfit(profit);
-					trans.setSellAmount(amount);
-					trans.setSellQuantity(qty);
-					trans.setSellStock(stock);
-					trans.setBuyQuantity(prevTrans.getBuyQuantity()-qty);
-					trans.setBuyAmount(trans.getBuyQuantity()*prevTrans.getBuyStock().getPrice());
-					transDAO.Trade(trans);
-				}
+				request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
+				request.setAttribute(Constants.STOCK,stock);
+				page="/stockTrade.jsp";
+				
 			}
 		}
 		transDAO.CloseConnection();
+		user.setCashBal(netCash);
+		updateUser(user);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		dispatcher.forward(request, response);
 
+	}
+	
+	private void updateUser(User user)
+	{
+		UserDao dao = new UserDao();
+		dao.OpenConnection();
+		dao.updateUserCash(user);
+		dao.CloseConnection();
 	}
 
 }

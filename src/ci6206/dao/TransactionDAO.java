@@ -112,7 +112,6 @@ public class TransactionDAO extends AbstractDAO {
     	Stock stock = new Stock();
     	stock.setSymbol(resSet.getString("symbol"));
     	stock.setPrice(resSet.getDouble("price"));
-    	trans.setAction(resSet.getString("type"));
     	trans.setAmount(resSet.getDouble("amt"));
     	trans.setQty(resSet.getInt("qty"));
     	trans.setStock(stock);
