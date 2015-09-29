@@ -116,6 +116,7 @@ public class TransactionDAO extends AbstractDAO {
     	trans.setQty(resSet.getInt("qty"));
     	trans.setStock(stock);
     	trans.setUser(user);
+    	trans.setAction(resSet.getString("type"));
     	
     	return trans;
     	
