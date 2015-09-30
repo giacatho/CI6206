@@ -46,6 +46,15 @@ body {
 	line-height: 20px;
 }
 
+/* Panel */
+.panel .panel-heading {
+	height: 50px;
+}
+
+.panel .panel-heading h2 {
+	line-height: 33px;
+}
+
 .panel-title {
 	font-weight: bold;
 }
@@ -129,13 +138,8 @@ body {
 }
 
 .ranking .panel-heading {
-	height: 50px;
 	background-color: #cdecff;
 	border-color: #76caff;
-}
-
-.ranking .panel-heading h2 {
-	line-height: 33px;
 }
 
 /* News */
@@ -146,14 +150,10 @@ body {
 }
 
 .news .panel-heading {
-	height: 50px;
 	background-color: #f3ffc4;
 	border-color: #a9e13d;
 }
 
-.news .panel-heading h2 {
-	line-height: 33px;
-}
 
 /* News - Google Feed */
 .news .gfg-root {

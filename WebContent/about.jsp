@@ -17,14 +17,25 @@
 			<h2 class="panel-title">Product</h2>
 		</div>
 		<div class="panel-body">
-			<p>This is our assignment two of CI6202 semester 1, academic year 2015 in NTU.</p>
-			<p>This project is a stock simulator.</p>
-			<p>Features:</p>
-			<ul>
-				<li>Register new users.</li>
-				<li>Buy/sell stocks.</li>
-				<li>View porfolios.</li>
-			</ul>
+			<div class="col-sm-6">
+				<h3>Introduction</h3>
+				<p>This is our assignment two of CI6202, semester one of academic year 2015 in NTU.</p>
+				<p>This project is a stock simulator. We give you fake cash to invest in real Singapore companies under real market conditions. The trades will bring you the most authentic experience on the web.</p>
+				<p>&nbsp;</p>
+				
+				<h3>Features</h3>
+				<ul>
+					<li>Register new users.</li>
+					<li>Search stocks using stock name or stock symbol.</li>
+					<li>Trade (buy/sell) stocks.</li>
+					<li>View your Porfolios.</li>
+					<li>View your Transaction History.</li>
+					<li>Search for users and reset their passwords (admin only).</li>
+				</ul>
+			</div>
+			<div class="col-sm-6">
+				<img alt="Stocks" src="images/stocks.jpg" style="width: 100%; height: 100%;">
+			</div>
 		</div>
 	</div>
 	
@@ -33,10 +44,26 @@
 			<h2 class="panel-title">Team</h2>
 		</div>
 		<div class="panel-body">
-			<p>Lokenath Mukherjee.</p>
-			<p>Michael Tan.</p>
-			<p>Nguyen Tri Tin.</p>
-			<p>Qiao Guo Jun.</p>
+			<div class="col-sm-3 ctr">
+				<h4>Michael Tan</h4>
+				<p>G1502589E</p>
+				<img alt="Michael" src="images/batman.jpg" style="width:100%;">
+			</div>
+			<div class="col-sm-3 ctr">
+				<h4>Nguyen Tri Tin</h4>
+				<p>G1500675D</p>
+				<img alt="Tin" src="images/superman.jpg" style="width:100%;">
+			</div>
+			<div class="col-sm-3 ctr">
+				<h4>Qiao Guo Jun</h4>
+				<p>G1500681C</p>
+				<img alt="Guo Jun" src="images/captain.jpg" style="width:100%;">
+			</div>
+			<div class="col-sm-3 ctr">
+				<h4>Lokenath Mukherjee</h4>
+				<p>G1500673K</p>
+				<img alt="Loke" src="images/spiderman.jpg" style="width:100%;">
+			</div>
 		</div>
 	</div>
 	
