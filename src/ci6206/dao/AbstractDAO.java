@@ -26,6 +26,15 @@ public abstract class AbstractDAO {
 	public void OpenConnection() 
 	{
   		   conn = dbFactory.getConnection();
+  		   try
+  		   {
+    		   conn.setAutoCommit(true);
+  		   }
+  		   catch (SQLException sqle)
+  		   {
+  			   sqle.printStackTrace();
+  		   }
+    		   
 	}
 	
 	public void CloseConnection()

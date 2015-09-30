@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import ci6206.dao.StockDAO;
 import ci6206.dao.TransactionDAO;
+import ci6206.dao.UserDao;
 import ci6206.model.Constants;
 import ci6206.model.Stock;
 import ci6206.model.Transaction;
@@ -61,10 +62,18 @@ public class Portfolio extends HttpServlet {
     	}
     	request.setAttribute(Constants.SHARES, sumShares);
     	request.setAttribute(Constants.HOLDING, map);
-    	
+    	user.setSharesVal(sumShares);
+    	updateUser(user);
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/portfolio.jsp");
 		dispatcher.forward(request, response);
     }
+	private void updateUser(User user)
+	{
+		UserDao dao = new UserDao();
+		dao.OpenConnection();
+		dao.updateUserSharesVal(user);
+		dao.CloseConnection();
+	}
     private void consolidate(Transaction trans, HashMap<String,Transaction> summaryMap)
     {
     	//Transaction summary = (Transaction)summaryMap.get(trans.getStock().getSymbol());

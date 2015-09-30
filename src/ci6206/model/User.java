@@ -16,8 +16,16 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    private double cashBal,yrStartBal;
-    public double getYrStartBal() {
+    private double cashBal,yrStartBal,sharesVal;
+    public double getSharesVal() {
+		return sharesVal;
+	}
+
+	public void setSharesVal(double sharesVal) {
+		this.sharesVal = sharesVal;
+	}
+
+	public double getYrStartBal() {
 		return yrStartBal;
 	}
 

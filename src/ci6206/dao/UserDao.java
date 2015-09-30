@@ -71,6 +71,7 @@ public class UserDao extends AbstractDAO{
 	    		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
 	    		user.setInception(df.format(inception));
 	    		user.setYrStartBal(resSet.getDouble("totalval_0101"));
+	    		user.setSharesVal(resSet.getDouble("share_val"));
 	    	}
         }
         catch(SQLException sqle)
@@ -115,6 +116,37 @@ public class UserDao extends AbstractDAO{
         }
 		
     }
+    public void updateUserSharesVal(User user)
+    {
+     	
+    	StringBuffer sb = new StringBuffer();
+		sb.append("UPDATE tb_user ");
+		sb.append("SET share_val=? ");
+		sb.append("WHERE userid=? ");
+        try
+        {
+
+	    	ps = conn.prepareStatement(sb.toString());
+	    	ps.setDouble(1, user.getSharesVal());
+	    	ps.setString(2, user.getUsername());
+	    	ps.executeUpdate();
+        }
+        catch(SQLException sqle)
+        {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	cleanUp();
+        }
+		
+    }
+    
   /*
    * 
    *   Have to change the following. Not SQL Injection safe
