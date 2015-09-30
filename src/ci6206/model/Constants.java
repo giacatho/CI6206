@@ -16,8 +16,9 @@ public class Constants {
 	public final static String ADD = "add";
 	public final static String REDUCE = "reduce";
 	public final static String SHARES = "shares";
-	
-	
+	public final static String HOLDING = "holdingList";
+	public final static String TOTAL = "total";
+	public final static String INIT_DEPOSIT = "deposit";
 	
 	public final static String PRICE = "price";
 	public final static String QTY = "qty";

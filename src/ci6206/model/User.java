@@ -16,8 +16,25 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    private double cashBal;
-    public Timestamp getLastUpdate() 
+    private double cashBal,yrStartBal;
+    public double getYrStartBal() {
+		return yrStartBal;
+	}
+
+	public void setYrStartBal(double yrStartBal) {
+		this.yrStartBal = yrStartBal;
+	}
+
+	private String inception;
+    public String getInception() {
+		return inception;
+	}
+
+	public void setInception(String inception) {
+		this.inception = inception;
+	}
+
+	public Timestamp getLastUpdate() 
     {
         return lastUpdate;
     }

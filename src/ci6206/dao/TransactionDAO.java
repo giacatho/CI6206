@@ -2,6 +2,8 @@ package ci6206.dao;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -51,13 +53,13 @@ public class TransactionDAO extends AbstractDAO {
 	    try
 	    {	
 	    	//super.OpenConnection();
-	        String sql = new String("SELECT * FROM tb_trans WHERE userid=?");
+	        String sql = new String("SELECT A.*, B.name FROM tb_trans A, tb_stock B WHERE A.userid=? and A.symbol=B.symbol ");
 	    	ps = conn.prepareStatement(sql);
 	    	ps.setString(1, userId);
 	    	resSet = ps.executeQuery();
 	        while(resSet.next())
 	        {
-	    	   trans = populate();
+	    	   trans = populate(true);
 	    	   list.add(trans);
 	        }
 	    }
@@ -81,14 +83,14 @@ public class TransactionDAO extends AbstractDAO {
 	    try
 	    {	
 	    	//super.OpenConnection();
-	        String sql = new String("SELECT * FROM tb_trans WHERE symbol=? AND userid=?");
+	        String sql = new String("SELECT A.*, B.Name FROM tb_trans A, tb_stock B WHERE A.symbol=? AND A.userid=? AND A.symbol=B.symbol");
 	    	ps = conn.prepareStatement(sql);
 	    	ps.setString(1, symbol);
 	    	ps.setString(2, userId);
 	    	resSet = ps.executeQuery();
 	        while(resSet.next())
 	        {
-	    	   trans = populate();
+	    	   trans = populate(true);
 	    	   list.add(trans);
 	        }
 	    }
@@ -103,7 +105,7 @@ public class TransactionDAO extends AbstractDAO {
        return list;
     	
     }
-    private Transaction populate() throws SQLException
+    private Transaction populate(boolean isJoinStock) throws SQLException
     {
     	Transaction trans = new Transaction();
     	User user = new User();
@@ -113,11 +115,19 @@ public class TransactionDAO extends AbstractDAO {
     	Stock stock = new Stock();
     	stock.setSymbol(resSet.getString("symbol"));
     	stock.setPrice(resSet.getDouble("price"));
+    	if(isJoinStock)
+    	{
+    		stock.setName(resSet.getString("B.name"));
+    	}
     	trans.setAmount(resSet.getDouble("amt"));
     	trans.setQty(resSet.getInt("qty"));
     	trans.setStock(stock);
     	trans.setUser(user);
     	trans.setAction(resSet.getString("type"));
+		Date date = resSet.getDate("date");
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+		trans.setDate(df.format(date));
+
     	
     	return trans;
     	

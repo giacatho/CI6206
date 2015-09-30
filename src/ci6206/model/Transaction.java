@@ -3,6 +3,20 @@ package ci6206.model;
 public class Transaction 
 {
 	private User user;
+	private double marketValue;
+	private String date;
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	public double getMarketValue() {
+		return marketValue;
+	}
+	public void setMarketValue(double marketValue) {
+		this.marketValue = marketValue;
+	}
 	public Stock getStock() {
 		return stock;
 	}

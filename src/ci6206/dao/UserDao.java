@@ -7,12 +7,15 @@ package ci6206.dao;
 
 import ci6206.model.User;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -64,6 +67,10 @@ public class UserDao extends AbstractDAO{
 	    		user.setLastname(resSet.getString("last_name"));
 	    		user.setCashBal(resSet.getDouble("cash_bal"));
 	    		user.setLastUpdate(resSet.getTimestamp("lastupdate"));
+	    		Date inception = resSet.getDate("datereg");
+	    		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");  
+	    		user.setInception(df.format(inception));
+	    		user.setYrStartBal(resSet.getDouble("totalval_0101"));
 	    	}
         }
         catch(SQLException sqle)

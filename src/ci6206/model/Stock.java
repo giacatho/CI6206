@@ -6,8 +6,14 @@ public class Stock
 {
 	private String symbol,name,exchange;
 	private Date lastupdate;
-	private double price;
+	private double price, mktPrice;
 	
+	public double getMktPrice() {
+		return mktPrice;
+	}
+	public void setMktPrice(double mktPrice) {
+		this.mktPrice = mktPrice;
+	}
 	public String getSymbol() {
 		return symbol;
 	}
