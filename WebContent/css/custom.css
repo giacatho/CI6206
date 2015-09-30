@@ -156,16 +156,20 @@ body {
 }
 
 /* News - Google Feed */
-.gfg-root {
+.news .gfg-root {
 	border: 0px !important;
 }
 
-.gfg-title {
+.news .gfg-title {
 	display: none;
 }
 
-.gfg-listentry {
+.news .gfg-listentry {
 	margin: 3px 0px;
+}
+
+.news .gfg-listentry-odd {
+	background-color: transparent;
 }
 
 /* Bootbox */
