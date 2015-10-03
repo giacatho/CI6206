@@ -71,7 +71,7 @@
 						<td class="ctr"><fmt:formatNumber value="${holding.value.stock.mktPrice}" type="currency"/></td>
 						<c:set var="mktVal" value="${(holding.value.qty*holding.value.stock.mktPrice-holding.value.amount)}" scope="page" />
 						<td class="ctr"><fmt:formatNumber value="${mktVal}" type="currency"/></td>
-						<td class="ctr"><a target="_blank" href="TransactionDet?symbol=${holding.key}">Details</a></td>
+						<td class="ctr"><a href="TransactionDet?symbol=${holding.key}">Details</a></td>
 					</tr>
 					</c:forEach>
 				</c:when>

@@ -9,7 +9,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-				<% if(request.getSession()!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
+				<% if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
 					<li><a href="portfolio">My Portfolio</a></li>
 					<li><a href="trading">Trading</a></li>
 				<% } else { %>
@@ -19,7 +19,7 @@
 					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-				<% if(request.getSession()!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
+				<% if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hi, howryou? <span class="caret"></span></a>
 						<ul class="dropdown-menu">
