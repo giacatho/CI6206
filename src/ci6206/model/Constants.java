@@ -23,6 +23,8 @@ public class Constants {
 	public final static String PRICE = "price";
 	public final static String QTY = "qty";
 	public final static String ERR = "Error";
+	public final static String USER_LIST = "userDetails";
+	public final static String UPDATE_PROFILE = "updateProfile";
 	
 	
 	

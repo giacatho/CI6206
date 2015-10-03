@@ -7,6 +7,7 @@ package ci6206.dao;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ public class UserDao extends AbstractDAO{
 	    		user.setInception(df.format(inception));
 	    		user.setYrStartBal(resSet.getDouble("totalval_0101"));
 	    		user.setSharesVal(resSet.getDouble("share_val"));
+	    		user.setEmail(resSet.getString("email"));
+	    		user.setInitialBalance(resSet.getDouble("initialBalance"));
 	    	}
         }
         catch(SQLException sqle)
@@ -141,6 +144,42 @@ public class UserDao extends AbstractDAO{
 		
     }
     
+    public void updateUserProfile(String firstName, String lastName, Timestamp lastupdate, String email,String userid) {
+        StringBuffer sb = new StringBuffer();
+    	sb.append("UPDATE tb_user ");
+    	sb.append("SET lastupdate=?, ");
+    	sb.append("last_name=?, ");
+    	sb.append("first_name=?, ");
+    	sb.append("email=? ");
+    	sb.append("WHERE userid=? ");
+    	try
+        {
+
+	    	ps = conn.prepareStatement(sb.toString());
+	    	ps.setTimestamp(1, lastupdate);
+	    	ps.setString(2, lastName);
+	    	ps.setString(3, firstName);
+	    	ps.setString(4, email);
+	    	ps.setString(5, userid);
+	    	ps.executeUpdate();
+        }
+        catch(SQLException sqle)
+        {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	cleanUp();
+        }
+		
+    }
+    
+    
   /*
    * 
    *   Have to change the following. Not SQL Injection safe
@@ -214,20 +253,29 @@ public class UserDao extends AbstractDAO{
      */
     public void registerUser(String username, String password, 
 			String firstName, String lastName, Date registeredDate, String email, double intialValue,String status) {
-		try {
-			String q = "INSERT INTO tb_user " +
-					"SET userid='" + username + "'," +
-					"    password='" + password + "'," +
-					"    last_name='" + lastName + "'," +
-					"    first_name='" + firstName + "'," +
-					"    initialBalance='" + intialValue + "'," +
-					"    email='" + email + "'," +
-					"    status='" + status + "'," +
-					"    datereg='" + registeredDate + "'";
-					
-			//conn = getConnection();
-	        statement = conn.createStatement();
-	        statement.executeUpdate(q);
+    	 StringBuffer sb = new StringBuffer();
+     	sb.append("INSERT INTO tb_user ");
+     	sb.append("SET userid=?, ");
+     	sb.append("password=?, ");
+     	sb.append("last_name=?, ");
+     	sb.append("first_name=?, ");
+     	sb.append("initialBalance=?, ");
+     	sb.append("email=?, ");
+     	sb.append("status=?, ");
+     	sb.append("datereg=? ");
+     	try
+         {
+
+ 	    	ps = conn.prepareStatement(sb.toString());
+ 	    	ps.setString(1, username);
+ 	    	ps.setString(2, password);
+ 	    	ps.setString(3, lastName);
+ 	    	ps.setString(4, firstName);
+ 	    	ps.setDouble(5, intialValue);
+ 	    	ps.setString(6, email);
+ 	    	ps.setString(7, status);
+ 	    	ps.setDate(8, registeredDate);
+ 	    	ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
