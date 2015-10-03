@@ -16,14 +16,15 @@
 	<%@ include file="WEB-INF/includes/main-nav.jsp" %>
 
 	<div class="well well-sm page-head">
+		<h1><%= request.getAttribute("title") %></h1>
 	</div>
 	
 	<table class="table table-striped my-table">
 		<thead>
 			<tr>
-				<th>Symbol</th>
+				<th>Action</th>
+				<th class="ctr">Symbol</th>
 				<th>Stock Name</th>
-				<th class="ctr">Action</th>
 				<th class="ctr">Date</th>
 				<th class="ctr">Quantity</th>
 				<th class="ctr">Price</th>
@@ -34,15 +35,15 @@
 			<c:choose>
 				<c:when test="${empty requestScope.holdingList}">
 					<tr>
-						<td class="no-record ctr" colspan="5">You have no records.</td>
+						<td class="no-record ctr" colspan="7">You have no records.</td>
 					</tr>
 				</c:when>
 				<c:when test="${!empty requestScope.holdingList}">
 					<c:forEach var="holding" items="${requestScope.holdingList}">
 					<tr>
-						<td><c:out value="${holding.stock.symbol}" /></td>
+						<td><span class="label <c:out value="${holding.action eq 'buy' ? 'label-success' : 'label-primary'}"/> text-capitalize"><c:out value="${holding.action}" /></span></td>
+						<td class="ctr"><c:out value="${holding.stock.symbol}" /></td>
 						<td><c:out value="${holding.stock.name}" /></td>
-						<td class="ctr"><c:out value="${holding.action}" /></td>
 						<td class="ctr"><c:out value="${holding.date}" /></td>
 						<td class="ctr"><c:out value="${holding.qty}"/></td>
 						<td class="ctr"><fmt:formatNumber value="${holding.stock.price}" type="currency"/></td>
@@ -53,7 +54,6 @@
 			</c:choose>
 		</tbody>
 	</table>
-	<a href="portfolio"><span class="badge">Back</span></a><br>
 </div>
 
 <%@ include file="WEB-INF/includes/footer.jsp" %>

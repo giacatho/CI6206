@@ -17,56 +17,26 @@
 
 	<div class="well well-sm page-head">
 		<h1><%= request.getAttribute("title") %></h1>
-		<h3>
-		<table class="table">
-		  <tr>
-		     <td>
-        		<span class="label label-info">Cash: </span>
-        	 </td>
-        	 <td>	
-        		<fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/>
-		     </td>
-		     <td>
-        		<span class="label label-info">Inception Date: </span>
-        	 </td>
-        	 <td>	
-        		<c:out value="${sessionScope.User.inception}"/>
-		     </td>
-		     
-		  </tr>
-		  <tr>   
-		     <td>
-        		<span class="label label-info">Shares Value: </span>
-        	</td>
-        	<td>
-        		<fmt:formatNumber value="${requestScope.shares}" type="currency"/>
-		    </td>
-		     <td>
-        		<span class="label label-info">Annualised Return(%): </span>
-        	</td>
-        	<td>
-        		<fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-100000)/100000}" type="percent"/>
-		    </td>
-		    
-		  </tr>
-		  <tr>   
-		     <td>
-        		<span class="label label-info">Total Asset: </span>
-        	</td>
-        	<td>
-        		<fmt:formatNumber value="${requestScope.shares+sessionScope.User.cashBal}" type="currency"/>
-		    </td>
-		     <td>
-        		<span class="label label-info">Year to Date Return(%): </span>
-        	</td>
-        	<td>
-        		<fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-sessionScope.User.yrStartBal)/sessionScope.User.yrStartBal}" type="percent"/>
-		    </td>
-		    
-		  </tr>
-		  
-		</table>
-		</h3>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2 class="panel-title">Summary</h2>
+		</div>
+		<div class="panel-body">
+			<div class="col-sm-4">
+				<h4><span class="label label-primary">Cash</span> <fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/></h4>
+				<h4><span class="label label-primary">Inception Date</span> <c:out value="${sessionScope.User.inception}"/></h4>
+			</div>
+			<div class="col-sm-4">
+				<h4><span class="label label-primary">Shares Value</span> <fmt:formatNumber value="${requestScope.shares}" type="currency"/></h4>
+				<h4><span class="label label-primary">Annualised Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-100000)/100000}" type="percent"/></h4>
+			</div>
+			<div class="col-sm-4">
+				<h4><span class="label label-primary">Total Asset</span> <fmt:formatNumber value="${requestScope.shares+sessionScope.User.cashBal}" type="currency"/></h4> 
+				<h4><span class="label label-primary">Year to Date Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-sessionScope.User.yrStartBal)/sessionScope.User.yrStartBal}" type="percent"/></h4>
+			</div>
+		</div>
 	</div>
 	
 	<table class="table table-striped my-table">
@@ -87,7 +57,7 @@
 			<c:choose>
 				<c:when test="${empty requestScope.holdingList}">
 					<tr>
-						<td class="no-record ctr" colspan="5">You have no records.</td>
+						<td class="no-record ctr" colspan="8">You are not holding any stock.</td>
 					</tr>
 				</c:when>
 				<c:when test="${!empty requestScope.holdingList}">
@@ -101,7 +71,7 @@
 						<td class="ctr"><fmt:formatNumber value="${holding.value.stock.mktPrice}" type="currency"/></td>
 						<c:set var="mktVal" value="${(holding.value.qty*holding.value.stock.mktPrice-holding.value.amount)}" scope="page" />
 						<td class="ctr"><fmt:formatNumber value="${mktVal}" type="currency"/></td>
-						<td class="ctr"><a href="TransactionDet?symbol=${holding.key}">Details</a></td>
+						<td class="ctr"><a target="_blank" href="TransactionDet?symbol=${holding.key}">Details</a></td>
 					</tr>
 					</c:forEach>
 				</c:when>
