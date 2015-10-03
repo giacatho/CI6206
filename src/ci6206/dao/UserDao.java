@@ -5,20 +5,14 @@
  */
 package ci6206.dao;
 
-import ci6206.model.User;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import ci6206.model.User;
 
 /**
  *
@@ -154,8 +148,8 @@ public class UserDao extends AbstractDAO{
    */
     //--------------------------------------------------------------------------------------
     public User findByUsername(String username) {
-    	String q = "SELECT * FROM t_users " +
-    			"WHERE c_username = '" + username + "'";
+    	String q = "SELECT * FROM tb_user " +
+    			"WHERE userid = '" + username + "'";
     	
     	return findSingleUser(q);
     }
@@ -205,6 +199,40 @@ public class UserDao extends AbstractDAO{
     	} finally {
     		cleanUp();
     	}
+    }
+    
+    /**
+     * @return create user
+     * @param username
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param registeredDate
+     * @param email
+     * @param intialValue
+     * @author lokenath
+     */
+    public void registerUser(String username, String password, 
+			String firstName, String lastName, Date registeredDate, String email, double intialValue,String status) {
+		try {
+			String q = "INSERT INTO tb_user " +
+					"SET userid='" + username + "'," +
+					"    password='" + password + "'," +
+					"    last_name='" + lastName + "'," +
+					"    first_name='" + firstName + "'," +
+					"    initialBalance='" + intialValue + "'," +
+					"    email='" + email + "'," +
+					"    status='" + status + "'," +
+					"    datereg='" + registeredDate + "'";
+					
+			//conn = getConnection();
+	        statement = conn.createStatement();
+	        statement.executeUpdate(q);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			cleanUp();
+		}
     }
     
     //--------------------------------------------------------------------------------------

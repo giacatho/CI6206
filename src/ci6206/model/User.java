@@ -16,8 +16,26 @@ public class User {
     private String username;
     private String firstname;
     private String lastname;
-    private double cashBal,yrStartBal,sharesVal;
-    public double getSharesVal() {
+    private double cashBal,yrStartBal,sharesVal,initialBalance;
+    private String email;
+    
+    public double getInitialBalance() {
+		return initialBalance;
+	}
+
+	public void setInitialBalance(double initialBalance) {
+		this.initialBalance = initialBalance;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public double getSharesVal() {
 		return sharesVal;
 	}
 
