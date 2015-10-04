@@ -4,12 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import ci6206.model.Stock;
 import ci6206.model.User;
 import ci6206.model.Constants;
 
 public class StockDAO extends AbstractDAO 
 {
+	Logger logger = Logger.getLogger(StockDAO.class);
+
+	
     public StockDAO()
     {
     	super();
@@ -43,7 +48,8 @@ public class StockDAO extends AbstractDAO
         }
         catch(SQLException sqle)
         {
-        	sqle.printStackTrace();
+        	//sqle.printStackTrace();
+        	logger.error(sqle.fillInStackTrace());
         }
         finally
         {
@@ -72,7 +78,9 @@ public class StockDAO extends AbstractDAO
         }
         catch(SQLException sqle)
         {
-        	sqle.printStackTrace();
+        	//sqle.printStackTrace();
+        	logger.error(sqle.fillInStackTrace());
+
         }
         finally
         {

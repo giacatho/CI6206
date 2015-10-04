@@ -59,8 +59,17 @@ public class TransactionDet extends HttpServlet {
         {
 	    	TransactionDAO txnDAO = new TransactionDAO();
 	    	txnDAO.OpenConnection();
-	    	request.setAttribute(Constants.HOLDING,txnDAO.getTransactionList(symbol, user.getUsername()));
-	    	txnDAO.CloseConnection();
+	    	try
+	    	{
+	    	 request.setAttribute(Constants.HOLDING,txnDAO.getTransactionList(symbol, user.getUsername()));
+	    	}catch (Exception ex)
+	    	{
+	    		ex.printStackTrace();
+	    	}
+	    	finally
+	    	{
+	    	    txnDAO.CloseConnection();
+	    	}
 	    	page = "/txn_det.jsp";
         }
     	RequestDispatcher dispatcher = request.getRequestDispatcher(page);

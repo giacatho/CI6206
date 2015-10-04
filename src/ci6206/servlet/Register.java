@@ -79,7 +79,7 @@ public class Register extends HttpServlet {
     	
     	UserDao dao = new UserDao();
     	dao.OpenConnection();
-    	User user = dao.findByUsername(username);
+    	User user = dao.findUser(username);//dao.findByUsername(username);
     	
     	if (user != null) {
     		request.setAttribute("errorMessage", "Username has been taken.");

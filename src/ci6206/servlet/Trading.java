@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ci6206.dao.TransactionDAO;
 import ci6206.dao.UserDao;
 import ci6206.dao.StockDAO;
@@ -26,6 +28,7 @@ import ci6206.model.User;
 @WebServlet(name="trading", urlPatterns={"/trading"})
 public class Trading extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Logger logger = Logger.getLogger(Trading.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,21 +49,30 @@ public class Trading extends HttpServlet {
     	String symbol = request.getParameter(Constants.SYMBOL_PARAM);
     	StockDAO stockDO = new StockDAO();
     	stockDO.OpenConnection();
-    	if(beginStr!=null&&!beginStr.isEmpty())
+    	try
     	{
-        	
-        	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
-    		request.setAttribute(Constants.STOCK_LIST,list);
-    	}
-    	else if(symbol!=null&&!symbol.isEmpty())
+	    	if(beginStr!=null&&!beginStr.isEmpty())
+	    	{
+	        	
+	        	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
+	    		request.setAttribute(Constants.STOCK_LIST,list);
+	    	}
+	    	else if(symbol!=null&&!symbol.isEmpty())
+	    	{
+	    		
+	    		page = "/stockTrade.jsp";
+	        	Stock stock = stockDO.GetStock(symbol);
+	    		request.setAttribute(Constants.STOCK,stock);
+	    		
+	    	}
+    	}catch(Exception ex)
     	{
-    		
-    		page = "/stockTrade.jsp";
-        	Stock stock = stockDO.GetStock(symbol);
-    		request.setAttribute(Constants.STOCK,stock);
-    		
+    		logger.error(ex.fillInStackTrace());
     	}
-    	stockDO.CloseConnection();
+    	finally
+    	{
+    	 stockDO.CloseConnection();
+    	}
 	    //response.sendRedirect(getServletContext().getContextPath() + "/trading.jsp");
     	
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
@@ -118,48 +130,57 @@ public class Trading extends HttpServlet {
 		TransactionDAO transDAO = new TransactionDAO();
 		transDAO.OpenConnection();
 		double netCash=user.getCashBal();
-		if(action.equals(Constants.BUY))
+		try
 		{
-			if(user.getCashBal()>=amount)
-			{	
-				trans.setQty(qty);
-				trans.setAmount(amount);
-				trans.setStock(stock);
-				transDAO.Trade(trans);
-				//update the user cashBal
-				netCash = netCash - amount;
-			}
-			else
+			if(action.equals(Constants.BUY))
 			{
-				request.setAttribute(Constants.ERR, "Not Enough Cash");
-				request.setAttribute(Constants.STOCK,stock);
-				page="/stockTrade.jsp";
-			}
-		}
-		else if (action.equals(Constants.SELL))
-		{
-			int existQty = transDAO.getTotalQty(symbol, user.getUsername());
-			System.out.println("existing qty: "+existQty);
-			//check you have enough shares to sell
-			if(qty <= existQty)
-			{
-					trans.setAmount(amount);
+				if(user.getCashBal()>=amount)
+				{	
 					trans.setQty(qty);
+					trans.setAmount(amount);
 					trans.setStock(stock);
 					transDAO.Trade(trans);
 					//update the user cashBal
-					netCash = user.getCashBal() + amount;
-					
+					netCash = netCash - amount;
+				}
+				else
+				{
+					request.setAttribute(Constants.ERR, "Not Enough Cash");
+					request.setAttribute(Constants.STOCK,stock);
+					page="/stockTrade.jsp";
+				}
 			}
-			else
+			else if (action.equals(Constants.SELL))
 			{
-				request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
-				request.setAttribute(Constants.STOCK,stock);
-				page="/stockTrade.jsp";
-				
+				int existQty = transDAO.getTotalQty(symbol, user.getUsername());
+				System.out.println("existing qty: "+existQty);
+				//check you have enough shares to sell
+				if(qty <= existQty)
+				{
+						trans.setAmount(amount);
+						trans.setQty(qty);
+						trans.setStock(stock);
+						transDAO.Trade(trans);
+						//update the user cashBal
+						netCash = user.getCashBal() + amount;
+						
+				}
+				else
+				{
+					request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
+					request.setAttribute(Constants.STOCK,stock);
+					page="/stockTrade.jsp";
+					
+				}
 			}
+		}catch (Exception ex)
+		{
+			logger.error(ex.fillInStackTrace());
 		}
-		transDAO.CloseConnection();
+		finally
+		{
+			transDAO.CloseConnection();
+		}
 		user.setCashBal(netCash);
 		updateUser(user);
 		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
@@ -171,8 +192,18 @@ public class Trading extends HttpServlet {
 	{
 		UserDao dao = new UserDao();
 		dao.OpenConnection();
-		dao.updateUserCash(user);
-		dao.CloseConnection();
+		try
+		{
+		 dao.updateUserCash(user);
+		}catch(Exception ex)
+		{
+			//ex.printStackTrace();
+			logger.error(ex.fillInStackTrace());
+		}
+		finally
+		{
+			dao.CloseConnection();
+		}
 	}
 
 }

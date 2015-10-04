@@ -7,14 +7,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
+
 import ci6206.model.Constants;
 import ci6206.model.Stock;
 import ci6206.model.Transaction;
 import ci6206.model.User;
+import ci6206.servlet.Portfolio;
 
 
 public class TransactionDAO extends AbstractDAO {
-	
+	Logger logger = Logger.getLogger(TransactionDAO.class);
 	
     public void Trade(Transaction trans)
     {
@@ -65,7 +68,8 @@ public class TransactionDAO extends AbstractDAO {
 	    }
 	    catch(SQLException sqle)
 	    {
-	    	sqle.printStackTrace();
+	    	//sqle.printStackTrace();
+	    	logger.error(sqle.fillInStackTrace());
 	    }
 	    finally
 	    {
@@ -96,7 +100,8 @@ public class TransactionDAO extends AbstractDAO {
 	    }
 	    catch(SQLException sqle)
 	    {
-	    	sqle.printStackTrace();
+	    	//sqle.printStackTrace();
+	    	logger.error(sqle.fillInStackTrace());
 	    }
 	    finally
 	    {
@@ -161,7 +166,8 @@ public class TransactionDAO extends AbstractDAO {
 	    	
 			ps.executeUpdate();
 
-			System.out.println("Record is inserted into table!");
+			//System.out.println("Record is inserted into table!");
+			logger.info("Record is inserted into tb_trans table!");
 	    	
     	}
     	catch(SQLException sqle)
@@ -171,7 +177,9 @@ public class TransactionDAO extends AbstractDAO {
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	sqle.printStackTrace();
+        	//sqle.printStackTrace();
+	    	logger.error(sqle.fillInStackTrace());
+
         }
         finally
         {

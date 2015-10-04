@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ci6206.dao.StockDAO;
 import ci6206.dao.TransactionDAO;
 import ci6206.dao.UserDao;
@@ -29,6 +31,7 @@ import ci6206.model.User;
 @WebServlet(name="portfolio", urlPatterns={"/portfolio"})
 public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Logger logger = Logger.getLogger(Portfolio.class);
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,34 +48,58 @@ public class Portfolio extends HttpServlet {
     	User user = (User)session.getAttribute(Constants.USER_ATTR);
     	TransactionDAO transDAO = new TransactionDAO();
     	transDAO.OpenConnection();
-    	ArrayList<Transaction> transList = transDAO.getTransactionList(user.getUsername());
-    	HashMap<String,Transaction> map = new HashMap<String,Transaction>();
-    	for(int i=0; i<transList.size();i++)
+    	try
     	{
-    		Transaction trans = transList.get(i);
-    		consolidate(trans,map);
+	    	ArrayList<Transaction> transList = transDAO.getTransactionList(user.getUsername());
+	    	HashMap<String,Transaction> map = new HashMap<String,Transaction>();
+	    	for(int i=0; i<transList.size();i++)
+	    	{
+	    		Transaction trans = transList.get(i);
+	    		consolidate(trans,map);
+	    	}
+	    	
+	    	double sumShares = 0;
+	    	for ( String key : map.keySet() ) 
+	    	{
+	    		Transaction txn = (Transaction)map.get(key);
+	    		sumShares = sumShares + txn.getStock().getMktPrice()*txn.getQty();
+	
+	    	}
+	    	request.setAttribute(Constants.SHARES, sumShares);
+	    	request.setAttribute(Constants.HOLDING, map);
+	    	user.setSharesVal(sumShares);
+	    	updateUser(user);
+	    	
+	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/portfolio.jsp");
+			dispatcher.forward(request, response);
     	}
-    	
-    	double sumShares = 0;
-    	for ( String key : map.keySet() ) 
-    	{
-    		Transaction txn = (Transaction)map.get(key);
-    		sumShares = sumShares + txn.getStock().getMktPrice()*txn.getQty();
-
-    	}
-    	request.setAttribute(Constants.SHARES, sumShares);
-    	request.setAttribute(Constants.HOLDING, map);
-    	user.setSharesVal(sumShares);
-    	updateUser(user);
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/portfolio.jsp");
-		dispatcher.forward(request, response);
+		catch (Exception ex)
+		{
+		    //ex.printStackTrace();
+			logger.error(ex.fillInStackTrace());
+		}
+		finally
+		{
+			transDAO.CloseConnection();
+		}
     }
 	private void updateUser(User user)
 	{
 		UserDao dao = new UserDao();
 		dao.OpenConnection();
-		dao.updateUserSharesVal(user);
-		dao.CloseConnection();
+		try
+		{
+			dao.updateUserSharesVal(user);
+		}
+		catch (Exception ex)
+		{
+		  //ex.printStackTrace();
+ 		  logger.error(ex.fillInStackTrace());
+		}
+		finally
+		{
+			 dao.CloseConnection();
+		}
 	}
     private void consolidate(Transaction trans, HashMap<String,Transaction> summaryMap)
     {
@@ -124,8 +151,18 @@ public class Portfolio extends HttpServlet {
     	double price = 0;
     	StockDAO dao = new StockDAO();
     	dao.OpenConnection();
-    	price = dao.GetStock(symbol).getPrice();
-    	dao.CloseConnection();
+    	try
+    	{
+    	  price = dao.GetStock(symbol).getPrice();
+    	}
+    	catch(Exception ex)
+    	{
+    		logger.error(ex.fillInStackTrace());
+    	}
+    	finally
+    	{
+    	 dao.CloseConnection();
+    	}
     	return price;
     }
     /**
