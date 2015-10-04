@@ -75,7 +75,7 @@
 							<label for="lastname">Initial Balance</label>
 						</td>
 						<td>
-							<input class="form-control" type="text" name="initialBalance" id="initialBalance" placeholder="100000.00" required maxlength="5">
+							<input class="form-control" type="text" name="initialBalance" id="initialBalance" placeholder="100000.00" required maxlength="10">
 						</td>
 					</tr>
 					<tr>

@@ -36,10 +36,6 @@ public class UserDao extends AbstractDAO{
     	super();
     }
     
-    public User findById(int id)
-    {
-    	return null;
-    }
     //--------------------------------------------------------------------------------------
     public User findByCredentials(String username, String password) {
     	String sql = "SELECT * FROM tb_user WHERE userid = ? AND status='A'"; 
@@ -175,74 +171,14 @@ public class UserDao extends AbstractDAO{
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	sqle.printStackTrace();
+        	//sqle.printStackTrace();
+    		logger.error("Error in  Update User Profile: "+sqle.fillInStackTrace());
         }
         finally
         {
         	cleanUp();
         }
 		
-    }
-    
-    
-  /*
-   * 
-   *   Have to change the following. Not SQL Injection safe
-   *   
-   */
-    //--------------------------------------------------------------------------------------
-    public User findByUsername(String username) {
-    	String q = "SELECT * FROM tb_user " +
-    			"WHERE userid = '" + username + "'";
-    	
-    	return findSingleUser(q);
-    }
-    
-    //--------------------------------------------------------------------------------------
-    public List<User> findByFirstname(String partialTitle) {
-        List<User> todos = new ArrayList<>();
-        
-        try {
-            String q = "SELECT * FROM t_users " +
-                    "WHERE c_firstname LIKE '%" + partialTitle + "%'";
-            
-            //conn = getConnection();
-            statement = conn.createStatement();
-            resSet = statement.executeQuery(q);
-            
-            while(resSet.next()) {
-                User user = new User();
-                //UserMapper.map(user, resSet);
-                todos.add(user);
-            }        
-                   
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cleanUp();
-        }
-        
-        return todos;
-    }
-    
-    //--------------------------------------------------------------------------------------
-    public void insertUser(String username, String password, 
-    			String firstName, String lastName) {
-    	try {
-    		String q = "INSERT INTO t_users " +
-    				"SET c_username='" + username + "'," +
-    				"    c_password='" + password + "'," +
-    				"    c_firstname='" + firstName + "'," +
-    				"    c_lastname='" + lastName + "'";
-    				
-    		//conn = getConnection();
-            statement = conn.createStatement();
-            statement.executeUpdate(q);
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	} finally {
-    		cleanUp();
-    	}
     }
     
     /**
@@ -282,32 +218,15 @@ public class UserDao extends AbstractDAO{
  	    	ps.setDate(8, registeredDate);
  	    	ps.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+			logger.equals("Error in Register User: "+e.fillInStackTrace());
 		} finally {
 			cleanUp();
 		}
-    }
-    
-    //--------------------------------------------------------------------------------------
-    private User findSingleUser(String query){
-    	User user = null;
-        try {
-            //conn = getConnection();
-            statement = conn.createStatement();
-            resSet = statement.executeQuery(query);
-            
-            if (resSet.next()) {
-                user = new User();
-                //UserMapper.map(user, resSet);
-            }
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cleanUp();
-        }
-        
-        return user;
     }
     
     /********************User Management Methods******************/
@@ -322,7 +241,7 @@ public class UserDao extends AbstractDAO{
    		
    	 try {	
    	    	//super.OpenConnection();
-   	        String sql = new String("SELECT * FROM TB_USER");
+   	        String sql = new String("SELECT * FROM TB_USER WHERE STATUS ='A' ");
    	    	ps = conn.prepareStatement(sql);
    	    	resSet = ps.executeQuery();
    	        while(resSet.next()) {
@@ -351,7 +270,7 @@ public class UserDao extends AbstractDAO{
    		
    		try {	
    	    	if (userId != null && !userId.trim().equals("")) {
-   	    		String sql = new String("SELECT * FROM TB_USER WHERE userid=?");
+   	    		String sql = new String("SELECT * FROM TB_USER WHERE userid=? AND status='A' ");
    		    	ps = conn.prepareStatement(sql);
    		    	ps.setString(1, userId);
    		    	resSet = ps.executeQuery();
@@ -382,7 +301,7 @@ public class UserDao extends AbstractDAO{
    		logger.debug("Start to delete User "+userId);
    		try {	
    	    	if (userId != null) {
-   	    		String sql = "DELETE FROM TB_User WHERE userid=?";
+   	    		String sql = "UPDATE TB_User SET status='D' WHERE userid=? ";
    		    	ps = conn.prepareStatement(sql);
    		    	ps.setString(1, userId);
    		    	int row = ps.executeUpdate();
@@ -391,6 +310,11 @@ public class UserDao extends AbstractDAO{
    		        }
    	    	}
    	    } catch(SQLException sqle) {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
    	    	logger.error("Failed to delete a User by Id "+userId
    	    			+" in deleteUser method in UserDao.", sqle);
    	    	throw new DAOException("Failed to delete a User by Id "+userId+".",sqle);
@@ -431,6 +355,12 @@ public class UserDao extends AbstractDAO{
    		        }
    	    	}
    	    } catch(SQLException sqle) {
+   	    	
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
    	    	logger.error("Failed to update a User in "
    	    			+ "editUser method in UserDAO.", sqle);
    	    	throw new DAOException("Failed to edit a User.",sqle);
@@ -450,6 +380,9 @@ public class UserDao extends AbstractDAO{
    		 user.setFirstname(resSet.getString("first_name"));
    		 user.setLastname(resSet.getString("last_name"));
    		 user.setCashBal(resSet.getDouble("cash_bal"));
+   		 user.setSharesVal(resSet.getDouble("share_val"));
+   		 user.setEmail(resSet.getString("email"));
+   		 user.setInitialBalance(resSet.getDouble("initialBalance"));
    		 user.setStatus(resSet.getString("status"));
        	
        	return user;
@@ -474,6 +407,7 @@ public class UserDao extends AbstractDAO{
 	    	resSet = ps.executeQuery();
 	    	while(resSet.next())
 	    	{
+	    		
 	    		User user = new User();
 	        	user.setFirstname(resSet.getString("first_name"));
 	        	user.setLastname(resSet.getString("last_name"));
@@ -484,7 +418,8 @@ public class UserDao extends AbstractDAO{
         }
         catch(SQLException sqle)
         {
-        	sqle.printStackTrace();
+        	//sqle.printStackTrace();
+        	logger.equals("Error in getting User Ranking: "+sqle.fillInStackTrace());
         }
         finally
         {
