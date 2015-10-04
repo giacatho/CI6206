@@ -454,4 +454,44 @@ public class UserDao extends AbstractDAO{
        	
        	return user;
        }
+   	 
+   	 
+   	public ArrayList<User> getUserForRanking()
+    {
+    	ArrayList<User> resultList = new ArrayList<User>();
+    	
+    	String sql = "SELECT USER.USERID, USER.FIRST_NAME, USER.LAST_NAME, USER.SHARE_VAL, USER.CASH_BAL ";
+        StringBuffer sb = new StringBuffer(sql);
+        sb.append("FROM TB_USER USER ");
+        sb.append("WHERE USER.STATUS = 'A' ");
+        sb.append("ORDER BY (SHARE_VAL+CASH_BAL) DESC ");
+     	sb.append("LIMIT 10");
+     	
+    	try
+        {
+    		//super.OpenConnection();
+	    	ps = conn.prepareStatement(sb.toString());
+	    	resSet = ps.executeQuery();
+	    	while(resSet.next())
+	    	{
+	    		User user = new User();
+	        	user.setFirstname(resSet.getString("first_name"));
+	        	user.setLastname(resSet.getString("last_name"));
+	        	user.setCashBal(resSet.getDouble("cash_bal"));
+	        	user.setSharesVal(resSet.getDouble("share_val"));
+	    		resultList.add(user);
+	    	}
+        }
+        catch(SQLException sqle)
+        {
+        	sqle.printStackTrace();
+        }
+        finally
+        {
+        	cleanUp();
+        }
+    	
+    	return resultList;
+    }
+   	 
 }

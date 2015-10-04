@@ -1,6 +1,7 @@
 package ci6206.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,7 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import ci6206.dao.UserDao;
+import ci6206.model.Constants;
+import ci6206.model.User;
 
 /**
  * Servlet implementation class Home
@@ -28,7 +32,11 @@ public class Home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	request.setAttribute("title", "Home");
-    	
+    	UserDao dao = new UserDao();
+    	dao.OpenConnection();
+    	ArrayList<User> userList = dao.getUserForRanking();
+    	request.setAttribute(Constants.USER_LIST,userList);
+    	dao.CloseConnection();
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 		dispatcher.forward(request, response);
     }
