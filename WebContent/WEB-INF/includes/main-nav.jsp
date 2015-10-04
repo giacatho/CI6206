@@ -9,7 +9,9 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-				<% if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
+			   <c:choose>
+				 <c:when test="${( not empty sessionScope.User)}">
+				
 					<li><a href="portfolio">My Portfolio</a></li>
 					<li><a href="trading">Trading</a></li>
 					
@@ -32,15 +34,17 @@
 							</ul>
 						</li>
 					</c:if>
-					
-				<% } else { %>
+					</c:when>
+				  <c:otherwise>	
 					<li><a href="home">Home</a></li>
-				<% } %>
+				  </c:otherwise>	
+				</c:choose>
 					<li><a href="about">About</a></li>
 					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-				<% if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
+				<c:choose>
+				 <c:when test="${( not empty sessionScope.User)}">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hi, howryou? <span class="caret"></span></a>
 						<ul class="dropdown-menu">
@@ -49,10 +53,12 @@
 							<li><a href="logout">Logout</a>
 						</ul>
 					</li>
-				<% } else { %>
+				 </c:when>
+				 <c:otherwise>  	
 					<li><a href="login">Login</a></li>
 					<li><a href="register">Registration</a></li>
-				<% } %>
+				</c:otherwise>
+				</c:choose>
 				</ul>
 			</div>
 		</div>
