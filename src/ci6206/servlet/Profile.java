@@ -58,6 +58,8 @@ public class Profile extends HttpServlet {
 	        	Date now = calendar.getTime();
 	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
 	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
+	        	dao.CloseConnection();
+	        	request.setAttribute("successMessage","Profile has been updated succseefully");
 	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 	    		dispatcher.forward(request, response);
 	    		return;

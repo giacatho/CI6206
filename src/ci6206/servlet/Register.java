@@ -89,6 +89,7 @@ public class Register extends HttpServlet {
     	}
 
     	dao.registerUser(username, password, firstName, lastName, registeredDate, email, initialBalance,status);
+    	dao.CloseConnection();
     	request.setAttribute("successMessage", "Account has been created successfully");
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/success.jsp");
     	dispatcher.forward(request, response);

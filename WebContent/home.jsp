@@ -22,7 +22,9 @@
 	<div class="well well-sm page-head">
 		<h1><%= request.getAttribute("title") %></h1>
 	</div>
-	
+	<% if(request.getAttribute("successMessage")!=null) { %>
+				<div class="alert alert-success">${successMessage}</div>
+	<% } %>
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="panel panel-default ranking">
