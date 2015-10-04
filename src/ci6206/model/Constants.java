@@ -28,5 +28,25 @@ public class Constants {
 	
 	
 	
-
+	//User Management
+	public final static String PERMISSION_LIST = "PermissionList";
+	public final static String ROLE_LIST = "RoleList";
+	public final static String USER_OBJECT_LIST = "UserList";
+	public final static String USER_PERMISSION_MAP = "UserPermissionMap";
+	public final static String PERMISSION = "permission";
+	public final static String ROLE = "role";
+	public final static String USER = "user";
+	public final static String ACTION = "action";
+	public final static String MESSAGE_LEVEL = "message_level";
+	public final static String ERROR_MESSAGE = "Error";
+	public final static String WARN_MESSAGE = "Warn";
+	public final static String INFO_MESSAGE = "Info";
+	public final static String MESSAGE = "message";
+	public final static String VIEW = "view";
+	public final static String LIST = "list";
+	public final static String TO_CREATE = "to_create";
+	public final static String CREATE = "create";
+	public final static String TO_UPDATE = "to_update";
+	public final static String UPDATE = "update";
+	public final static String DELETE = "delete";
 }

@@ -18,6 +18,9 @@ public class User {
     private String lastname;
     private double cashBal,yrStartBal,sharesVal,initialBalance;
     private String email;
+    private String status;
+    private String password;
+    private Role role;
     
     public double getInitialBalance() {
 		return initialBalance;
@@ -103,4 +106,36 @@ public class User {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+	
+	public String getStatusDesc() {
+		if (status != null && status.trim().equals("A")) {
+			return "Active";
+		}
+		
+		return "Inactive";
+	}
 }

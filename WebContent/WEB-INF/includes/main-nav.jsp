@@ -12,6 +12,27 @@
 				<% if(session!=null && session.getAttribute(Constants.USER_ATTR)!=null) { %>
 					<li><a href="portfolio">My Portfolio</a></li>
 					<li><a href="trading">Trading</a></li>
+					
+					<!-- Display Admin menu if current user has View Admin access right. -->
+					<c:if test="${( not empty sessionScope.UserPermissionMap) && (not empty sessionScope.UserPermissionMap['VIEW ADMIN'])}">
+						<li class="dropdown"><a class="dropdown-toggle"
+							data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<c:if test="${not empty sessionScope.UserPermissionMap['LIST USER']}">
+									<li><a href="user?action=list">User</a></li>
+								</c:if>
+								
+								<c:if test="${not empty sessionScope.UserPermissionMap['LIST ROLE']}">
+									<li><a href="role?action=list">Role</a></li>
+								</c:if>
+								
+								<c:if test="${not empty sessionScope.UserPermissionMap['LIST PERMISSION']}">
+									<li><a href="permission?action=list">Permission</a></li>
+								</c:if>
+							</ul>
+						</li>
+					</c:if>
+					
 				<% } else { %>
 					<li><a href="home">Home</a></li>
 				<% } %>

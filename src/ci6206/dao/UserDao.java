@@ -13,6 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import ci6206.dao.exception.DAOException;
 import ci6206.model.User;
 
 /**
@@ -20,6 +23,8 @@ import ci6206.model.User;
  * @author Michael Tan
  */
 public class UserDao extends AbstractDAO{
+	Logger logger = Logger.getLogger(UserDao.class);
+	
 	/*
     private Connection connect = null;	 
     private Statement statement = null;
@@ -305,4 +310,148 @@ public class UserDao extends AbstractDAO{
         return user;
     }
     
+    /********************User Management Methods******************/
+    /**
+   	 * Get all Users
+   	 * 
+   	 * @return User list
+   	 * @throws DAOException DAO level exception
+   	 */
+   	public List<User> listUser() throws DAOException{
+   		List<User> userList = new ArrayList<User> ();
+   		
+   	 try {	
+   	    	//super.OpenConnection();
+   	        String sql = new String("SELECT * FROM TB_USER");
+   	    	ps = conn.prepareStatement(sql);
+   	    	resSet = ps.executeQuery();
+   	        while(resSet.next()) {
+   	        	userList.add(populate());
+   	        }
+   	    } catch(SQLException sqle) {
+   	    	logger.error("Failed to list all Users in "
+   	    			+ "listUser method in UserDao.", sqle);
+   	    	throw new DAOException("Failed to list all Users.",sqle);
+   	    } finally {
+   	    	cleanUp();
+   	    }
+   		 
+   		return userList;
+   	}
+   	
+   	/**
+   	 * Get User by User ID
+   	 * 
+   	 * @param userId User ID
+   	 * @return User object
+   	 * @throws DAOException DAO level exception
+   	 */
+   	public User findUser(String userId) throws DAOException {
+   		User user = null;
+   		
+   		try {	
+   	    	if (userId != null && !userId.trim().equals("")) {
+   	    		String sql = new String("SELECT * FROM TB_USER WHERE userid=?");
+   		    	ps = conn.prepareStatement(sql);
+   		    	ps.setString(1, userId);
+   		    	resSet = ps.executeQuery();
+   		        if (resSet.next()) {
+   		        	user = populate();
+   		        }
+   	    	}
+   	    } catch(SQLException sqle) {
+   	    	logger.error("Failed to find User by id "+userId
+   	    			+" in findUser method in UserDao.", sqle);
+   	    	throw new DAOException("Failed to find the User by Id "+userId+".",sqle);
+   	    } finally {
+   	    	cleanUp();
+   	    }
+   		 
+   		return user;
+   	}
+   	
+   	/**
+   	 * Delete a User by User Id
+   	 * 
+   	 * @param userId User Id
+   	 *  @return Return true if success, otherwise return false.
+   	 * @throws DAOException DAO level exception
+   	 */
+   	public boolean deleteUser(String userId) throws DAOException {
+   		boolean result = false;
+   		logger.debug("Start to delete User "+userId);
+   		try {	
+   	    	if (userId != null) {
+   	    		String sql = "DELETE FROM TB_User WHERE userid=?";
+   		    	ps = conn.prepareStatement(sql);
+   		    	ps.setString(1, userId);
+   		    	int row = ps.executeUpdate();
+   		        if (row > 0) {
+   		        	result = true;
+   		        }
+   	    	}
+   	    } catch(SQLException sqle) {
+   	    	logger.error("Failed to delete a User by Id "+userId
+   	    			+" in deleteUser method in UserDao.", sqle);
+   	    	throw new DAOException("Failed to delete a User by Id "+userId+".",sqle);
+   	    } finally {
+   	    	cleanUp();
+   	    }
+   		 
+   		return result;
+   	}
+   	
+   	/**
+   	 * Edit a User by User Id
+   	 * 
+   	 * @param user User object
+   	 *  @return Return true if success, otherwise return false.
+   	 * @throws DAOException DAO level exception
+   	 */
+   	public boolean editUser(User user) throws DAOException {
+   		boolean result = false;
+
+   		try {	
+   	    	if (user != null) {
+   	    		logger.debug("Start to update user "+user.getUsername());
+   	    		StringBuffer sb = new StringBuffer();
+   		    	sb.append("UPDATE TB_USER ");
+   		    	sb.append("SET first_name=?,last_name=?,password=?, status=?, lastupdate=? WHERE userid=?");
+   		    	
+   		    	ps = conn.prepareStatement(sb.toString());
+   		    	ps.setString(1, user.getFirstname());
+   		    	ps.setString(2, user.getLastname());
+   		    	ps.setString(3, user.getPassword());
+   		    	ps.setString(4, user.getStatus());
+   		    	ps.setTimestamp(5, user.getLastUpdate());
+   		    	ps.setString(6, user.getUsername());
+   		    	int row = ps.executeUpdate();
+   		        if (row > 0) {
+   		        	result = true;
+   		        }
+   	    	}
+   	    } catch(SQLException sqle) {
+   	    	logger.error("Failed to update a User in "
+   	    			+ "editUser method in UserDAO.", sqle);
+   	    	throw new DAOException("Failed to edit a User.",sqle);
+   	    } finally {
+   	    	cleanUp();
+   	    }
+   		 
+   		return result;
+   	}
+   	
+   	//Convert ResultSet to User
+   	 private User populate() throws SQLException {
+   		 User user = new User();
+       	
+   		 user.setUsername(resSet.getString("userid"));
+   		 user.setPassword(resSet.getString("password"));
+   		 user.setFirstname(resSet.getString("first_name"));
+   		 user.setLastname(resSet.getString("last_name"));
+   		 user.setCashBal(resSet.getDouble("cash_bal"));
+   		 user.setStatus(resSet.getString("status"));
+       	
+       	return user;
+       }
 }
