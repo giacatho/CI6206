@@ -35,4 +35,37 @@ public class Utils {
 		return Long.parseLong(year + month + day + hour + minute + second + millSecond
 				+ strNextInt);
 	}
+	
+	/**
+	 * Validate if email address is a valid email.
+	 * 
+	 * @param email The email address to be validated.
+	 * @return Return true if it is invalid email address, otherwise return false.
+	 */
+	public static boolean validateEmail(String email) {
+		if (email != null) {
+			if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Check if a String is a numeric type.
+	 * 
+	 * @param str The String to be checked.
+	 * @return Return true if a String is a positive numeric, otherwise return false.
+	 */
+	public static boolean isPositiveNumeric(String str)
+	{
+		if (str.matches("[-+]?\\d*\\.?\\d+")) {
+			if (Double.parseDouble(str) > 0) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

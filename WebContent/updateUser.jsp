@@ -22,6 +22,28 @@
     		message = message +"The Last Name cannot be null. ";
     	}
     	
+    	var email = $('#email').val().trim();
+    	if(email=='')
+    	{
+    		message = message +"The Email cannot be null. ";
+    	}
+    	
+    	if (!validateEmail(email)) {
+    		message = message +"You have entered an invalid email address! ";
+    	}
+    	
+    	
+    	
+    	var initialBalance = $('#initialBalance').val().trim();
+    	if(initialBalance=='')
+    	{
+    		message = message +"The Initial Balance cannot be null. ";
+    	}
+    	
+    	if (isNaN(initialBalance)) {
+    		message = message +"The Initial Balance should be a number. ";
+    	}
+    	
     	var password = $('#password').val().trim();
     	if(password=='')
     	{
@@ -44,6 +66,15 @@
     		//alert('success');
     		$('#userFrm').submit();
     	}
+	}
+	
+	
+	function validateEmail(mail) {
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+				.test(mail)) {
+			return true;
+		}
+		return false;
 	}
 </script>
 
@@ -68,7 +99,7 @@
 			    <tr>
 				    <td>User Name:</td>
 				    <td>
-				        <input type="text" class="form-control" id="userName" readonly="readonly" name="userName" 
+				        <input type="text" class="form-control" id="userId" readonly="readonly" name="userId" 
 				        	value="<c:out value="${requestScope.user.username}"/>" />
 				    </td>
 			    </tr>
@@ -86,6 +117,22 @@
 				    <td>
 				        <input type="text" class="form-control" id="lastName" name="lastName"
 				        	value="<c:out value="${requestScope.user.lastname}"/>"/>
+				    </td>
+			    </tr>
+			    
+			    <tr>
+				    <td>Email:</td>
+				    <td>
+				        <input type="text" class="form-control" id="email" name="email"
+				        	value="<c:out value="${requestScope.user.email}"/>"/>
+				    </td>
+			    </tr>
+			    
+			     <tr>
+				    <td>Initial Balance:</td>
+				    <td>
+				        <input type="text" class="form-control" id="initialBalance" name="initialBalance"
+				        	value="<c:out value="${requestScope.user.initialBalance}"/>" />
 				    </td>
 			    </tr>
 			    

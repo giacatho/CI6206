@@ -125,7 +125,7 @@ public class PermissionServlet  extends StockGameServlet {
 				permissionDAO.createPermission(permission);
 				
 				listPermission();
-			}
+			} 
 		} catch (Exception e) {
 			logger.error(e);
 			showErrorMessage(e.getMessage());
@@ -151,6 +151,8 @@ public class PermissionServlet  extends StockGameServlet {
 				permissionDAO.editPermission(permission);
 				
 				listPermission();
+			} else {
+				toUpdatePermission();
 			}
 		} catch (Exception e) {
 			logger.error(e);

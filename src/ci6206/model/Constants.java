@@ -47,6 +47,7 @@ public class Constants {
 	public final static String TO_CREATE = "to_create";
 	public final static String CREATE = "create";
 	public final static String TO_UPDATE = "to_update";
+	public final static String TO_VIEW = "to_view";
 	public final static String UPDATE = "update";
 	public final static String DELETE = "delete";
 }

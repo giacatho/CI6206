@@ -189,6 +189,8 @@ public class RoleServlet  extends StockGameServlet {
 				rolePermissionDAO.createPermissionsForRole(roleId, permissionIdList);
 				
 				listRole();
+			} else {
+				toCreateRole();
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -232,6 +234,8 @@ public class RoleServlet  extends StockGameServlet {
 				
 				//4. Go to Role list page.
 				listRole();
+			} else {
+				toUpdateRole();
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -251,10 +255,6 @@ public class RoleServlet  extends StockGameServlet {
 		if (roleName == null || roleName.trim().equals("")) {
 			showWarnMessage("The Role Name cannot be null.");
 			return false;
-		}
-		
-		for (String permissionId : selectedPermissionIds) {
-			logger.debug("Selected Permission Id "+permissionId);
 		}
 		
 		if (selectedPermissionIds == null || selectedPermissionIds.length <= 0) {

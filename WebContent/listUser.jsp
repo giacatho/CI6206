@@ -56,6 +56,8 @@
 			        <td><c:out value="${user.statusDesc}"/></td>
 			        <td><c:out value="${user.role.roleName}"/></td>
 			        <td>
+			        	<a href="user?action=to_view&&userId=<c:out value="${user.username}"/>"><span class="label label-primary">View</span></a>
+			        	
 			        	<c:if test="${( not empty sessionScope.UserPermissionMap) && (not empty sessionScope.UserPermissionMap['EDIT USER'])}">
 			        		<a href="user?action=to_update&&userId=<c:out value="${user.username}"/>"><span class="label label-primary">Update</span></a>
 			        	</c:if>

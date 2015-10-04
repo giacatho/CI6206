@@ -15,10 +15,10 @@ import org.apache.log4j.Logger;
 import ci6206.dao.RoleDAO;
 import ci6206.dao.UserDao;
 import ci6206.dao.UserRoleDAO;
-import ci6206.dao.exception.DAOException;
 import ci6206.model.Constants;
 import ci6206.model.Role;
 import ci6206.model.User;
+import ci6206.utils.Utils;
 
 /**
  *User servlet
@@ -45,6 +45,8 @@ public class UserServlet  extends StockGameServlet {
 				listUser();
 			} if (action.equals(Constants.TO_UPDATE)){
 				toUpdateUser();
+			} if (action.equals(Constants.TO_VIEW)){
+				toViewUser();
 			} else if (action.equals(Constants.UPDATE)) {
 				updateUser();
 			} else if (action.equals(Constants.DELETE)) {
@@ -123,6 +125,39 @@ public class UserServlet  extends StockGameServlet {
 		
 	}
 	
+	/**
+	 * Go to View User page.
+	 */
+	private void toViewUser() {
+		nextPage = "viewUser.jsp";
+		UserDao userDAO = new UserDao();
+		RoleDAO roleDAO = new RoleDAO();
+		
+		try {
+			String userId = request.getParameter("userId");
+			logger.debug("++++++++++++View User with id: "+userId);
+			if (userId != null && !userId.equals("")) {
+				userDAO.OpenConnection();
+				roleDAO.OpenConnection();
+				
+				User user = userDAO.findUser(userId);
+				//Retrieve Role for current User.
+				Role role = roleDAO.findRoleByUserId(userId);
+				if (role != null) {
+					user.setRole(role);
+				}
+				
+				request.setAttribute(Constants.USER, user);
+			}
+		} catch (Exception e) {
+			logger.error(e);
+			showErrorMessage(e.getMessage());
+		} finally {
+			userDAO.CloseConnection();
+			roleDAO.CloseConnection();
+		}
+	}
+	
 	//Update User by User Id
 	private void updateUser() throws ServletException, IOException  {
 		nextPage = "/updateUser.jsp"; 
@@ -141,7 +176,7 @@ public class UserServlet  extends StockGameServlet {
 				
 				//2. Update Role to current User.
 				userRoleDAO.OpenConnection();
-				String userId = request.getParameter("userName");
+				String userId = request.getParameter("userId");
 				String roleId = request.getParameter("roleId");
 				logger.debug("Update role "+roleId+" to user "+userId);
 				
@@ -150,6 +185,8 @@ public class UserServlet  extends StockGameServlet {
 				
 				//3. Go to User list page.
 				listUser();
+			} else {
+				toUpdateUser();
 			}
 		} catch (Exception e) {
 			logger.error(e);
@@ -177,6 +214,30 @@ public class UserServlet  extends StockGameServlet {
 			return false;
 		}
 		
+		String email = request.getParameter("email");
+		
+		if (email == null || email.trim().equals("")) {
+			showWarnMessage("The Email cannot be null.");
+			return false;
+		}
+		
+		if (Utils.validateEmail(email)) {
+			showWarnMessage("Please Enter Valid Email.");
+			return false;
+		}
+		
+		String initialBalance = request.getParameter("initialBalance");
+		
+		if (initialBalance == null || initialBalance.trim().equals("")) {
+			showWarnMessage("The Initial Balance cannot be null.");
+			return false;
+		}
+		
+		if (!Utils.isPositiveNumeric(initialBalance)) {
+			showWarnMessage("The Initial Balance should be a positive number.");
+			return false;
+		}
+		
 		String password = request.getParameter("password");
 		
 		if (password == null || password.trim().equals("")) {
@@ -197,9 +258,11 @@ public class UserServlet  extends StockGameServlet {
 	//Transfer user input to User object.
 	private void populate(User user) {
 		if (user != null) {
-			user.setUsername(request.getParameter("userName"));
+			user.setUsername(request.getParameter("userId"));
 			user.setFirstname(request.getParameter("firstName"));
 			user.setLastname(request.getParameter("lastName"));
+			user.setEmail(request.getParameter("email"));
+			user.setInitialBalance(Double.parseDouble(request.getParameter("initialBalance")));
 			user.setPassword(request.getParameter("password"));
 			user.setStatus(request.getParameter("status"));
 			user.setLastUpdate(new Timestamp(new Date().getTime()));
