@@ -10,13 +10,13 @@
 	function submitForm() {
     	var message = "";
 
-    	var actionDesc = $('#actionDesc').val();
+    	var actionDesc = $('#actionDesc').val().trim();
     	if(actionDesc=='')
     	{
     		message = message +"The Action Desc cannot be null. ";
     	}
     	
-    	var permissionName = $('#permissionName').val();
+    	var permissionName = $('#permissionName').val().trim();
     	if(permissionName=='')
     	{
     		message = message +"The Permission Name cannot be null.";

@@ -10,25 +10,25 @@
 	function submitForm() {
     	var message = "";
 
-    	var firstName = $('#firstName').val();
+    	var firstName = $('#firstName').val().trim();
     	if(firstName=='')
     	{
     		message = message +"The First Name cannot be null. ";
     	}
     	
-    	var lastName = $('#lastName').val();
+    	var lastName = $('#lastName').val().trim();
     	if(lastName=='')
     	{
     		message = message +"The Last Name cannot be null. ";
     	}
     	
-    	var password = $('#password').val();
+    	var password = $('#password').val().trim();
     	if(password=='')
     	{
     		message = message +"The Password cannot be null. ";
     	}
     	
-    	var confirmPassword = $('#confirmPassword').val();
+    	var confirmPassword = $('#confirmPassword').val().trim();
     	if(password != confirmPassword)
     	{
     		message = message +"The Confirm Password should be same as Password. ";

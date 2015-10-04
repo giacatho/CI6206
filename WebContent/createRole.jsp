@@ -10,7 +10,8 @@
 	function submitForm() {
     	var message = "";
 
-    	var roleName = $('#roleName').val();
+    	var roleName = $('#roleName').val().trim();
+
     	if(roleName=='')
     	{
     		message = message +"The Role Name cannot be null. ";
