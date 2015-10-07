@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ci6206.dao.UserDao;
 import ci6206.model.Constants;
 import ci6206.model.User;
@@ -22,6 +24,7 @@ import ci6206.model.User;
  */
 @WebServlet(name="profile", urlPatterns={"/profile"})
 public class Profile extends HttpServlet {
+	Logger logger = Logger.getLogger(Profile.class);
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -33,38 +36,46 @@ public class Profile extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute(Constants.TITLE, "Profile");
-    	String firstName = request.getParameter("firstname");
-    	String lastName = request.getParameter("lastname");
-    	String email = request.getParameter("email");
-    	String updateProfile = request.getParameter("updateProfile");
+    	UserDao dao = new UserDao();
     	
-    	HttpSession session = request.getSession();
-    	User user = (User)session.getAttribute(Constants.USER_ATTR);
-    	request.setAttribute(Constants.USER_LIST,user);
-    	if(user.getUsername()!=null) {
-	    	if(updateProfile!=null && updateProfile.equals(Constants.UPDATE_PROFILE)) {
-	    		if(email!=null) {
-		    		if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
-	                	request.setAttribute("errorMessage","Please Enter Valid Email");
-	                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-	            		dispatcher.forward(request, response);
-	            		return;
-	                }
-	    		}
-	    		UserDao dao = new UserDao();
-	        	dao.OpenConnection();
-	        	Calendar calendar = Calendar.getInstance();
-	        	Date now = calendar.getTime();
-	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
-	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
-	        	dao.CloseConnection();
-	        	request.setAttribute("successMessage","Profile has been updated succseefully");
-	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
-	    		dispatcher.forward(request, response);
-	    		return;
-	    	}
+    	try {
+    		request.setAttribute(Constants.TITLE, "Profile");
+        	String firstName = request.getParameter("firstname");
+        	String lastName = request.getParameter("lastname");
+        	String email = request.getParameter("email");
+        	String updateProfile = request.getParameter("updateProfile");
+        	
+        	HttpSession session = request.getSession();
+        	User user = (User)session.getAttribute(Constants.USER_ATTR);
+        	request.setAttribute(Constants.USER_LIST,user);
+        	if(user.getUsername()!=null) {
+    	    	if(updateProfile!=null && updateProfile.equals(Constants.UPDATE_PROFILE)) {
+    	    		if(email!=null) {
+    		    		if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
+    	                	request.setAttribute("errorMessage","Please Enter Valid Email");
+    	                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+    	            		dispatcher.forward(request, response);
+    	            		return;
+    	                }
+    	    		}
+    	    		
+    	        	dao.OpenConnection();
+    	        	Calendar calendar = Calendar.getInstance();
+    	        	Date now = calendar.getTime();
+    	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
+    	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
+    	        	request.setAttribute("successMessage","Profile has been updated succseefully");
+    	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+    	    		dispatcher.forward(request, response);
+    	    		return;
+    	    	}
+        	}
+    	} catch (Exception e) {
+    		logger.error(e.fillInStackTrace());
+    	} finally {
+    		dao.CloseConnection();
     	}
+    	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
 		dispatcher.forward(request, response);
     }

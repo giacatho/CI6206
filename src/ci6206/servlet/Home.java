@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ci6206.dao.UserDao;
 import ci6206.model.Constants;
 import ci6206.model.User;
@@ -19,6 +21,7 @@ import ci6206.model.User;
  */
 @WebServlet(name="home", urlPatterns={"/home"})
 public class Home extends HttpServlet {
+	Logger logger = Logger.getLogger(Home.class);
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -33,10 +36,16 @@ public class Home extends HttpServlet {
             throws ServletException, IOException {
     	request.setAttribute("title", "Home");
     	UserDao dao = new UserDao();
-    	dao.OpenConnection();
-    	ArrayList<User> userList = dao.getUserForRanking();
-    	request.setAttribute(Constants.USER_LIST,userList);
-    	dao.CloseConnection();
+    	try {
+    		dao.OpenConnection();
+        	ArrayList<User> userList = dao.getUserForRanking();
+        	request.setAttribute(Constants.USER_LIST,userList);
+    	} catch (Exception e) {
+    		logger.error(e.fillInStackTrace());
+    	} finally {
+    		dao.CloseConnection();
+    	}
+    	
     	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
 		dispatcher.forward(request, response);
     }

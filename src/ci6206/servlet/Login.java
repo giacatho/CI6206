@@ -40,38 +40,46 @@ public class Login extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	request.setAttribute(Constants.TITLE, "Login");
+    	UserDao dao = new UserDao();
     	
-    	String username = request.getParameter("username");
-    	String password = request.getParameter("password");
-    	
-    	if((username!=null&&!username.isEmpty())&&
-    	   (password!=null&&!password.isEmpty()))
-    	{
-	    	UserDao dao = new UserDao();
-	    	dao.OpenConnection();
-	    	User user = dao.findByCredentials(username, password);
-	    	dao.CloseConnection();
-	    	if (user == null) {
-	    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-	    		request.setAttribute("message", "Login fails.");
-	    		dispatcher.forward(request, response);
-	    		return;
-	    	}
-	    	
-	    	//2015-10-04 by Qiao Guo Jun: Retrieve Permissions for current user.
-	    	retrievePermissions(request, response, username);
+    	try {
+    		request.setAttribute(Constants.TITLE, "Login");
+        	
+        	String username = request.getParameter("username");
+        	String password = request.getParameter("password");
+        	
+        	if((username!=null&&!username.isEmpty())&&
+        	   (password!=null&&!password.isEmpty()))
+        	{
+    	    	
+    	    	dao.OpenConnection();
+    	    	User user = dao.findByCredentials(username, password);
+    	    	if (user == null) {
+    	    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+    	    		request.setAttribute("message", "Login fails.");
+    	    		dispatcher.forward(request, response);
+    	    		return;
+    	    	}
+    	    	
+    	    	//2015-10-04 by Qiao Guo Jun: Retrieve Permissions for current user.
+    	    	retrievePermissions(request, response, username);
 		    	// OK, store user to section and redirect to profile.
 		    	HttpSession session = request.getSession();
 		    	session.setAttribute(Constants.USER_ATTR, user);
 		    	response.sendRedirect(getServletContext().getContextPath() + "/home");
-		    	
+    		    	
+        	}
+        	else{
+        		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+        		dispatcher.forward(request, response);
+        		return;
+        	}
+    	} catch (Exception e) {
+    		logger.error(e.fillInStackTrace());
+    	} finally {
+    		dao.CloseConnection();
     	}
-    	else{
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-    		dispatcher.forward(request, response);
-    		return;
-    	}
+    	
     }
     
   //Retrieve Permissions for login user and put it into Session.

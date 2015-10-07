@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ci6206.dao.UserDao;
 import ci6206.model.Constants;
 import ci6206.model.User;
@@ -22,6 +24,7 @@ import ci6206.model.User;
 @WebServlet(name = "register", urlPatterns = {"/register"})
 public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Logger logger = Logger.getLogger(Register.class);
 	
     public Register() {
         super();
@@ -78,22 +81,28 @@ public class Register extends HttpServlet {
     	lastName = lastName.trim();
     	
     	UserDao dao = new UserDao();
-    	dao.OpenConnection();
-    	User user = dao.findUser(username);//dao.findByUsername(username);
     	
-    	if (user != null) {
-    		request.setAttribute("errorMessage", "Username has been taken.");
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
-    		dispatcher.forward(request, response);
-    		return;
-    	}
+    	try {
+    		dao.OpenConnection();
+        	User user = dao.findUser(username);//dao.findByUsername(username);
+        	
+        	if (user != null) {
+        		request.setAttribute("errorMessage", "Username has been taken.");
+        		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+        		dispatcher.forward(request, response);
+        		return;
+        	}
 
-    	dao.registerUser(username, password, firstName, lastName, registeredDate, email, initialBalance,status);
-    	dao.CloseConnection();
-    	request.setAttribute("successMessage", "Account has been created successfully");
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/success.jsp");
-    	dispatcher.forward(request, response);
-		return;
+        	dao.registerUser(username, password, firstName, lastName, registeredDate, email, initialBalance,status);
+        	request.setAttribute("successMessage", "Account has been created successfully");
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/success.jsp");
+        	dispatcher.forward(request, response);
+    		return;
+    	} catch (Exception e) {
+    		logger.error(e.fillInStackTrace());
+    	} finally {
+    		dao.CloseConnection();
+    	}
     }
     
 	/**
