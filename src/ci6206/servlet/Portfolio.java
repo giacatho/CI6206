@@ -75,7 +75,6 @@ public class Portfolio extends HttpServlet {
     	}
 		catch (Exception ex)
 		{
-		    //ex.printStackTrace();
 			logger.error(ex.fillInStackTrace());
 		}
 		finally
@@ -93,7 +92,6 @@ public class Portfolio extends HttpServlet {
 		}
 		catch (Exception ex)
 		{
-		  //ex.printStackTrace();
  		  logger.error(ex.fillInStackTrace());
 		}
 		finally

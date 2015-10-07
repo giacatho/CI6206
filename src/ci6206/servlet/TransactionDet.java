@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
+import ci6206.dao.RoleDAO;
 import ci6206.dao.TransactionDAO;
 import ci6206.model.Constants;
 import ci6206.model.User;
@@ -19,6 +22,7 @@ import ci6206.model.User;
  */
 @WebServlet("/TransactionDet")
 public class TransactionDet extends HttpServlet {
+	Logger logger = Logger.getLogger(TransactionDet.class);
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -64,7 +68,7 @@ public class TransactionDet extends HttpServlet {
 	    	 request.setAttribute(Constants.HOLDING,txnDAO.getTransactionList(symbol, user.getUsername()));
 	    	}catch (Exception ex)
 	    	{
-	    		ex.printStackTrace();
+	    		logger.error(ex.fillInStackTrace());
 	    	}
 	    	finally
 	    	{

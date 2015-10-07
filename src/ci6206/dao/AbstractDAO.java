@@ -6,12 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.log4j.Logger;
+
 /**
 *
 * @author Michael Tan
 */
 
 public abstract class AbstractDAO {
+	Logger logger = Logger.getLogger(AbstractDAO.class);
+	
     protected Connection conn=null;
     protected Statement statement = null;
     protected PreparedStatement ps = null;
@@ -32,7 +36,7 @@ public abstract class AbstractDAO {
   		   }
   		   catch (SQLException sqle)
   		   {
-  			   sqle.printStackTrace();
+  			   logger.error(sqle.fillInStackTrace());
   		   }
     		   
 	}
@@ -47,7 +51,7 @@ public abstract class AbstractDAO {
 			}
 	    }catch(SQLException sqle)
 	    {
-	    	sqle.printStackTrace();
+	    	logger.error(sqle.fillInStackTrace());
 	    }
 		
 	}

@@ -68,7 +68,6 @@ public class TransactionDAO extends AbstractDAO {
 	    }
 	    catch(SQLException sqle)
 	    {
-	    	//sqle.printStackTrace();
 	    	logger.error(sqle.fillInStackTrace());
 	    }
 	    finally
@@ -100,7 +99,6 @@ public class TransactionDAO extends AbstractDAO {
 	    }
 	    catch(SQLException sqle)
 	    {
-	    	//sqle.printStackTrace();
 	    	logger.error(sqle.fillInStackTrace());
 	    }
 	    finally
@@ -166,7 +164,6 @@ public class TransactionDAO extends AbstractDAO {
 	    	
 			ps.executeUpdate();
 
-			//System.out.println("Record is inserted into table!");
 			logger.info("Record is inserted into tb_trans table!");
 	    	
     	}
@@ -177,7 +174,6 @@ public class TransactionDAO extends AbstractDAO {
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	//sqle.printStackTrace();
 	    	logger.error(sqle.fillInStackTrace());
 
         }

@@ -153,7 +153,7 @@ public class Trading extends HttpServlet {
 			else if (action.equals(Constants.SELL))
 			{
 				int existQty = transDAO.getTotalQty(symbol, user.getUsername());
-				System.out.println("existing qty: "+existQty);
+				logger.debug("existing qty: "+existQty);
 				//check you have enough shares to sell
 				if(qty <= existQty)
 				{
@@ -197,7 +197,6 @@ public class Trading extends HttpServlet {
 		 dao.updateUserCash(user);
 		}catch(Exception ex)
 		{
-			//ex.printStackTrace();
 			logger.error(ex.fillInStackTrace());
 		}
 		finally

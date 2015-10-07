@@ -48,7 +48,6 @@ public class StockDAO extends AbstractDAO
         }
         catch(SQLException sqle)
         {
-        	//sqle.printStackTrace();
         	logger.error(sqle.fillInStackTrace());
         }
         finally
@@ -78,7 +77,6 @@ public class StockDAO extends AbstractDAO
         }
         catch(SQLException sqle)
         {
-        	//sqle.printStackTrace();
         	logger.error(sqle.fillInStackTrace());
 
         }

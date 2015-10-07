@@ -74,7 +74,7 @@ public class UserDao extends AbstractDAO{
         }
         catch(SQLException sqle)
         {
-        	sqle.printStackTrace();
+        	logger.error(sqle.fillInStackTrace());
         }
         finally
         {
@@ -106,7 +106,7 @@ public class UserDao extends AbstractDAO{
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	sqle.printStackTrace();
+    		logger.error(sqle.fillInStackTrace());
         }
         finally
         {
@@ -136,7 +136,7 @@ public class UserDao extends AbstractDAO{
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	sqle.printStackTrace();
+    		logger.error(sqle.fillInStackTrace());
         }
         finally
         {
@@ -171,7 +171,6 @@ public class UserDao extends AbstractDAO{
     		   conn.rollback();
     		}
     		catch(SQLException ignore){}
-        	//sqle.printStackTrace();
     		logger.error("Error in  Update User Profile: "+sqle.fillInStackTrace());
         }
         finally
@@ -421,7 +420,6 @@ public class UserDao extends AbstractDAO{
         }
         catch(SQLException sqle)
         {
-        	//sqle.printStackTrace();
         	logger.equals("Error in getting User Ranking: "+sqle.fillInStackTrace());
         }
         finally
