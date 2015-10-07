@@ -2,6 +2,7 @@ package ci6206.servlet;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -65,19 +66,29 @@ public class Profile extends HttpServlet {
     	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
     	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
     	        	request.setAttribute("successMessage","Profile has been updated succseefully");
+    	        	
+    	        	//2015-10-07 by Qiao Guo Jun: Fixed bug that cannot display 
+    	        	//ranking list on home page after update user profile.
+	            	ArrayList<User> userList = dao.getUserForRanking();
+	            	request.setAttribute(Constants.USER_LIST,userList);
+	            	
+	            	//2015-10-07 by Qiao Guo Jun: Fixed bug that user profile not refresh after user profile updated. 
+	            	User currentUser = dao.findUser(user.getUsername());
+			    	session.setAttribute(Constants.USER_ATTR, currentUser);
+    	        	
     	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
     	    		dispatcher.forward(request, response);
     	    		return;
     	    	}
         	}
+        	
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+    		dispatcher.forward(request, response);
     	} catch (Exception e) {
     		logger.error(e.fillInStackTrace());
     	} finally {
     		dao.CloseConnection();
     	}
-    	
-    	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-		dispatcher.forward(request, response);
     }
     
     /**
