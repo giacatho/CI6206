@@ -53,7 +53,7 @@
 		    <input type=hidden value="update" name="action"/>
 		    <input type=hidden value="<c:out value="${requestScope.permission.nbr}"/>" name="nbr"/>
 		    
-		    <table class="table stock-trade">
+		    <table class="table admin-model">
 			    <tr>
 				    <td>Action Desc:</td>
 				    <td>

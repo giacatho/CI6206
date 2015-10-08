@@ -68,7 +68,7 @@ function getSelectedChbox() {
 		    <input type=hidden value="update" name="action"/>
 		    <input type=hidden value="<c:out value="${requestScope.role.nbr}"/>" name="nbr"/>
 		    
-		    <table class="table stock-trade">
+		    <table class="table admin-model">
 			    <tr>
 				    <td>Role Name:</td>
 				    <td>

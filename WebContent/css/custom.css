@@ -119,6 +119,22 @@ body {
 	width: 100px;
 }
 
+.admin-model input[type="text"] {
+	width: 250px;
+}
+
+.admin-model input[type="password"] {
+	width: 250px;
+}
+
+.admin-model input[type="radio"] {
+	width: 60px;
+}
+
+.admin-model select {
+	width: 250px;
+}
+
 /* Form profile */
 .form-profile {
 	max-width: 450px;

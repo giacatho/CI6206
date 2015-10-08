@@ -95,7 +95,7 @@
 		    </div>
 		    <input type=hidden value="update" name="action"/>
 		    
-		    <table class="table stock-trade">
+		    <table class="table admin-model">
 			    <tr>
 				    <td>User Name:</td>
 				    <td>
@@ -170,8 +170,8 @@
 			     <tr>
 				    <td>Role</td>
 				    <td>
-				        <select name="roleId">
-						   <c:forEach var="role" items="${requestScope.RoleList}">
+				        <select name="roleId" class="form-control">
+						   <c:forEach var="role" items="${requestScope.RoleList}" >
 						   		<c:if test="${role.selected == true}">
 						   		 	<option value="${role.nbr}" selected="selected">${role.roleName}</option>
 						   		</c:if>
