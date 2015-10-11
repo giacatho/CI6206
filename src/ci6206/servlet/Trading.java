@@ -53,8 +53,15 @@ public class Trading extends HttpServlet {
     	{
 	    	if(beginStr!=null&&!beginStr.isEmpty())
 	    	{
-	        	
-	        	ArrayList<Stock>list = stockDO.GetStocksStartWith(beginStr);
+	    		ArrayList<Stock>list=null;
+	        	if(beginStr.length()>1)
+	        	{
+	        		list = stockDO.GetStocksContains(beginStr);
+	        	}
+	        	else
+	        	{
+		        	list = stockDO.GetStocksStartWith(beginStr);
+	        	}
 	    		request.setAttribute(Constants.STOCK_LIST,list);
 	    	}
 	    	else if(symbol!=null&&!symbol.isEmpty())

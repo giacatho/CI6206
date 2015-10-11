@@ -7,6 +7,15 @@
 
 <!DOCTYPE html>
 <html>
+<script>
+function getStock()
+{
+	var value =  "trading?srch="+document.getElementById("srch").value;
+	window.location.href = value;
+	//alert(value);
+}
+</script>
+
 <%@ include file="WEB-INF/includes/head.jsp" %>
 <body>
 <div id="main" class="container">
@@ -18,12 +27,13 @@
 	</div>
 	
 	<div class="panel panel-default">
+	
 		<div class="panel-heading">
 			<h2 class="panel-title">Select Stocks</h2>
 		</div>
 		<div class="panel-body">
 			<div>
-				<span class="label label-info">By Name</span>			
+				<span class="label label-info">By Alphabet</span>			
 				<a href="trading?srch=A"><span class="badge">A</span></a>
 				<a href="trading?srch=B"><span class="badge">B</span></a>		
 				<a href="trading?srch=C"><span class="badge">C</span></a>		
@@ -50,36 +60,20 @@
 				<a href="trading?srch=Y"><span class="badge">Y</span></a>
 				<a href="trading?srch=Z"><span class="badge">Z</span></a>
 			</div>
-			<!-- 
-				<div style="margin-top: 10px;">
-				<span class="label label-info">By Symbol</span>			
-				<a href="trading?srch=A&type=symbol"><span class="badge">A</span></a>
-				<a href="trading?srch=B&type=symbol"><span class="badge">B</span></a>		
-				<a href="trading?srch=C&type=symbol"><span class="badge">C</span></a>		
-				<a href="trading?srch=D&type=symbol"><span class="badge">D</span></a>
-				<a href="trading?srch=E&type=symbol"><span class="badge">E</span></a>
-				<a href="trading?srch=F&type=symbol"><span class="badge">F</span></a>
-				<a href="trading?srch=G&type=symbol"><span class="badge">G</span></a>
-				<a href="trading?srch=H&type=symbol"><span class="badge">H</span></a>
-				<a href="trading?srch=I&type=symbol"><span class="badge">I</span></a>
-				<a href="trading?srch=J&type=symbol"><span class="badge">J</span></a>
-				<a href="trading?srch=K&type=symbol"><span class="badge">K</span></a>
-				<a href="trading?srch=L&type=symbol"><span class="badge">L</span></a>
-				<a href="trading?srch=M&type=symbol"><span class="badge">N</span></a>
-				<a href="trading?srch=O&type=symbol"><span class="badge">O</span></a>
-				<a href="trading?srch=P&type=symbol"><span class="badge">P</span></a>
-				<a href="trading?srch=Q&type=symbol"><span class="badge">Q</span></a>
-				<a href="trading?srch=R&type=symbol"><span class="badge">R</span></a>
-				<a href="trading?srch=S&type=symbol"><span class="badge">S</span></a>
-				<a href="trading?srch=T&type=symbol"><span class="badge">T</span></a>
-				<a href="trading?srch=U&type=symbol"><span class="badge">U</span></a>
-				<a href="trading?srch=V&type=symbol"><span class="badge">V</span></a>
-				<a href="trading?srch=W&type=symbol"><span class="badge">W</span></a>
-				<a href="trading?srch=X&type=symbol"><span class="badge">X</span></a>
-				<a href="trading?srch=Y&type=symbol"><span class="badge">Y</span></a>
-				<a href="trading?srch=Z&type=symbol"><span class="badge">Z</span></a>
-			</div>
-			-->
+			<br/>
+			<div>
+				<table>
+			    <td>
+  			        <span class="label label-info">Search by name:</span>
+			    </td>
+			    <td>
+			    	<input type="text" class="form-control" id="srch" name="srch"/>
+			    </td>
+			    <td>
+					<a href="#" class="btn btn-info" onclick="getStock()">Search</a>
+				</td>			    
+				</table>
+			</div>			
 		</div>
 	</div>
 	
