@@ -50,7 +50,7 @@
 				<c:choose>
 				 <c:when test="${( not empty sessionScope.User)}">
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hi, howryou? <span class="caret"></span></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Hi, <c:out value="${sessionScope.User.username}"></c:out> <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="profile">My Profile</a>
 							<li role="separator" class="divider"></li>
