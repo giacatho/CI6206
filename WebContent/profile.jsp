@@ -66,6 +66,34 @@
 									      <input class="form-control" type="text" id="email" name="email" placeholder="Email" value="${requestScope.userDetails.email}" required>
 								      </td>
 							      </tr>
+							      
+							      <tr>
+								      <td>
+								      	<label for="username" class="control-label">Current Password</label>
+								      </td>
+								      <td>
+								     	 <input class="form-control" type="password" id="current-password" name="current-password" placeholder="Current Password">
+								      </td>
+							      </tr>
+							      <tr>
+								      <td>
+								      	<label for="firstname" class="control-label">New Password</label>
+								      </td>
+								      <td>
+								      	<input class="form-control" type="password" id="new-password" name="new-password">
+								      </td>
+							      </tr>
+							      <tr>
+								      <td>
+								      	<label for="lastname" class="control-label">Confirm Your Password</label>
+								      </td>
+								      <td>
+								      	<input class="form-control" type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password">
+								      </td>
+							      </tr>
+							      
+							      
+							      
 							      <tr>
 								      <td>
 								      		<button class="btn btn-primary" type="submit" id="updateProfile" name="updateProfile" value="updateProfile">Update Profile</button>
@@ -75,7 +103,7 @@
 						</c:choose>
 				    </tbody>		    
 				</table> 
-				<br></br>
+				<%-- <br></br>
 				<% if(request.getAttribute("passwordErrorMessage")!=null) { %>
 					<div class="alert alert-danger">${passwordErrorMessage}</div>
 				<% } %>
@@ -117,7 +145,7 @@
 							</c:when>
 						</c:choose>
 				    </tbody>		    
-				</table> 
+				</table>  --%>
 			</form>
 		</div>
 	</div>

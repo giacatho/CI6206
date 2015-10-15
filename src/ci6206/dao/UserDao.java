@@ -136,13 +136,14 @@ public class UserDao extends AbstractDAO{
 		
     }
     
-    public void updateUserProfile(String firstName, String lastName, Timestamp lastupdate, String email,String userid) {
+    public void updateUserProfile(String firstName, String lastName, Timestamp lastupdate, String email,String userid,String newPassword) {
         StringBuffer sb = new StringBuffer();
     	sb.append("UPDATE tb_user ");
     	sb.append("SET lastupdate=?, ");
     	sb.append("last_name=?, ");
     	sb.append("first_name=?, ");
-    	sb.append("email=? ");
+    	sb.append("email=?, ");
+    	sb.append("password=? ");
     	sb.append("WHERE userid=? ");
     	try
         {
@@ -152,7 +153,8 @@ public class UserDao extends AbstractDAO{
 	    	ps.setString(2, lastName);
 	    	ps.setString(3, firstName);
 	    	ps.setString(4, email);
-	    	ps.setString(5, userid);
+	    	ps.setString(5, newPassword);
+	    	ps.setString(6, userid);
 	    	ps.executeUpdate();
         }
         catch(SQLException sqle)

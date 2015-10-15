@@ -45,6 +45,9 @@ public class Profile extends HttpServlet {
         	String firstName = request.getParameter("firstname");
         	String lastName = request.getParameter("lastname");
         	String email = request.getParameter("email");
+        	String currentPassword = request.getParameter("current-password");
+        	String newPassword = request.getParameter("new-password");
+        	String confirmPassword = request.getParameter("confirm-password");
         	String updateProfile = request.getParameter("updateProfile");
         	
         	HttpSession session = request.getSession();
@@ -61,11 +64,40 @@ public class Profile extends HttpServlet {
     	                }
     	    		}
     	    		
+    	    		if (currentPassword!=null) {
+            			if(user.getPassword()!=null) {
+    	        			if(!(user.getPassword().equals(currentPassword))) {
+    	        				request.setAttribute("errorMessage","Current passowrd not matching");
+    		                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+    		            		dispatcher.forward(request, response);
+    		            		return;
+    	        			}
+            			}
+            		}
+    	    		
+    	    		if(!newPassword.isEmpty() && !confirmPassword.isEmpty()){
+	            			if(!(newPassword.equals(confirmPassword))) {
+	            				request.setAttribute("errorMessage","New and Confirm passwords don't match. Try again?");
+	    	                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+	    	            		dispatcher.forward(request, response);
+	    	            		return;
+	            		}
+		    		} else if((!newPassword.isEmpty() && confirmPassword.isEmpty()) || ((newPassword.isEmpty() && !confirmPassword.isEmpty()))) {
+	        				request.setAttribute("errorMessage","Please enter the both new and confirm password");
+		                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+		            		dispatcher.forward(request, response);
+		            		return;
+	        		}
+    	    		
     	        	dao.OpenConnection();
     	        	Calendar calendar = Calendar.getInstance();
     	        	Date now = calendar.getTime();
     	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
-    	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
+    	        	if(!newPassword.isEmpty()) {
+    	        		dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername(),newPassword);
+    	        	} else {
+        	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername(),user.getPassword());
+    	        	}
     	        	request.setAttribute("successMessage","Profile has been updated succseefully");
     	        	
     	        	ArrayList<User> userList = dao.getUserForRanking();
@@ -79,58 +111,6 @@ public class Profile extends HttpServlet {
     	    		return;
     	    	}
         	}
-        	
-        	String currentPassword = request.getParameter("current-password");
-        	String newPassword = request.getParameter("new-password");
-        	String confirmPassword = request.getParameter("confirm-password");
-        	String changePassword = request.getParameter("changePassword");
-        	
-        	if(changePassword!=null && changePassword.equals(Constants.CHANGE_PASSWORD)) {
-        		
-        		if(currentPassword == null) {
-        			request.setAttribute("passwordErrorMessage","Please Enter Current Password");
-                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-            		dispatcher.forward(request, response);
-            		return;
-        		} else if (currentPassword!=null) {
-        			if(user.getPassword()!=null) {
-	        			if(!(user.getPassword().equals(currentPassword))) {
-	        				request.setAttribute("passwordErrorMessage","Current passowrd not matching");
-		                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-		            		dispatcher.forward(request, response);
-		            		return;
-	        			}
-        			}
-        		}
-        		
-        		if(newPassword!=null && confirmPassword!=null) {
-        			if(!(newPassword.equals(confirmPassword))) {
-        				request.setAttribute("passwordErrorMessage","New and Confirm passwords don't match. Try again?");
-	                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-	            		dispatcher.forward(request, response);
-	            		return;
-        			}
-        		}
-        		
-        		dao.OpenConnection();
-	        	Calendar calendar = Calendar.getInstance();
-	        	Date now = calendar.getTime();
-	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
-	        	dao.updateUserPassword(newPassword, currentTimestamp,user.getUsername());
-	        	request.setAttribute("successMessage","Your password has been updated succseefully");
-	        	
-	        	ArrayList<User> userList = dao.getUserForRanking();
-            	request.setAttribute(Constants.USER_LIST,userList);
-            	
-            	User currentUser = dao.findUser(user.getUsername());
-		    	session.setAttribute(Constants.USER_ATTR, currentUser);
-	        	
-	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
-	    		dispatcher.forward(request, response);
-	    		return;
-        	}
-        	
-        	
         	
         	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
     		dispatcher.forward(request, response);
