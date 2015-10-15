@@ -4,13 +4,6 @@ import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Random;
 
-/**
- *Common methods
- *
- * Author Qiao Guo Jun
- * Date Sep 29, 2015
- * Version 1.0 
- */
 public class Utils {
 	public static Long generateUniqueId() {
 		Calendar cal = Calendar.getInstance();

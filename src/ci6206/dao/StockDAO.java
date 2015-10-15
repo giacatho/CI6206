@@ -23,16 +23,6 @@ public class StockDAO extends AbstractDAO
     public ArrayList<Stock> GetStocksContains(String str)
     {
     	ArrayList<Stock> resultList = new ArrayList<Stock>();
-    	/*
-	        String sql = "SELECT A.name, A.symbol, A.exchange, B.price, B.lastupdate ";
-	        StringBuffer sb = new StringBuffer(sql);
-	        sb.append("FROM tb_stock A, tb_price B ");
-	        sb.append("WHERE A.status = 'A' AND ");
-	        sb.append("A.exchange='SGX' AND A.symbol = B.symbol AND ");
-	        sb.append("A.name like ? ");
-	        sb.append("AND B.lastupdate = ");
-	        sb.append("(SELECT MAX( lastupdate ) FROM tb_price WHERE symbol = A.symbol )");
-        */
     	StringBuffer sb = buildMainSQL();
     	sb.append("AND A.name like ? ");
     	try
@@ -61,16 +51,7 @@ public class StockDAO extends AbstractDAO
     public ArrayList<Stock> GetStocksStartWith(String beginStr)
     {
     	ArrayList<Stock> resultList = new ArrayList<Stock>();
-    	/*
-	        String sql = "SELECT A.name, A.symbol, A.exchange, B.price, B.lastupdate ";
-	        StringBuffer sb = new StringBuffer(sql);
-	        sb.append("FROM tb_stock A, tb_price B ");
-	        sb.append("WHERE A.status = 'A' AND ");
-	        sb.append("A.exchange='SGX' AND A.symbol = B.symbol AND ");
-	        sb.append("A.name like ? ");
-	        sb.append("AND B.lastupdate = ");
-	        sb.append("(SELECT MAX( lastupdate ) FROM tb_price WHERE symbol = A.symbol )");
-        */
+    	
     	StringBuffer sb = buildMainSQL();
     	sb.append("AND A.name like ? ");
     	try

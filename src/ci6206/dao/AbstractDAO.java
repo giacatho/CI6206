@@ -8,11 +8,6 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-/**
-*
-* @author Michael Tan
-*/
-
 public abstract class AbstractDAO {
 	Logger logger = Logger.getLogger(AbstractDAO.class);
 	

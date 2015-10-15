@@ -17,13 +17,6 @@ import ci6206.model.Constants;
 import ci6206.model.Permission;
 import ci6206.utils.Utils;
 
-/**
- *Permission servlet
- *
- * Author Qiao Guo Jun
- * Date Sep 29, 2015
- * Version 1.0 
- */
 @WebServlet(name="permission", urlPatterns={"/permission"})
 public class PermissionServlet  extends StockGameServlet {
 	Logger logger = Logger.getLogger(PermissionServlet.class);

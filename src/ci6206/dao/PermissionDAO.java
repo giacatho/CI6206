@@ -9,13 +9,6 @@ import org.apache.log4j.Logger;
 import ci6206.dao.exception.DAOException;
 import ci6206.model.Permission;
 
-/**
- *Permission Data Access Object.
- *
- * Author Qiao Guo Jun
- * Date Sep 28, 2015
- * Version 1.0 
- */
 public class PermissionDAO extends AbstractDAO {
 	Logger logger = Logger.getLogger(PermissionDAO.class);
 	

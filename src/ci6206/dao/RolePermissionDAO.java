@@ -10,13 +10,6 @@ import ci6206.dao.exception.DAOException;
 import ci6206.model.Permission;
 import ci6206.model.Role;
 
-/**
- *Role Permission Data Access Object.
- *
- * Author Qiao Guo Jun
- * Date Sep 30, 2015
- * Version 1.0 
- */
 public class RolePermissionDAO extends AbstractDAO {
 	Logger logger = Logger.getLogger(PermissionDAO.class);
 	

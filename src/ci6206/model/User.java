@@ -7,10 +7,7 @@ package ci6206.model;
 
 import java.sql.Timestamp;
 
-/**
- *
- * @author Michael Tan
- */
+
 public class User {
     private Timestamp lastUpdate;
     private String username;

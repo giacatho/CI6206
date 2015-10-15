@@ -10,13 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import ci6206.model.Constants;
 
-/**
- *The base servlet
- *
- * Author Qiao Guo Jun
- * Date Sep 29, 2015
- * Version 1.0 
- */
+
 public abstract class StockGameServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	protected HttpServletRequest request;

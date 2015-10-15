@@ -20,13 +20,7 @@ import ci6206.model.Role;
 import ci6206.model.User;
 import ci6206.utils.Utils;
 
-/**
- *User servlet
- *
- * Author Qiao Guo Jun
- * Date Oct 3, 2015
- * Version 1.0 
- */
+
 @WebServlet(name="user", urlPatterns={"/user"})
 public class UserServlet  extends StockGameServlet {
 	Logger logger = Logger.getLogger(UserServlet.class);

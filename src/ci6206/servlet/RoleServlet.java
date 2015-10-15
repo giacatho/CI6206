@@ -22,13 +22,6 @@ import ci6206.model.Permission;
 import ci6206.model.Role;
 import ci6206.utils.Utils;
 
-/**
- *Role servlet
- *
- * Author Qiao Guo Jun
- * Date Oct 1, 2015
- * Version 1.0 
- */
 @WebServlet(name="role", urlPatterns={"/role"})
 public class RoleServlet  extends StockGameServlet {
 	Logger logger = Logger.getLogger(RoleServlet.class);

@@ -18,19 +18,9 @@ import org.apache.log4j.Logger;
 import ci6206.dao.exception.DAOException;
 import ci6206.model.User;
 
-/**
- *
- * @author Michael Tan
- */
 public class UserDao extends AbstractDAO{
 	Logger logger = Logger.getLogger(UserDao.class);
 	
-	/*
-    private Connection connect = null;	 
-    private Statement statement = null;
-    private PreparedStatement ps = null;
-    private ResultSet resSet = null;
-    */
     public UserDao()
     {
     	super();

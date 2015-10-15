@@ -61,7 +61,6 @@ public class Login extends HttpServlet {
     	    		return;
     	    	}
     	    	
-    	    	//2015-10-04 by Qiao Guo Jun: Retrieve Permissions for current user.
     	    	retrievePermissions(request, response, username);
 		    	// OK, store user to section and redirect to profile.
 		    	HttpSession session = request.getSession();

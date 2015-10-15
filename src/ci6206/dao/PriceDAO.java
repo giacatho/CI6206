@@ -12,13 +12,6 @@ import org.apache.log4j.Logger;
 
 import ci6206.dao.exception.DAOException;
 
-/**
- *Price Data Access Object.
- *
- * Author Qiao Guo Jun
- * Date Oct 15, 2015
- * Version 1.0 
- */
 public class PriceDAO extends AbstractDAO {
 	Logger logger = Logger.getLogger(PermissionDAO.class);
 	

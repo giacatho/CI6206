@@ -7,13 +7,7 @@ import org.apache.log4j.Logger;
 import ci6206.dao.exception.DAOException;
 import ci6206.model.Role;
 
-/**
- *User Role Data Access Object.
- *
- * Author Qiao Guo Jun
- * Date Oct 1, 2015
- * Version 1.0 
- */
+
 public class UserRoleDAO extends AbstractDAO {
 	Logger logger = Logger.getLogger(UserRoleDAO.class);
 	

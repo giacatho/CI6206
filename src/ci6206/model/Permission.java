@@ -1,12 +1,6 @@
 package ci6206.model;
 
-/**
- *Permission Domain.
- *
- * Author Qiao Guo Jun
- * Date Sep 28, 2015
- * Version 1.0 
- */
+
 public class Permission {
 	private Long nbr;
 	private String actionDesc;

@@ -27,10 +27,6 @@ import ci6206.model.Transaction;
 import ci6206.model.User;
 import ci6206.utils.Utils;
 
-/**
- * Servlet implementation class Trading
- * @author Michael Tan
- */
 @WebServlet(name="trading", urlPatterns={"/trading"})
 public class Trading extends HttpServlet {
 	private static final long serialVersionUID = 1L;

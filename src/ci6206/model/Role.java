@@ -2,13 +2,6 @@ package ci6206.model;
 
 import java.util.List;
 
-/**
- *Role Domain.
- *
- * Author Qiao Guo Jun
- * Date Oct 1, 2015
- * Version 1.0 
- */
 public class Role {
 	private Long nbr;
 	private String roleName;
