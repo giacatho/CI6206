@@ -62,7 +62,8 @@ public class Portfolio extends HttpServlet {
 	    	for ( String key : map.keySet() ) 
 	    	{
 	    		Transaction txn = (Transaction)map.get(key);
-	    		sumShares = sumShares + txn.getStock().getMktPrice()*txn.getQty();
+	    		if(txn.getQty()>0)
+	    			sumShares = sumShares + txn.getStock().getMktPrice()*txn.getQty();
 	
 	    	}
 	    	request.setAttribute(Constants.SHARES, sumShares);
@@ -121,7 +122,7 @@ public class Portfolio extends HttpServlet {
         		//calculate avg cost
         		avgCost = amount/qty;
         		stock.setPrice(avgCost);
-        		//market value
+
         	}
         	else if (trans.getAction().equals(Constants.SELL))
         	{
@@ -131,8 +132,16 @@ public class Portfolio extends HttpServlet {
         		amount = amount - trans.getAmount();
         		summary.setAmount(amount);
         		//calculate avg cost
-        		avgCost = amount/qty;
+        		if(qty>0)
+        		{	
+        			avgCost = amount/qty;
+        		}
+        		else
+        		{
+        			avgCost = 0;
+        		}
         		stock.setPrice(avgCost);
+
         	}
 
     	}
