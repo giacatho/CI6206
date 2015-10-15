@@ -2,6 +2,10 @@ package ci6206.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,13 +17,15 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import ci6206.dao.PriceDAO;
+import ci6206.dao.StockDAO;
 import ci6206.dao.TransactionDAO;
 import ci6206.dao.UserDao;
-import ci6206.dao.StockDAO;
 import ci6206.model.Constants;
 import ci6206.model.Stock;
 import ci6206.model.Transaction;
 import ci6206.model.User;
+import ci6206.utils.Utils;
 
 /**
  * Servlet implementation class Trading
@@ -47,6 +53,9 @@ public class Trading extends HttpServlet {
     	
     	String beginStr = request.getParameter(Constants.SEARCH_PARAM);
     	String symbol = request.getParameter(Constants.SYMBOL_PARAM);
+    	String action = request.getParameter(Constants.ACTION);
+    	request.setAttribute(Constants.ACTION, action);
+    	logger.debug("Trading action : "+request.getParameter(Constants.ACTION));
     	StockDAO stockDO = new StockDAO();
     	stockDO.OpenConnection();
     	try
@@ -117,84 +126,132 @@ public class Trading extends HttpServlet {
 		String stockName = request.getParameter(Constants.STOCK_PARAM);
 		String priceStr  = request.getParameter(Constants.PRICE);
 		String qtyStr    = request.getParameter(Constants.QTY);
+		String requestAction    = request.getParameter(Constants.ACTION);
 		
-		HttpSession session = request.getSession();
-		User user = (User)session.getAttribute(Constants.USER_ATTR);
+		if (requestAction != null && requestAction.equals(Constants.UPDATE)) {
+			updateStockPrice(request, response);
+		} else {
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute(Constants.USER_ATTR);
 
-		double price = Double.valueOf(priceStr);
-		int qty = Integer.valueOf(qtyStr);
-		double amount = price*qty;
-		
-		Stock stock = new Stock();
-		stock.setSymbol(symbol);
-		stock.setPrice(price);
-		stock.setName(stockName);
-		
-		Transaction trans = new Transaction();
-		trans.setUser(user);
-		trans.setAction(action);
-		
-		TransactionDAO transDAO = new TransactionDAO();
-		transDAO.OpenConnection();
-		double netCash=user.getCashBal();
-		try
-		{
-			if(action.equals(Constants.BUY))
+			double price = Double.valueOf(priceStr);
+			int qty = Integer.valueOf(qtyStr);
+			double amount = price*qty;
+			
+			Stock stock = new Stock();
+			stock.setSymbol(symbol);
+			stock.setPrice(price);
+			stock.setName(stockName);
+			
+			Transaction trans = new Transaction();
+			trans.setUser(user);
+			trans.setAction(action);
+			
+			TransactionDAO transDAO = new TransactionDAO();
+			transDAO.OpenConnection();
+			double netCash=user.getCashBal();
+			try
 			{
-				if(user.getCashBal()>=amount)
-				{	
-					trans.setQty(qty);
-					trans.setAmount(amount);
-					trans.setStock(stock);
-					transDAO.Trade(trans);
-					//update the user cashBal
-					netCash = netCash - amount;
-				}
-				else
+				if(action.equals(Constants.BUY))
 				{
-					request.setAttribute(Constants.ERR, "Not Enough Cash");
-					request.setAttribute(Constants.STOCK,stock);
-					page="/stockTrade.jsp";
-				}
-			}
-			else if (action.equals(Constants.SELL))
-			{
-				int existQty = transDAO.getTotalQty(symbol, user.getUsername());
-				logger.debug("existing qty: "+existQty);
-				//check you have enough shares to sell
-				if(qty <= existQty)
-				{
-						trans.setAmount(amount);
+					if(user.getCashBal()>=amount)
+					{	
 						trans.setQty(qty);
+						trans.setAmount(amount);
 						trans.setStock(stock);
 						transDAO.Trade(trans);
 						//update the user cashBal
-						netCash = user.getCashBal() + amount;
-						
+						netCash = netCash - amount;
+					}
+					else
+					{
+						request.setAttribute(Constants.ERR, "Not Enough Cash");
+						request.setAttribute(Constants.STOCK,stock);
+						page="/stockTrade.jsp";
+					}
 				}
-				else
+				else if (action.equals(Constants.SELL))
 				{
-					request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
-					request.setAttribute(Constants.STOCK,stock);
-					page="/stockTrade.jsp";
-					
+					int existQty = transDAO.getTotalQty(symbol, user.getUsername());
+					logger.debug("existing qty: "+existQty);
+					//check you have enough shares to sell
+					if(qty <= existQty)
+					{
+							trans.setAmount(amount);
+							trans.setQty(qty);
+							trans.setStock(stock);
+							transDAO.Trade(trans);
+							//update the user cashBal
+							netCash = user.getCashBal() + amount;
+							
+					}
+					else
+					{
+						request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
+						request.setAttribute(Constants.STOCK,stock);
+						page="/stockTrade.jsp";
+						
+					}
+				}
+			}catch (Exception ex)
+			{
+				logger.error(ex.fillInStackTrace());
+			}
+			finally
+			{
+				transDAO.CloseConnection();
+			}
+			user.setCashBal(netCash);
+			updateUser(user);
+			RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+			dispatcher.forward(request, response);
+		}
+	}
+	
+	/**
+	 * Batch update stock price based on symbols.
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void updateStockPrice(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		Map<String, String[]> stockPriceMap = request.getParameterMap();
+		Map<String, Double> stockPrices = new HashMap<String, Double>();
+		PriceDAO priceDAO = new PriceDAO();
+		
+		try {
+			Iterator<Entry<String, String[]>> stockPriceIt = stockPriceMap.entrySet().iterator();
+			while (stockPriceIt.hasNext()) {
+				Entry<String,String[]> stockPriceEntry = stockPriceIt.next();
+				String symbol = stockPriceEntry.getKey();
+				String price = stockPriceEntry.getValue()[0];
+				
+				if (symbol != null && symbol.trim().startsWith("stock_price_") &&
+						Utils.isPositiveNumeric(price)) {
+					symbol = symbol.substring(symbol.lastIndexOf("_")+1);
+					logger.debug("Symbol: "+symbol+", price: "+price);
+					stockPrices.put(symbol, Double.parseDouble(price));
 				}
 			}
-		}catch (Exception ex)
+			
+			if (stockPrices.size() > 0) {
+				priceDAO.OpenConnection();
+				priceDAO.updateStockPrice(stockPrices);
+			}
+		} catch (Exception ex)
 		{
 			logger.error(ex.fillInStackTrace());
 		}
 		finally
 		{
-			transDAO.CloseConnection();
-		}
-		user.setCashBal(netCash);
-		updateUser(user);
-		RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-		dispatcher.forward(request, response);
-
+			priceDAO.CloseConnection();
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/trading.jsp");
+			request.setAttribute(Constants.ACTION, Constants.UPDATE);
+			dispatcher.forward(request, response);
+		}		
 	}
-	
+
 	private void updateUser(User user)
 	{
 		UserDao dao = new UserDao();

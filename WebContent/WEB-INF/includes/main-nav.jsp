@@ -13,7 +13,7 @@
 				 <c:when test="${( not empty sessionScope.User)}">
 				
 					<li><a href="portfolio">My Portfolio</a></li>
-					<li><a href="trading">Trading</a></li>
+					<li><a href="trading?action=view">Trading</a></li>
 					
 					<!-- Display Admin menu if current user has View Admin access right. -->
 					<c:if test="${( not empty sessionScope.UserPermissionMap) && (not empty sessionScope.UserPermissionMap['VIEW ADMIN'])}">
@@ -30,6 +30,10 @@
 								
 								<c:if test="${not empty sessionScope.UserPermissionMap['LIST PERMISSION']}">
 									<li><a href="permission?action=list">Permission</a></li>
+								</c:if>
+								
+								<c:if test="${not empty sessionScope.UserPermissionMap['UPDATE STOCK']}">
+									<li><a href="trading?action=update">Update Stock Price</a></li>
 								</c:if>
 							</ul>
 						</li>
