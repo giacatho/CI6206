@@ -21,6 +21,7 @@ import ci6206.model.Constants;
 import ci6206.model.User;
 
 /**
+ * 
  * Servlet implementation class Profile
  */
 @WebServlet(name="profile", urlPatterns={"/profile"})
@@ -67,12 +68,9 @@ public class Profile extends HttpServlet {
     	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername());
     	        	request.setAttribute("successMessage","Profile has been updated succseefully");
     	        	
-    	        	//2015-10-07 by Qiao Guo Jun: Fixed bug that cannot display 
-    	        	//ranking list on home page after update user profile.
-	            	ArrayList<User> userList = dao.getUserForRanking();
+    	        	ArrayList<User> userList = dao.getUserForRanking();
 	            	request.setAttribute(Constants.USER_LIST,userList);
 	            	
-	            	//2015-10-07 by Qiao Guo Jun: Fixed bug that user profile not refresh after user profile updated. 
 	            	User currentUser = dao.findUser(user.getUsername());
 			    	session.setAttribute(Constants.USER_ATTR, currentUser);
     	        	
@@ -81,6 +79,58 @@ public class Profile extends HttpServlet {
     	    		return;
     	    	}
         	}
+        	
+        	String currentPassword = request.getParameter("current-password");
+        	String newPassword = request.getParameter("new-password");
+        	String confirmPassword = request.getParameter("confirm-password");
+        	String changePassword = request.getParameter("changePassword");
+        	
+        	if(changePassword!=null && changePassword.equals(Constants.CHANGE_PASSWORD)) {
+        		
+        		if(currentPassword == null) {
+        			request.setAttribute("passwordErrorMessage","Please Enter Current Password");
+                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+            		dispatcher.forward(request, response);
+            		return;
+        		} else if (currentPassword!=null) {
+        			if(user.getPassword()!=null) {
+	        			if(!(user.getPassword().equals(currentPassword))) {
+	        				request.setAttribute("passwordErrorMessage","Current passowrd not matching");
+		                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+		            		dispatcher.forward(request, response);
+		            		return;
+	        			}
+        			}
+        		}
+        		
+        		if(newPassword!=null && confirmPassword!=null) {
+        			if(!(newPassword.equals(confirmPassword))) {
+        				request.setAttribute("passwordErrorMessage","New and Confirm passwords don't match. Try again?");
+	                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
+	            		dispatcher.forward(request, response);
+	            		return;
+        			}
+        		}
+        		
+        		dao.OpenConnection();
+	        	Calendar calendar = Calendar.getInstance();
+	        	Date now = calendar.getTime();
+	        	Timestamp currentTimestamp = new Timestamp(now.getTime());
+	        	dao.updateUserPassword(newPassword, currentTimestamp,user.getUsername());
+	        	request.setAttribute("successMessage","Your password has been updated succseefully");
+	        	
+	        	ArrayList<User> userList = dao.getUserForRanking();
+            	request.setAttribute(Constants.USER_LIST,userList);
+            	
+            	User currentUser = dao.findUser(user.getUsername());
+		    	session.setAttribute(Constants.USER_ATTR, currentUser);
+	        	
+	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
+	    		dispatcher.forward(request, response);
+	    		return;
+        	}
+        	
+        	
         	
         	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
     		dispatcher.forward(request, response);

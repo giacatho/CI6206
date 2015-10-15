@@ -69,6 +69,7 @@ public class UserDao extends AbstractDAO{
 	    		user.setYrStartBal(resSet.getDouble("totalval_0101"));
 	    		user.setSharesVal(resSet.getDouble("share_val"));
 	    		user.setEmail(resSet.getString("email"));
+	    		user.setPassword(resSet.getString("password"));
 	    		user.setInitialBalance(resSet.getDouble("initialBalance"));
 	    	}
         }
@@ -179,6 +180,37 @@ public class UserDao extends AbstractDAO{
         }
 		
     }
+    
+    public void updateUserPassword(String newPassword, Timestamp lastupdate,String userid) {
+        StringBuffer sb = new StringBuffer();
+    	sb.append("UPDATE tb_user ");
+    	sb.append("SET lastupdate=?, ");
+    	sb.append("password=? ");
+    	sb.append("WHERE userid=? ");
+    	try
+        {
+	    	ps = conn.prepareStatement(sb.toString());
+	    	ps.setTimestamp(1, lastupdate);
+	    	ps.setString(2, newPassword);
+	    	ps.setString(3, userid);
+	    	ps.executeUpdate();
+        }
+        catch(SQLException sqle)
+        {
+    		try
+    		{
+    		   conn.rollback();
+    		}
+    		catch(SQLException ignore){}
+    		logger.error("Error in updating Password: "+sqle.fillInStackTrace());
+        }
+        finally
+        {
+        	cleanUp();
+        }
+		
+    }
+    
     
     /**
      * @return create user

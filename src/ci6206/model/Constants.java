@@ -25,7 +25,7 @@ public class Constants {
 	public final static String ERR = "Error";
 	public final static String USER_LIST = "userDetails";
 	public final static String UPDATE_PROFILE = "updateProfile";
-	
+	public final static String CHANGE_PASSWORD = "changePassword";
 	
 	
 	//User Management
