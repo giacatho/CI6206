@@ -64,16 +64,6 @@ public class Profile extends HttpServlet {
     	                }
     	    		}
     	    		
-    	    		if (!currentPassword.isEmpty()) {
-            			if(user.getPassword()!=null) {
-    	        			if(!(user.getPassword().equals(currentPassword))) {
-    	        				request.setAttribute("errorMessage","Current passowrd not matching");
-    		                	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
-    		            		dispatcher.forward(request, response);
-    		            		return;
-    	        			}
-            			}
-            		}
     	    		
     	    		if(!newPassword.isEmpty() && !confirmPassword.isEmpty()){
 	            			if(!(newPassword.equals(confirmPassword))) {
@@ -98,14 +88,14 @@ public class Profile extends HttpServlet {
     	        	} else {
         	        	dao.updateUserProfile(firstName, lastName, currentTimestamp, email,user.getUsername(),user.getPassword());
     	        	}
-    	        	request.setAttribute("successMessage","Profile has been updated succseefully");
     	        	
     	        	ArrayList<User> userList = dao.getUserForRanking();
 	            	request.setAttribute(Constants.USER_LIST,userList);
 	            	
 	            	User currentUser = dao.findUser(user.getUsername());
 			    	session.setAttribute(Constants.USER_ATTR, currentUser);
-    	        	
+			    	request.setAttribute("title", "Home");
+			    	request.setAttribute("successMessage","Profile has been updated successfully");
     	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/home.jsp");
     	    		dispatcher.forward(request, response);
     	    		return;
@@ -114,7 +104,7 @@ public class Profile extends HttpServlet {
         	
         	RequestDispatcher dispatcher = request.getRequestDispatcher("/profile.jsp");
     		dispatcher.forward(request, response);
-    	} catch (Exception e) {
+     	} catch (Exception e) {
     		logger.error(e.fillInStackTrace());
     	} finally {
     		dao.CloseConnection();

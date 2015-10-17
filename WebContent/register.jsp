@@ -20,7 +20,7 @@
 		<h1><%= request.getAttribute("title") %></h1>
 	</div>
 	
-	<div class="panel panel-default">
+	<div class="panel">
 		<div class="panel-body">
 			<form class="form-signin" action="register" method="post">
 		
@@ -28,7 +28,7 @@
 					<div class="alert alert-danger">${errorMessage}</div>
 				<% } %>
 				
-				<table class="table table-striped my-table">
+				<table class="userTables" style="padding-right: 1000px;">
 					<tr>
 						<td nowrap="nowrap" class="required">
 							<label for="username">User Name</label>

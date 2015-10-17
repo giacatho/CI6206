@@ -158,6 +158,12 @@ body {
 	border-color: #76caff;
 }
 
+.userTables {
+	margin-right: 25px;
+	width: 500px;
+	margin: 10px;
+}
+
 /* News */
 .news .panel-body
 {
