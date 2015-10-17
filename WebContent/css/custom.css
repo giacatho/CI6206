@@ -83,20 +83,27 @@ body {
 /* Form login and register */
 .form-signin {
 	max-width: 330px;
+}
+
+.form-register,
+.form-profile {
+	max-width: 550px;
+}
+
+.my-form {
 	padding: 15px;
 	margin: 0 auto;
 }
 
-.form-signin .form-signin-heading,
-.form-sign .checkbox {
+.my-form .form-signin-heading {
 	margin-bottom: 10px;
 }
 
-.form-signin input {
+.my-form input {
 	margin-bottom: 5px;
 }
 
-.form-signin .form-control {
+.my-form .form-control {
 	position: relative;
 	height: auto;
 	-webkit-box-sizing: border-box;
@@ -104,6 +111,13 @@ body {
 	box-sizing: border-box;
 	padding: 10px;
 	border-size: 16px;
+}
+
+label.required:after {
+	content: '*';
+	color: #f00;
+	margin-right: 3px;
+	margin-left: 1px;
 }
 
 /* Form trade stock */

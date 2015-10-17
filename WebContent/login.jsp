@@ -14,7 +14,7 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form class="form-signin" action="login" method="post">
+			<form class="my-form form-signin" action="login" method="post">
 				<% if(request.getAttribute("message")!=null) { %>
 				<div class="alert alert-danger" role="alert">${ message }</div>
 				<% } %>

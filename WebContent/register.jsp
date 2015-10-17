@@ -3,14 +3,6 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="WEB-INF/includes/head.jsp" %>
-<style>
-   .required > label:after {
-	content: '*';
-	color: #f00;
-	margin-right: 3px;
-	margin-left: 1px;
-	}
-</style>
 <body>
 <div id="main" class="container">
 	
@@ -22,70 +14,62 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form class="form-signin" action="register" method="post">
+			<form class="form-horizontal my-form form-register" action="register" method="post">
 		
 				<% if(request.getAttribute("errorMessage")!=null) { %>
 					<div class="alert alert-danger">${errorMessage}</div>
 				<% } %>
 				
-				<table class="table table-striped my-table">
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="username">User Name</label>
-						</td>
-						<td>
-							<input class="form-control" type="text" name="username" id="username" placeholder="Username" required autofocus maxlength="25">
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="firstname">First Name</label>
-						</td>
-						<td>
-							<input class="form-control" type="text" name="firstname" id="firstname" placeholder="First Name" required maxlength="20">
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="lastname">Last Name</label>
-						</td>
-						<td>
-							<input class="form-control" type="text" name="lastname" id="lastname" placeholder="Last Name" required maxlength="20">
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="password">Password</label>
-						</td>
-						<td>
-							<input class="form-control" type="password" name="password" id="password" placeholder="Password" required maxlength="8">
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="lastname">Email</label>
-						</td>
-						<td>
-							<input class="form-control" type="text" name="email" id="email" placeholder="Email" required maxlength="100">
-							<input class="form-control" type="hidden" name="status" id="status" value="A">
-						</td>
-					</tr>
-					<tr>
-						<td nowrap="nowrap" class="required">
-							<label for="lastname">Initial Balance</label>
-						</td>
-						<td>
-							<input class="form-control" type="text" name="initialBalance" id="initialBalance" placeholder="100000.00" required maxlength="10">
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<button class="btn btn-primary" type="submit">Register</button>
-						</td>
-					</tr>
-				</table>
+				<div class="form-group">
+					  <label for="username" class="col-sm-3 control-label required">First Name</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="username" id="username" placeholder="Username" required autofocus maxlength="25">
+					  </div>
+				</div>
 				
-				<a href="login">Have account? Please login</a>
+				<div class="form-group">
+					  <label for="firstname" class="col-sm-3 control-label required">First Name</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="firstname" id="firstname" placeholder="First Name" required maxlength="20">
+					  </div>
+				</div>
+				
+				<div class="form-group">
+					  <label for="lastname" class="col-sm-3 control-label required">Last Name</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="lastname" id="lastname" placeholder="Last Name" required maxlength="20">
+					  </div>
+				</div>
+  	
+  				<div class="form-group">
+					  <label for="password" class="col-sm-3 control-label required">Password</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="password" name="password" id="password" placeholder="Password" required maxlength="8">
+					  </div>
+				</div>
+  				
+  				<div class="form-group">
+					  <label for="email" class="col-sm-3 control-label required">Email</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="email" id="email" placeholder="Email" required maxlength="100">
+							<input class="form-control" type="hidden" name="status" id="status" value="A">
+					  </div>
+				</div>
+				
+				<div class="form-group">
+					  <label for="initialBalance" class="col-sm-3 control-label required">Initial Balance</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="initialBalance" id="initialBalance" placeholder="100000.00" required maxlength="10">
+							<input class="form-control" type="hidden" name="status" id="status" value="A">
+					  </div>
+				</div>
+				
+				<div class="form-group">
+				    <div class="col-sm-offset-3 col-sm-9">
+				      	<button class="btn btn-primary" type="submit">Register</button> <a href="login">Have account? Please login</a>
+				    </div>
+ 				</div>
+				
 			</form>
 		</div>
 	</div>

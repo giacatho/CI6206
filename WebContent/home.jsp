@@ -46,7 +46,7 @@
 					    	<c:choose>
 					    		<c:when test="${empty requestScope.userDetails}">
 									<tr>
-										<td class="no-record ctr" colspan="4">No records. Please select a character the stock names start with.</td>
+										<td class="no-record ctr" colspan="3">No records.</td>
 									</tr>
 								</c:when>
 					    		<c:when test="${!empty requestScope.userDetails}">
