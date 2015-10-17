@@ -28,7 +28,7 @@
 					<div class="alert alert-danger">${errorMessage}</div>
 				<% } %>
 				
-				<table>
+				<table class="table table-striped my-table">
 					<tr>
 						<td nowrap="nowrap" class="required">
 							<label for="username">User Name</label>
