@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
 		    	// OK, store user to section and redirect to profile.
 		    	HttpSession session = request.getSession();
 		    	session.setAttribute(Constants.USER_ATTR, user);
-		    	response.sendRedirect(getServletContext().getContextPath() + "/home");
+		    	response.sendRedirect(getServletContext().getContextPath() + "/portfolio");
     		    	
         	}
         	else{

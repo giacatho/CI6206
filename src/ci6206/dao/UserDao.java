@@ -223,7 +223,7 @@ public class UserDao extends AbstractDAO{
      	sb.append("password=?, ");
      	sb.append("last_name=?, ");
      	sb.append("first_name=?, ");
-     	sb.append("initialBalance=?, ");
+     	sb.append("cash_bal=?, ");
      	sb.append("email=?, ");
      	sb.append("status=?, ");
      	sb.append("datereg=? ");

@@ -12,20 +12,13 @@
 		<h1><%= request.getAttribute("title") %></h1>
 	</div>
 	
-	<div class="panel panel-default">
+	<div class="panel">
 		<div class="panel-body">
 			<form class="form-horizontal my-form form-register" action="register" method="post">
 		
 				<% if(request.getAttribute("errorMessage")!=null) { %>
 					<div class="alert alert-danger">${errorMessage}</div>
 				<% } %>
-				
-				<div class="form-group">
-					  <label for="username" class="col-sm-3 control-label required">First Name</label>
-					  <div class="col-sm-9">
-					    	<input class="form-control" type="text" name="username" id="username" placeholder="Username" required autofocus maxlength="25">
-					  </div>
-				</div>
 				
 				<div class="form-group">
 					  <label for="firstname" class="col-sm-3 control-label required">First Name</label>

@@ -19,6 +19,9 @@ public class DBFactory {
 		Context envContext  = (Context)initContext.lookup("java:/comp/env");
 		DataSource ds = (DataSource)envContext.lookup("jdbc/sigdb");
 		conn = ds.getConnection();
+		
+		//Class.forName("com.mysql.jdbc.Driver");
+		//conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/new_sigdb", "root", "root");
 	  }
 	  catch(Exception ex)
 	  {
