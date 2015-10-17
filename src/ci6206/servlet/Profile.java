@@ -64,7 +64,7 @@ public class Profile extends HttpServlet {
     	                }
     	    		}
     	    		
-    	    		if (currentPassword!=null) {
+    	    		if (!currentPassword.isEmpty()) {
             			if(user.getPassword()!=null) {
     	        			if(!(user.getPassword().equals(currentPassword))) {
     	        				request.setAttribute("errorMessage","Current passowrd not matching");

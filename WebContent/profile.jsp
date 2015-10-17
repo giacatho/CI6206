@@ -72,7 +72,7 @@
 								      	<label for="username" class="control-label">Current Password</label>
 								      </td>
 								      <td>
-								     	 <input class="form-control" type="password" id="current-password" name="current-password" placeholder="Current Password">
+								     	 <input class="form-control" type="password" id="current-password" name="current-password" value="${requestScope.userDetails.password}" placeholder="Current Password" readonly disabled>
 								      </td>
 							      </tr>
 							      <tr>
@@ -80,7 +80,7 @@
 								      	<label for="firstname" class="control-label">New Password</label>
 								      </td>
 								      <td>
-								      	<input class="form-control" type="password" id="new-password" name="new-password">
+								      	<input class="form-control" type="password" id="new-password" name="new-password" placeholder="new-password">
 								      </td>
 							      </tr>
 							      <tr>
