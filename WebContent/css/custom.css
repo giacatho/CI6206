@@ -85,9 +85,12 @@ body {
 	max-width: 330px;
 }
 
-.form-register,
-.form-profile {
+.form-register {
 	max-width: 550px;
+}
+
+.form-profile {
+	max-width: 650px;
 }
 
 .my-form {
@@ -147,17 +150,6 @@ label.required:after {
 
 .admin-model select {
 	width: 250px;
-}
-
-/* Form profile */
-.form-profile {
-	max-width: 450px;
-	padding: 15px;
-	margin: 0 auto;
-}
-
-.form-profile input {
-	margin-bottom: 12px;
 }
 
 /* Ranking */

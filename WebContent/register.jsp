@@ -12,7 +12,7 @@
 		<h1><%= request.getAttribute("title") %></h1>
 	</div>
 	
-	<div class="panel">
+	<div class="panel panel-default">
 		<div class="panel-body">
 			<form class="form-horizontal my-form form-register" action="register" method="post">
 		
