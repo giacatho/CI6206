@@ -155,15 +155,15 @@
 			    <tr>
 				    <td>Status</td>
 				    <td>
-				    	<c:if test="${requestScope.user.status == 'A'}">
-				    		<input type="radio" name="status" value="A" checked>Active
-  	 						<input type="radio" name="status" value="I">Inactive
-				    	</c:if>
-				    	
-				    	<c:if test="${requestScope.user.status != 'A'}">
-				    		<input type="radio" name="status" value="A">Active
-  	 						<input type="radio" name="status" value="I" checked>Inactive
-				    	</c:if>
+					    	<c:if test="${requestScope.user.status == 'A'}">
+					    		<label class="radio-inline"><input type="radio" name="status" value="A" checked>Active</label>
+	  	 						<label class="radio-inline"><input type="radio" name="status" value="I">Inactive</label>
+					    	</c:if>
+					    	
+					    	<c:if test="${requestScope.user.status != 'A'}">
+					    		<label class="radio-inline"><input type="radio" name="status" value="A">Active</label>
+	  	 						<label class="radio-inline"><input type="radio" name="status" value="I" checked>Inactive</label>
+					    	</c:if>
 				    </td>
 			    </tr>
 			    

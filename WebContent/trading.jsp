@@ -29,11 +29,11 @@ function getStock(action)
 	<div class="panel panel-default">
 	
 		<div class="panel-heading">
-			<h2 class="panel-title">Select Stocks</h2>
+			<h2 class="panel-title">Retrieve Stocks</h2>
 		</div>
 		<div class="panel-body">
 			<div>
-				<span class="label label-info">By Alphabet</span>			
+				<label>Select By Alphabet&nbsp;</label>			
 				<a href="trading?srch=A&action=${requestScope.action}"><span class="badge">A</span></a>
 				<a href="trading?srch=B&action=${requestScope.action}"><span class="badge">B</span></a>		
 				<a href="trading?srch=C&action=${requestScope.action}"><span class="badge">C</span></a>		
@@ -62,17 +62,14 @@ function getStock(action)
 			</div>
 			<br/>
 			<div>
-				<table>
-			    <td>
-  			        <span class="label label-info">Search by name:</span>
-			    </td>
-			    <td>
-			    	<input type="text" class="form-control" id="srch" name="srch"/>
-			    </td>
-			    <td>
-					<a href="#" class="btn btn-info" onclick="getStock('${requestScope.action}')">Search</a>
-				</td>			    
-				</table>
+			<table>
+				<tr>
+			    	<td><label>Search By Name&nbsp;</label></td>
+			    	<td><input type="text" class="form-control" id="srch" name="srch"/></td>
+			    	<td>&nbsp;</td>
+				    <td><a href="#" class="btn btn-primary" onclick="getStock('${requestScope.action}')">Search</a></td>
+				</tr>			    
+			</table>
 			</div>			
 		</div>
 	</div>
@@ -106,7 +103,7 @@ function getStock(action)
 					        <td><c:out value="${stock.symbol}"/></td>
 					        <td><c:out value="${stock.price}"/></td>
 					        <c:if test="${( not empty requestScope.action) && (requestScope.action=='update')}">
-					        	 <td> <input type="text" class="form-control" name="stock_price_<c:out value="${stock.symbol}"/>"/></td>
+					        	 <td> <input type="text" class="form-control stock-price-input" name="stock_price_<c:out value="${stock.symbol}"/>"/></td>
 					        </c:if>
 					        
 					        <c:if test="${( not empty requestScope.action) && (requestScope.action!='update')}">

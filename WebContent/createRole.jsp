@@ -87,10 +87,12 @@
 				    <td>
 				        <c:forEach items="${PermissionList}" var="permission" varStatus ="loop"> 
 			        		<c:if test="${(loop.index+1) %3 == 0}">
-			        			<br/>
+			        			<div class="col-sm-offset-2">&nbsp;</div>
 			        		</c:if>	
-			        		<input type="checkbox" value="${permission.nbr }" name="permissionCxb"> 
-			        			${permission.actionDesc}  ${permission.permissionName}    		
+			        		<div class="col-sm-5">
+			        			<input type="checkbox" value="${permission.nbr }" name="permissionCxb"> 
+			        				${permission.actionDesc}  ${permission.permissionName}    	
+		        			</div>	
 			        	</c:forEach>
 				    </td>
 			    </tr>

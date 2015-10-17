@@ -32,6 +32,8 @@ public class RoleServlet  extends StockGameServlet {
 
 	//Handle all Role requests.
 	public void handle() throws ServletException, IOException {
+		request.setAttribute(Constants.TITLE, "Role");
+		
 		String action = request.getParameter(Constants.ACTION);
 		
 		if (action != null) {

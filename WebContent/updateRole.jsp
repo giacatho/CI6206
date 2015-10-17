@@ -89,16 +89,20 @@ function getSelectedChbox() {
 				    <td>Role Permission:</td>
 				    <td>
 				        <c:forEach items="${PermissionList}" var="permission" varStatus ="loop"> 
-			        		<c:if test="${(loop.index+1) %3 == 0}">
-			        			<br/>
+			        		<c:if test="${loop.index != 0 && (loop.index) %2 == 0}">
+			        			<div class="col-sm-offset-2">&nbsp;</div>
 			        		</c:if>	
 			        		<c:if test="${permission.checked == true}"> 
-			        			<input type="checkbox" value="${permission.nbr }" name="permissionCxb" checked> 
-			        			${permission.actionDesc}  ${permission.permissionName}   
+			        			<div class="col-sm-5">
+				        			<input type="checkbox" value="${permission.nbr }" name="permissionCxb" checked> 
+				        			${permission.actionDesc}  ${permission.permissionName}   
+			        			</div>
 			        		</c:if> 
 			        		<c:if test="${permission.checked != true}"> 
-			        			<input type="checkbox" value="${permission.nbr }" name="permissionCxb"> 
-			        			${permission.actionDesc}  ${permission.permissionName}   
+			        			<div class="col-sm-5">
+				        			<input type="checkbox" value="${permission.nbr }" name="permissionCxb"> 
+				        			${permission.actionDesc}  ${permission.permissionName}  
+			        			</div> 
 			        		</c:if> 
 			        		 		
 			        	</c:forEach>

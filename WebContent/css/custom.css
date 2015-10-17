@@ -59,6 +59,10 @@ body {
 	font-weight: bold;
 }
 
+.panel-contain-table {
+	padding: 10px 10px 10px 10px;
+}
+
 /* Table */
 .my-table {
 	border: 1px solid #bbb;
@@ -212,6 +216,10 @@ label.required:after {
 /* Mics */
 .ctr {
 	text-align: center !important;
+}
+
+.stock-price-input {
+	width: 100px;
 }
 
 /** RSS Feed  **/

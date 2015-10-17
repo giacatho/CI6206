@@ -27,6 +27,8 @@ public class PermissionServlet  extends StockGameServlet {
 
 	//Handle all Permission requests.
 	public void handle() throws ServletException, IOException {
+		request.setAttribute(Constants.TITLE, "Permission");
+		
 		String action = request.getParameter(Constants.ACTION);
 		
 		if (action != null) {

@@ -25,8 +25,8 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-sm-4">
-				<h4><span class="label label-primary">Cash</span> <fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/></h4>
-				<h4><span class="label label-primary">Inception Date</span> <c:out value="${sessionScope.User.inception}"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="top" title="Michael to provide">Cash</span> <fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="top" title="Michael to provide">Inception Date</span> <c:out value="${sessionScope.User.inception}"/></h4>
 			</div>
 			<div class="col-sm-4">
 				<h4><span class="label label-primary">Shares Value</span> <fmt:formatNumber value="${requestScope.shares}" type="currency"/></h4>
@@ -38,13 +38,14 @@
 			</div>
 		</div>
 	</div>
+    
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#unreal">Unrealised</a>
-        </h4>
+        <h2 class="panel-title">
+          <a data-toggle="collapse" href="#unreal">Unrealised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Michael to provide"></i>
+        </h2>
       </div>
-      <div id="unreal" class="panel-collapse collapse">
+      <div id="unreal" class="panel-collapse collapse in panel-contain-table">
 		<table class="table table-striped my-table">
 			<thead>
 				<tr>
@@ -101,11 +102,11 @@
 	
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" href="#real">Realised</a>
-        </h4>
+        <h2 class="panel-title">
+          <a data-toggle="collapse" href="#real">Realised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Michael to provide"></i>
+        </h2>
       </div>
-      <div id="real" class="panel-collapse collapse">
+      <div id="real" class="panel-collapse collapse in panel-contain-table">
 		<table class="table table-striped my-table">
 			<thead>
 				<tr>
@@ -159,7 +160,12 @@
 		</table>
       </div>
 	</div>
-
+</div>
 <%@ include file="WEB-INF/includes/footer.jsp" %>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 </body>
 </html>

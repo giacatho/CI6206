@@ -31,6 +31,8 @@ public class UserServlet  extends StockGameServlet {
 
 	//Handle all User requests.
 	public void handle() throws ServletException, IOException {
+		request.setAttribute(Constants.TITLE, "User");
+		
 		String action = request.getParameter(Constants.ACTION);
 		
 		if (action != null) {
