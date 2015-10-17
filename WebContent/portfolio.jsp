@@ -25,16 +25,16 @@
 		</div>
 		<div class="panel-body">
 			<div class="col-sm-4">
-				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="top" title="Michael to provide">Cash</span> <fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/></h4>
-				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="top" title="Michael to provide">Inception Date</span> <c:out value="${sessionScope.User.inception}"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Available Cash">Cash</span> <fmt:formatNumber value="${sessionScope.User.cashBal}" type="currency"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Start date">Inception Date</span> <c:out value="${sessionScope.User.inception}"/></h4>
 			</div>
 			<div class="col-sm-4">
-				<h4><span class="label label-primary">Shares Value</span> <fmt:formatNumber value="${requestScope.shares}" type="currency"/></h4>
-				<h4><span class="label label-primary">Annualised Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-100000)/100000}" type="percent"  maxFractionDigits="1"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Total market value of current holding">Shares Value</span> <fmt:formatNumber value="${requestScope.shares}" type="currency"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Annual return in simple return since inception">Annualised Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-sessionScope.User.initialBalance)/sessionScope.User.initialBalance}" type="percent"  maxFractionDigits="1"/></h4>
 			</div>
 			<div class="col-sm-4">
-				<h4><span class="label label-primary">Total Asset</span> <fmt:formatNumber value="${requestScope.shares+sessionScope.User.cashBal}" type="currency"/></h4> 
-				<h4><span class="label label-primary">Year to Date Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-sessionScope.User.yrStartBal)/sessionScope.User.yrStartBal}" type="percent" maxFractionDigits="1"/></h4>
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Cash+Shares Value">Total Asset</span> <fmt:formatNumber value="${requestScope.shares+sessionScope.User.cashBal}" type="currency"/></h4> 
+				<h4><span class="label label-primary" data-toggle="tooltip" data-placement="left" title="Percentage of return since 01 Jan of the current year.">Year to Date Return(%)</span> <fmt:formatNumber value="${(requestScope.shares+sessionScope.User.cashBal-sessionScope.User.yrStartBal)/sessionScope.User.yrStartBal}" type="percent" maxFractionDigits="1"/></h4>
 			</div>
 		</div>
 	</div>
@@ -42,7 +42,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h2 class="panel-title">
-          <a data-toggle="collapse" href="#unreal">Unrealised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Michael to provide"></i>
+          <a data-toggle="collapse" href="#unreal">Unrealised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Current Holding"></i>
         </h2>
       </div>
       <div id="unreal" class="panel-collapse collapse in panel-contain-table">
@@ -57,7 +57,6 @@
 					<th class="ctr">Unit Market Price</th>
 					<th class="ctr">Profit/Loss</th>
 					<th class="ctr">Details</th>
-					
 				</tr>
 			</thead>
 			<tbody>
@@ -103,7 +102,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h2 class="panel-title">
-          <a data-toggle="collapse" href="#real">Realised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Michael to provide"></i>
+          <a data-toggle="collapse" href="#real">Realised Stock</a>&nbsp;<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" title="Sold Holding"></i>
         </h2>
       </div>
       <div id="real" class="panel-collapse collapse in panel-contain-table">

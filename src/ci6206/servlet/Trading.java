@@ -54,6 +54,7 @@ public class Trading extends HttpServlet {
     	logger.debug("Trading action : "+request.getParameter(Constants.ACTION));
     	StockDAO stockDO = new StockDAO();
     	stockDO.OpenConnection();
+
     	try
     	{
 	    	if(beginStr!=null&&!beginStr.isEmpty())
@@ -74,7 +75,14 @@ public class Trading extends HttpServlet {
 	    		
 	    		page = "/stockTrade.jsp";
 	        	Stock stock = stockDO.GetStock(symbol);
+	    		TransactionDAO transDAO = new TransactionDAO();
+	    		transDAO.OpenConnection();
+	    		HttpSession session = request.getSession();
+	    		User user = (User)session.getAttribute(Constants.USER_ATTR);
+	    		int curQty = transDAO.getTotalQty(symbol, user.getUsername());
+	        	
 	    		request.setAttribute(Constants.STOCK,stock);
+	    		request.setAttribute("availQty", curQty);
 	    		
 	    	}
     	}catch(Exception ex)
@@ -126,7 +134,8 @@ public class Trading extends HttpServlet {
 		
 		if (requestAction != null && requestAction.equals(Constants.UPDATE)) {
 			updateStockPrice(request, response);
-		} else {
+		} 
+		else{
 			HttpSession session = request.getSession();
 			User user = (User)session.getAttribute(Constants.USER_ATTR);
 
@@ -146,6 +155,7 @@ public class Trading extends HttpServlet {
 			TransactionDAO transDAO = new TransactionDAO();
 			transDAO.OpenConnection();
 			double netCash=user.getCashBal();
+
 			try
 			{
 				if(action.equals(Constants.BUY))
@@ -185,6 +195,8 @@ public class Trading extends HttpServlet {
 					{
 						request.setAttribute(Constants.ERR, "Short Selling is not allowed.");
 						request.setAttribute(Constants.STOCK,stock);
+			    		request.setAttribute("availQty", existQty);
+
 						page="/stockTrade.jsp";
 						
 					}

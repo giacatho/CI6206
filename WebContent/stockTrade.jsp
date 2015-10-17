@@ -91,6 +91,12 @@ $(document).ready(function(){
 				        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>" />
 				    </td>
 			    </tr>
+			    <tr>
+				    <td>Available Quantity for selling:</td>
+				    <td>
+				        <c:out value="${requestScope.availQty}"/>
+				    </td>
+			    </tr>
 	
 			    <tr>
 				    <td>Quantity:</td>
