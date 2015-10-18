@@ -67,14 +67,14 @@
 						</div>  
 					      
 					    <div class="form-group">
-							  <label for="new-password" class="col-sm-4 control-label required">New Password</label>
+							  <label for="new-password" class="col-sm-4 control-label">New Password</label>
 							  <div class="col-sm-8">
 							    	<input class="form-control" type="password" id="new-password" name="new-password" placeholder="New Password" title="If you want to update your password, please enter new Password">
 							  </div>
 						</div>  
 					      
 					    <div class="form-group">
-							  <label for="confirm-password" class="col-sm-4 control-label required">Confirm Password</label>
+							  <label for="confirm-password" class="col-sm-4 control-label">Confirm Password</label>
 							  <div class="col-sm-8">
 							    	<input class="form-control" type="password" id="confirm-password" name="confirm-password" placeholder="Confirm New Password">
 							  </div>
