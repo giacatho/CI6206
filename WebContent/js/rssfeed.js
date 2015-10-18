@@ -1,6 +1,6 @@
 function load() {
 
-	var feed ="https://sg.finance.yahoo.com/news/category-stocks/?format=rss";
+	var feed ="http://www.investopedia.com/feedbuilder/feed/getFeed?feedName=rss_stock_analysis";
 	var options = {
 			numResults : 20,
 		    displayTime : 5000,
@@ -8,7 +8,7 @@ function load() {
 		    pauseOnHover : false,
 		    horizontal : false,
 		    stacked : false,
-		    title : 'Hollywood'
+		    title : 'Stock News'
 		  }
 	new GFdynamicFeedControl(feed, "feedControl", options);
 
