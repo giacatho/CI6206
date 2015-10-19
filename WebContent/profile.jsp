@@ -3,14 +3,7 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="WEB-INF/includes/head.jsp" %>
-<style>
-   .required > label:after {
-	content: '*';
-	color: #f00;
-	margin-right: 3px;
-	margin-left: 1px;
-	}
-</style>
+
 <body>
 <div id="main" class="container">
 	

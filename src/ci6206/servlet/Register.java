@@ -37,6 +37,7 @@ public class Register extends HttpServlet {
     	
     	String username = request.getParameter("username");
     	String password = request.getParameter("password");
+    	String confirmPassword = request.getParameter("confirm-password");
     	String firstName = request.getParameter("firstname");
     	String lastName = request.getParameter("lastname");
     	String email = request.getParameter("email");
@@ -62,17 +63,24 @@ public class Register extends HttpServlet {
     	}
         
         if (email == null) {
-    		request.setAttribute("errorMessage", "Please enter Email");
+    		request.setAttribute("errorMessage", "Please enter email");
     		RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
     		dispatcher.forward(request, response);
     		return;
     	} else {
                 if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
-                	request.setAttribute("errorMessage","Please Enter Valid Email");
+                	request.setAttribute("errorMessage","Please enter a valid email");
                 	RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
             		dispatcher.forward(request, response);
             		return;
                 }
+        }
+        
+        if (!confirmPassword.equals(password)) {
+        	request.setAttribute("errorMessage","New and Confirm Passwords don't match. Please try again.");
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+    		dispatcher.forward(request, response);
+    		return;
         }
         
     	username = username.trim();

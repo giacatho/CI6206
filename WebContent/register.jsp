@@ -21,6 +21,13 @@
 				<% } %>
 				
 				<div class="form-group">
+					  <label for="username" class="col-sm-3 control-label required">Username</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="text" name="username" id="username" placeholder="Username" required maxlength="20">
+					  </div>
+				</div>
+				
+				<div class="form-group">
 					  <label for="firstname" class="col-sm-3 control-label required">First Name</label>
 					  <div class="col-sm-9">
 					    	<input class="form-control" type="text" name="firstname" id="firstname" placeholder="First Name" required maxlength="20">
@@ -38,6 +45,13 @@
 					  <label for="password" class="col-sm-3 control-label required">Password</label>
 					  <div class="col-sm-9">
 					    	<input class="form-control" type="password" name="password" id="password" placeholder="Password" required maxlength="8">
+					  </div>
+				</div>
+				
+				<div class="form-group">
+					  <label for="confirm-password" class="col-sm-3 control-label required">Confirm Password</label>
+					  <div class="col-sm-9">
+					    	<input class="form-control" type="password" name="confirm-password" id="confirm-password" placeholder="Confirm Password" required maxlength="8">
 					  </div>
 				</div>
   				
