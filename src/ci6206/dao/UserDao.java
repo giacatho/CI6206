@@ -226,7 +226,9 @@ public class UserDao extends AbstractDAO{
      	sb.append("cash_bal=?, ");
      	sb.append("email=?, ");
      	sb.append("status=?, ");
-     	sb.append("datereg=? ");
+     	sb.append("datereg=?, ");
+     	sb.append("initialBalance=?, ");
+     	sb.append("totalval_0101=? ");
      	try
          {
 
@@ -239,6 +241,8 @@ public class UserDao extends AbstractDAO{
  	    	ps.setString(6, email);
  	    	ps.setString(7, status);
  	    	ps.setDate(8, registeredDate);
+ 	    	ps.setDouble(9, intialValue);
+ 	    	ps.setDouble(10, intialValue);
  	    	ps.executeUpdate();
 		} catch (Exception e) {
     		try

@@ -76,13 +76,14 @@ public class Register extends HttpServlet {
                 }
         }
         
-        if (!confirmPassword.equals(password)) {
-        	request.setAttribute("errorMessage","New and Confirm Passwords don't match. Please try again.");
-        	RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
-    		dispatcher.forward(request, response);
-    		return;
+        if((confirmPassword!=null && !confirmPassword.isEmpty()) && (password!=null && !password.isEmpty())) {
+	        if (!confirmPassword.equals(password)) {
+	        	request.setAttribute("errorMessage","New and Confirm Passwords don't match. Please try again.");
+	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/register.jsp");
+	    		dispatcher.forward(request, response);
+	    		return;
+	        }
         }
-        
     	username = username.trim();
     	password = password.trim();
     	firstName = firstName.trim();
