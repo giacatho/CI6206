@@ -11,9 +11,11 @@
 				<ul class="nav navbar-nav">
 			   <c:choose>
 				 <c:when test="${( not empty sessionScope.User)}">
-				
-					<li><a href="portfolio">My Portfolio</a></li>
-					<li><a href="trading?action=view">Trading</a></li>
+					
+					<c:if test="${( empty sessionScope.UserPermissionMap) || (empty sessionScope.UserPermissionMap['VIEW ADMIN'])}">
+						<li><a href="portfolio">My Portfolio</a></li>
+						<li><a href="trading?action=view">Trading</a></li>
+					</c:if>
 					
 					<!-- Display Admin menu if current user has View Admin access right. -->
 					<c:if test="${( not empty sessionScope.UserPermissionMap) && (not empty sessionScope.UserPermissionMap['VIEW ADMIN'])}">

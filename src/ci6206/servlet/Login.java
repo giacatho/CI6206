@@ -65,7 +65,12 @@ public class Login extends HttpServlet {
 		    	// OK, store user to section and redirect to profile.
 		    	HttpSession session = request.getSession();
 		    	session.setAttribute(Constants.USER_ATTR, user);
-		    	response.sendRedirect(getServletContext().getContextPath() + "/portfolio");
+		    	
+		    	if (isAdmin(request)) {
+		    		response.sendRedirect(getServletContext().getContextPath() + "/home");
+		    	} else {
+		    		response.sendRedirect(getServletContext().getContextPath() + "/portfolio");
+		    	}
     		    	
         	}
         	else{
@@ -81,7 +86,24 @@ public class Login extends HttpServlet {
     	
     }
     
-  //Retrieve Permissions for login user and put it into Session.
+	 /**
+	   * 
+	   * Check if login user is Admin.
+	   * 
+	   * @param request
+	   * @return Return true if it is admin, otherwise return false.
+	 */
+    private boolean isAdmin(HttpServletRequest request) {
+	  	Map<String, String> permissionMap = (Map<String, String>) request.
+	  			getSession().getAttribute(Constants.USER_PERMISSION_MAP);
+	  	
+	  	if (permissionMap != null && permissionMap.containsKey("VIEW ADMIN")) {
+	  		return true;
+	  	}
+		return false;
+	}
+
+	//Retrieve Permissions for login user and put it into Session.
     private void retrievePermissions(HttpServletRequest request,  
     		HttpServletResponse response, String userName) throws ServletException, IOException {
     	RoleDAO roleDAO = new RoleDAO();

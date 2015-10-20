@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import ci6206.dao.exception.DAOException;
 
 public class PriceDAO extends AbstractDAO {
-	Logger logger = Logger.getLogger(PermissionDAO.class);
+	Logger logger = Logger.getLogger(PriceDAO.class);
 	
 	
 	/**
