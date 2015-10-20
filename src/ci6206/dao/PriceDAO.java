@@ -25,7 +25,7 @@ public class PriceDAO extends AbstractDAO {
 	 */
 	public boolean updateStockPrice(Map<String, Double> stockPrices) throws DAOException {
 		boolean result = true;
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Timestamp ts = new Timestamp(new Date().getTime());
 		
 		try {	
