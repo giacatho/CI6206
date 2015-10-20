@@ -177,7 +177,9 @@ public class UserServlet  extends StockGameServlet {
 				logger.debug("Update role "+roleId+" to user "+userId);
 				
 				userRoleDAO.deleteRoleByUserId(userId);
-				userRoleDAO.createRoleForUser(userId, Long.parseLong(roleId));
+				
+				if (roleId != null && !roleId.trim().equals("0"))
+					userRoleDAO.createRoleForUser(userId, Long.parseLong(roleId));
 				
 				//3. Go to User list page.
 				listUser();

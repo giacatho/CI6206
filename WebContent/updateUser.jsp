@@ -171,6 +171,7 @@
 				    <td>Role</td>
 				    <td>
 				        <select name="roleId" class="form-control">
+				        	<option value="0"> </option>
 						   <c:forEach var="role" items="${requestScope.RoleList}" >
 						   		<c:if test="${role.selected == true}">
 						   		 	<option value="${role.nbr}" selected="selected">${role.roleName}</option>
