@@ -46,6 +46,7 @@
 				  </c:otherwise>	
 				</c:choose>
 					<li><a href="about">About</a></li>
+					<li><a href="User Guide.htm" target="_blank">Help</a></li>
 					
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

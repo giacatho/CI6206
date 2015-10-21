@@ -25,6 +25,24 @@
 	<% if(request.getAttribute("successMessage")!=null) { %>
 				<div class="alert alert-success">${successMessage}</div>
 	<% } %>
+	<div class="Panel with panel-success class">
+	    <div class="panel-heading">Mission</div>
+		<div class="panel-body">
+		<div class="col-sm-6">
+			<p>We have the intention to help IT professionals to accumulate enough wealth for retirement.</p>
+			<p>There are many investment vehicle to achieve your financial freedom and Shares Investment is one of them.</p>
+			<p>Horne your skill with fake money here before you are ready to make a pile in the real market.</p>
+		</div>
+			<div class="col-sm-6">
+				<img alt="Stocks" src="images/moneytree.jpg" style="width: 20%; height: 20%;">
+			</div>
+		</div>
+	    
+	    
+	        
+	</div>
+	</br>
+	</br>
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="panel panel-default ranking">

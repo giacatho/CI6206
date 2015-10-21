@@ -47,22 +47,22 @@
 			<div class="col-sm-3 ctr">
 				<h4>Michael Tan</h4>
 				<p>G1502589E</p>
-				<img alt="Michael" src="images/batman.jpg" style="width:100%;">
+				<img alt="Michael" src="images/sg.jpg" style="width:50%;height:50%">
 			</div>
 			<div class="col-sm-3 ctr">
 				<h4>Nguyen Tri Tin</h4>
 				<p>G1500675D</p>
-				<img alt="Tin" src="images/superman.jpg" style="width:100%;">
+				<img alt="Tin" src="images/vn.jpg" style="width:50%;height:50%">
 			</div>
 			<div class="col-sm-3 ctr">
 				<h4>Qiao Guo Jun</h4>
 				<p>G1500681C</p>
-				<img alt="Guo Jun" src="images/captain.jpg" style="width:100%;">
+				<img alt="Guo Jun" src="images/cn.jpg" style="width:50%;height:50%">
 			</div>
 			<div class="col-sm-3 ctr">
 				<h4>Lokenath Mukherjee</h4>
 				<p>G1500673K</p>
-				<img alt="Loke" src="images/spiderman.jpg" style="width:100%;">
+				<img alt="Loke" src="images/in.jpg" style="width:50%;height:50%">
 			</div>
 		</div>
 	</div>
