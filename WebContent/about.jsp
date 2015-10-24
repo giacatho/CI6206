@@ -28,7 +28,7 @@
 					<li>Register new users.</li>
 					<li>Search stocks using stock name or stock symbol.</li>
 					<li>Trade (buy/sell) stocks.</li>
-					<li>View your Porfolios.</li>
+					<li>View your Portfolio.</li>
 					<li>View your Transaction History.</li>
 					<li>Search for users and reset their passwords (admin only).</li>
 				</ul>
