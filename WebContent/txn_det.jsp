@@ -5,8 +5,8 @@
 <%@ include file="WEB-INF/includes/head.jsp" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="ci6206.model.Stock" %>
-<%@ page import="ci6206.model.Transaction" %>
+<%@ page import="investWeb.model.Stock" %>
+<%@ page import="investWeb.model.Transaction" %>
 <%@ page import="java.util.HashMap" %>
 
 
@@ -41,7 +41,7 @@
 				<c:when test="${!empty requestScope.holdingList}">
 					<c:forEach var="holding" items="${requestScope.holdingList}">
 					<tr>
-						<td><span class="label <c:out value="${holding.action eq 'buy' ? 'label-success' : 'label-primary'}"/> text-capitalize"><c:out value="${holding.action}" /></span></td>
+						<td><span class="label <c:out value="${holding.action eq 'buy' ? 'label-success' : holding.action eq 'sell' ? 'label-primary' : 'label-info'}"/> text-capitalize"><c:out value="${holding.action}" /></span></td>
 						<td class="ctr"><c:out value="${holding.stock.symbol}" /></td>
 						<td><c:out value="${holding.stock.name}" /></td>
 						<td class="ctr"><c:out value="${holding.date}" /></td>

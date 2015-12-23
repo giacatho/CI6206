@@ -16,28 +16,15 @@ $(document).ready(function(){
 	$("#datepicker").datepicker();
     $("#submit").click(function(event){
     	var error = "";
-    	if(
-    	  ($('input:radio[name=optradio]')[0].checked == false)
-    	&&($('input:radio[name=optradio]')[1].checked == false)
-    	
-    	  )
+    	var amt = $('#amt').val();
+    	if(amt=='' || isNaN(amt) || amt==0 )
     	{
-    		error = error+'Please select EITHER BUY OR SELL';
-    		//alert(error);
+    		error = error +"\nThe Amount is INVALID."  
     	}
-    	var price = $('#price').val();
-    	if(price=='' || isNaN(price) || price<=0 )
+    	var date = $("#datepicker").val();
+    	if(date=='')
     	{
-    		error = error +"\nThe PRICE is INVALID."  
-    	}
-
-    	var qty =  $('#qty').val();
-    	
-    	if(qty != parseInt(qty,10)
-    	|| qty <100 || (qty % 100) != 0		
-    	   )
-    	{
-    		error = error +"\nThe QUANTITY is INVALID."  
+    		error = error +"\nThe Date is INVALID."
     	}
     	
     	if(error!='')
@@ -64,12 +51,12 @@ $(document).ready(function(){
 	<%@ include file="WEB-INF/includes/main-nav.jsp" %>
 
 	<div class="well well-sm page-head">
-		<h1>Trading</h1>
+		<h1>Dividend</h1>
 	</div>
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h2 class="panel-title">Trade Stocks</h2>
+			<h2 class="panel-title">Enter Dividend Amount</h2>
 		</div>
 		<form role="form" action="trading" method="POST" id="tradeFrm">
 		    <div>
@@ -92,25 +79,6 @@ $(document).ready(function(){
 				    </td>
 			    </tr>
 			    <tr>
-				    <td>Price:</td>
-				    <td>
-				        <input type="text" class="form-control" id="price" name="price" value="<c:out value="${requestScope.Stock.price}"/>" />
-				    </td>
-			    </tr>
-			    <tr>
-				    <td>Available Quantity for selling:</td>
-				    <td>
-				        <c:out value="${requestScope.availQty}"/>
-				    </td>
-			    </tr>
-	
-			    <tr>
-				    <td>Quantity:</td>
-				    <td>
-				        <input type="text" class="form-control" id="qty" name="qty"/>
-				    </td>
-			    </tr>
-			    <tr>
 				    <td>Date of Transaction:</td>
 				    <td>
 				        <input type="text" class="form-control" id="datepicker" name="date"/>
@@ -118,10 +86,13 @@ $(document).ready(function(){
 			    </tr>
 			    
 			    <tr>
-				    <td>Action:</td>
+				    <td>Amount:</td>
 				    <td>
-						<label class="radio-inline"><input type="radio" name="optradio" value="buy">Buy</label>
-						<label class="radio-inline"><input type="radio" name="optradio" value="sell">Sell</label>
+				        <input type="text" class="form-control" id="amt" name="amt"/>
+				        <input type="hidden" id="optradio" name="optradio" value="div"/>
+				        <input type="hidden" name="price" value="0"/>
+				        <input type="hidden" name="qty" value="0"/>
+				        
 				    </td>
 			    </tr>
 			    <tr>

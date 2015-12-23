@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="ci6206.model.Stock" %>
+<%@ page import="investWeb.model.Stock" %>
 
 
 <!DOCTYPE html>
@@ -109,7 +109,9 @@ function getStock(action)
 					        <c:if test="${( not empty requestScope.action) && (requestScope.action!='update')}">
 					        	<td>
 									<a href="trading?symbol=<c:out value="${stock.symbol}"/> "><span class="label label-primary">Trade</span></a>
+									<a href="trading?symbol=<c:out value="${stock.symbol}"/>&div=Y"><span class="label label-info">Dividend</span></a>
 								</td>
+								
 							</c:if>			        	
 					      </tr>
 						</c:forEach>
